@@ -1,7 +1,12 @@
+import CardBringingContainer from "../../common/cardBringing/CardBringingContainer"
 
 const Home = () => {
   return (
-    <div>Home Funcionando</div>
+    <div>Home
+      
+    <CardBringingContainer />  
+    </div>
+
   )
 }
 

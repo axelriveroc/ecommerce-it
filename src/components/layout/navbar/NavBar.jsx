@@ -14,8 +14,9 @@ import { Link } from "react-router-dom";
 import DrawerMUI from "./DrawerMUI";
 import { menu } from "../../../routes/navigation";
 import "./NavBar.css"
+import CustomModalContainer from "../../common/customModal/CustomModalContainer";
 
-const NavBar = () => {
+const NavBar = ({open, handleOpen, handleClose}) => {
   return (
     <Box
       sx={{ flexGrow: 1, backgroundColor: "secondary.main", height: "100%" }}
@@ -75,9 +76,17 @@ const NavBar = () => {
                     color: "primary.main",
                   },
                 }}
+
+                onClick={handleOpen}
               >
                 <ShoppingCartOutlinedIcon />
               </IconButton>
+              <CustomModalContainer
+                open={open}
+                handleClose={handleClose}
+              />{" "}
+              {/* Modal */}
+
               <ListItem component={Link} to="/login">
                 <Button>
                   <ListItemText
@@ -92,13 +101,11 @@ const NavBar = () => {
                   />
                 </Button>
               </ListItem>
-
               <Divider
                 orientation="vertical"
                 flexItem
                 sx={{ borderColor: "primary.main" }}
               />
-
               <ListItem component={Link} to="/signup">
                 <Button>
                   <ListItemText
@@ -107,7 +114,6 @@ const NavBar = () => {
                       textDecoration: "none",
                       color: "primary.main",
                       "&:hover": {
-                        
                         color: "secondary.second",
                       },
                     }}
