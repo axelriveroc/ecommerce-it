@@ -23,7 +23,7 @@ const NavBar = ({open, handleOpen, handleClose}) => {
     >
       <AppBar
         position="static"
-        sx={{ minHeight: 0, backgroundColor: "secondary.main", height: "100%" }}
+        sx={{ minHeight: 0, backgroundColor: "rgb(25,25,25)", height: "100%" }}
       >
         <Toolbar sx={{ height: "100%" }}>
           {/* Para Desktop */}
@@ -34,7 +34,7 @@ const NavBar = ({open, handleOpen, handleClose}) => {
               alignItems: "center",
               width: "80%",
               margin: "0 auto",
-              borderBottom: "1px solid",
+              borderBottom: "1px outset",
               borderColor: "secondary.second",
             }}
           >
