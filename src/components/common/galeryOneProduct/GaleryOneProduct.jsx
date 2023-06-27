@@ -7,6 +7,8 @@ const styles = {
     justifyContent: "space-between",
     height: "100%",
     width:"100%",
+    border:"none",
+    boxShadow:"none"
   },
   column: {
     display: "flex",
@@ -15,6 +17,8 @@ const styles = {
   image: {
     flexGrow: 1,
     marginBottom: "8px",
+    border:"none",
+    boxShadow:"none",
     borderRadius:"10px"
   },
 };
@@ -25,7 +29,6 @@ const GaleryOneProduct = ({ product }) => {
     return null;
   }
 
-  // GRID ==> HACERLO CON GRID VA A SER MAS FACIL CREO
 
   return (
     <Grid
