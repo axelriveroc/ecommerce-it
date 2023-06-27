@@ -9,6 +9,7 @@ import {
   InputLabel,
   OutlinedInput,
   TextField,
+  Typography,
 } from "@mui/material";
 
 const Login = ({
@@ -22,7 +23,25 @@ const Login = ({
   values
 }) => {
   return (
-    <Box component="form" style={{ marginTop: "20px" }} onSubmit={handleSubmit}>
+    <Box
+      component="form"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        maxWidth: "400px",
+        margin: "0 auto",
+        mt: "20px",
+        p: 5,
+      }}
+      onSubmit={handleSubmit}
+    >
+      <Typography variant="h3" align="left" paragraph sx={{
+
+      }} >
+        Login
+      </Typography>
+
       <TextField
         label="Email"
         variant="outlined"
@@ -32,11 +51,13 @@ const Login = ({
         value={values.email}
         error={shouldShowError("email")}
         helperText={shouldShowError("email") ? errors.email : ""}
-        //error={errors.email ? true : false}
-        //helperText={errors.email ? errors.email : ""}
+        sx={{ width: "90%" }}
       />
 
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+      <FormControl
+        sx={{ m: 1, maxWidth: "400px", width: "90%" }}
+        variant="outlined"
+      >
         <InputLabel
           htmlFor="outlined-adornment-password"
           className={shouldShowError("password") ? "Mui-error" : ""}
@@ -68,15 +89,12 @@ const Login = ({
           label="Password"
           error={shouldShowError("password")}
         />
-        {/* <FormHelperText error={errors.password ? true : false}>
-          {errors.password}
-        </FormHelperText> */}
         {shouldShowError("password") && (
           <FormHelperText error={true}>{errors.password}</FormHelperText>
         )}
       </FormControl>
 
-      <Button type="submit" variant="contained">
+      <Button type="submit" variant="contained" sx={{ width: "90%" }}>
         Enviar
       </Button>
     </Box>
