@@ -17,6 +17,8 @@ const ProductDetailContainer = () => {
     })()
   }, [id]);
 
+
+
   const onAdd = (cantidad)=>{
     let data = {
       ...product, 

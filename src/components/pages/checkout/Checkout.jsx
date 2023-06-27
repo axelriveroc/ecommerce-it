@@ -9,7 +9,6 @@ const Checkout = ({
   values,
   handleClose,
   open,
-  touched
 }) => {
 
   console.log(errors)
