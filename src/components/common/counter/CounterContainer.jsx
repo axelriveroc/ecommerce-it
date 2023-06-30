@@ -1,11 +1,11 @@
 import { useState } from "react"
 import Counter from "./Counter"
 
-const CounterContainer = ({onAdd}) => {
+const CounterContainer = ({onAdd, product, /* cart */}) => {
 
-    const [counter, setCounter] = useState(0)
+    const [counter, setCounter] = useState(1)
   return (
-    <Counter onAdd={onAdd} counter={counter} setCounter={setCounter} />
+    <Counter onAdd={onAdd} counter={counter} setCounter={setCounter} product={product} /* cart={cart} */ />
   )
 }
 

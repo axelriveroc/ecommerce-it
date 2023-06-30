@@ -1,8 +1,8 @@
 import CardOneProductDetail from "./CardOneProductDetail"
 
-const CardOneProductDetailContainer = ({product, onAdd}) => {
+const CardOneProductDetailContainer = ({product, onAdd, /* cart */}) => {
   return (
-    <CardOneProductDetail product={product} onAdd={onAdd} />
+    <CardOneProductDetail product={product} onAdd={onAdd} /* cart={cart} */ />
   )
 }
 

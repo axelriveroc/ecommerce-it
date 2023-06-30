@@ -2,6 +2,7 @@
   "products": [
     {
       "id": 1,
+      "stock": 5,
       "slug": "yx1-earphones",
       "name": "YX1 Wireless Earphones",
       "image": "https://res.cloudinary.com/dnqfh2chg/image/upload/v1687462647/image_eha3mu.png",
@@ -41,6 +42,7 @@
     },
     {
       "id": 2,
+      "stock": 5,
       "slug": "xx59-headphones",
       "name": "XX59 Headphones",
       "image": "https://res.cloudinary.com/dwqrlr45w/image/upload/v1682638015/audiophileEcommerce/product-xx59-headphones/desktop/image-product_uuwbxi.jpg",
@@ -76,6 +78,7 @@
     },
     {
       "id": 3,
+      "stock": 5,
       "slug": "xx99-mark-one-headphones",
       "name": "XX99 Mark I Headphones",
       "image": "https://res.cloudinary.com/dwqrlr45w/image/upload/v1682637715/audiophileEcommerce/product-xx99-mark-one-headphones/desktop/image-product_vazjze.jpg",
@@ -111,6 +114,7 @@
     },
     {
       "id": 4,
+      "stock": 5,
       "slug": "xx99-mark-two-headphones",
       "name": "XX99 Mark II Headphones",
       "image": "https://res.cloudinary.com/dwqrlr45w/image/upload/v1682637969/audiophileEcommerce/product-xx99-mark-two-headphones/desktop/image-product_tfrhrx.jpg",
@@ -150,6 +154,7 @@
     },
     {
       "id": 5,
+      "stock": 5,
       "slug": "zx7-speaker",
       "name": "ZX7 Speaker",
       "image": "https://res.cloudinary.com/dwqrlr45w/image/upload/v1682638036/audiophileEcommerce/product-zx7-speaker/desktop/image-product_r6smeq.jpg",
@@ -189,6 +194,7 @@
     },
     {
       "id": 6,
+      "stock": 5,
       "slug": "zx9-speaker",
       "name": "ZX9 Speaker",
       "image": "https://res.cloudinary.com/dwqrlr45w/image/upload/v1682640128/audiophileEcommerce/product-zx9-speaker/desktop/image-product_w2kox6.jpg",

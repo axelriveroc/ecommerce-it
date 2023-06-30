@@ -1,45 +1,63 @@
 import { Box, Button, Typography } from "@mui/material";
-
-const Counter = ({ onAdd, counter, setCounter }) => {
-  return (
-    <Box
-      sx={{
+/* import { useEffect, useState } from "react";
+ */
+const styles={
+  box1: {
         display: "flex",
         width: "90%",
         justifyContent: "flex-start",
         gap:2
-      }}
-    >
-      <Box
-        sx={{
+      },
+      box2: {
           display: "flex",
           width: "35%",
           justifyContent: "space-between",
           alignItems: "center",
           backgroundColor:"#f1f1f1",
           p:1,
-        }}
-      >
-        <Button
-          sx={{
-            color: "secondary.main",
-            opacity: "0.25",
+        },
+        boton: {
+            color: "primary",
             minWidth: "20px",
             height: "20px",
-          }}
+            fontWeight:"bold",
+            fontSize:"1.5rem"
+          }
+
+}
+
+const Counter = ({ onAdd, counter, setCounter, product , /* cart */ }) => {
+
+/*   const [ productQInCart, setProductQInCart ] = useState(0)
+
+  useEffect(() => {
+    const productFinded = cart.find((p) => p.id === product.id);
+    if (productFinded) {
+      setProductQInCart(productFinded.quantity);
+    }
+  }, [cart, product.id]);
+
+  console.log("cantidad de este producto en el carrito: " , productQInCart)  */
+  return (
+    <Box
+      sx={styles.box1}
+    >
+      <Box
+        sx={styles.box2}
+      >
+        <Button
+          sx={styles.boton}
           onClick={() => setCounter(counter - 1)}
+          disabled={ counter > 1 ? false : true} 
         >
           -
         </Button>
-        <Typography>{counter}</Typography>
+        <Typography variant="body2" sx={{fontWeight: "bold"}}>{counter}</Typography>
         <Button
-          sx={{
-            color: "secondary.main",
-            opacity: "0.25",
-            minWidth: "20px",
-            height: "20px",
-          }}
+          sx={styles.boton}
           onClick={() => setCounter(counter + 1)}
+         disabled={ counter < product.stock ? false : true  }
+          // counter < (product.stock - productInCart.quantity)
         >
           +
         </Button>

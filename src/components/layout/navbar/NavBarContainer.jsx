@@ -1,7 +1,11 @@
 import { useState } from "react";
 import NavBar from "./NavBar"
+import { useSelector } from "react-redux";
+
 
 const NavBarContainer = () => {
+  const { cart } = useSelector((store) => store.cartSlice);
+
 
       const [open, setOpen] = useState(false);
 
@@ -13,7 +17,7 @@ const NavBarContainer = () => {
         setOpen(false);
       };
   return (
-    <NavBar open={open} handleOpen={handleOpen} handleClose={handleClose} />
+    <NavBar open={open} handleOpen={handleOpen} handleClose={handleClose} cart={cart}/>
   )
 }
 

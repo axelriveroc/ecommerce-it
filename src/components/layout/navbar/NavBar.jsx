@@ -13,10 +13,11 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Link } from "react-router-dom";
 import DrawerMUI from "./DrawerMUI";
 import { menu } from "../../../routes/navigation";
-import "./NavBar.css"
+import "./NavBar.css";
 import CustomModalContainer from "../../common/customModal/CustomModalContainer";
+import Badge from "@mui/material/Badge";
 
-const NavBar = ({open, handleOpen, handleClose}) => {
+const NavBar = ({ open, handleOpen, handleClose, cart }) => {
   return (
     <Box
       sx={{ flexGrow: 1, backgroundColor: "secondary.main", height: "100%" }}
@@ -76,17 +77,14 @@ const NavBar = ({open, handleOpen, handleClose}) => {
                     color: "primary.main",
                   },
                 }}
-
                 onClick={handleOpen}
               >
-                <ShoppingCartOutlinedIcon />
+                <Badge badgeContent={cart.length} color="primary" showZero>
+                  <ShoppingCartOutlinedIcon />
+                </Badge>
               </IconButton>
-              <CustomModalContainer
-                open={open}
-                handleClose={handleClose}
-              />{" "}
+              <CustomModalContainer open={open} handleClose={handleClose} />{" "}
               {/* Modal */}
-
               <ListItem component={Link} to="/login">
                 <Button>
                   <ListItemText
