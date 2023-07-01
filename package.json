@@ -7,13 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "json-server --watch src/api/db.json --port 5000"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.5",
+    "@mui/material": "^5.13.6",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "formik": "^2.4.2",

@@ -13,16 +13,18 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Link } from "react-router-dom";
 import DrawerMUI from "./DrawerMUI";
 import { menu } from "../../../routes/navigation";
-import "./NavBar.css"
+import "./NavBar.css";
+import CustomModalContainer from "../../common/customModal/CustomModalContainer";
+import Badge from "@mui/material/Badge";
 
-const NavBar = () => {
+const NavBar = ({ open, handleOpen, handleClose, cart }) => {
   return (
     <Box
       sx={{ flexGrow: 1, backgroundColor: "secondary.main", height: "100%" }}
     >
       <AppBar
         position="static"
-        sx={{ minHeight: 0, backgroundColor: "secondary.main", height: "100%" }}
+        sx={{ minHeight: 0, backgroundColor: "rgb(25,25,25)", height: "100%" }}
       >
         <Toolbar sx={{ height: "100%" }}>
           {/* Para Desktop */}
@@ -33,7 +35,7 @@ const NavBar = () => {
               alignItems: "center",
               width: "80%",
               margin: "0 auto",
-              borderBottom: "1px solid",
+              borderBottom: "1px outset",
               borderColor: "secondary.second",
             }}
           >
@@ -75,9 +77,14 @@ const NavBar = () => {
                     color: "primary.main",
                   },
                 }}
+                onClick={handleOpen}
               >
-                <ShoppingCartOutlinedIcon />
+                <Badge badgeContent={cart.length} color="primary" showZero>
+                  <ShoppingCartOutlinedIcon />
+                </Badge>
               </IconButton>
+              <CustomModalContainer open={open} handleClose={handleClose} />{" "}
+              {/* Modal */}
               <ListItem component={Link} to="/login">
                 <Button>
                   <ListItemText
@@ -92,13 +99,11 @@ const NavBar = () => {
                   />
                 </Button>
               </ListItem>
-
               <Divider
                 orientation="vertical"
                 flexItem
                 sx={{ borderColor: "primary.main" }}
               />
-
               <ListItem component={Link} to="/signup">
                 <Button>
                   <ListItemText
@@ -107,7 +112,6 @@ const NavBar = () => {
                       textDecoration: "none",
                       color: "primary.main",
                       "&:hover": {
-                        
                         color: "secondary.second",
                       },
                     }}
