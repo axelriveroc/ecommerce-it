@@ -26,18 +26,8 @@ const styles={
 
 }
 
-const Counter = ({ onAdd, counter, setCounter, product , /* cart */ }) => {
+const Counter = ({ onAdd, counter, setCounter, product }) => {
 
-/*   const [ productQInCart, setProductQInCart ] = useState(0)
-
-  useEffect(() => {
-    const productFinded = cart.find((p) => p.id === product.id);
-    if (productFinded) {
-      setProductQInCart(productFinded.quantity);
-    }
-  }, [cart, product.id]);
-
-  console.log("cantidad de este producto en el carrito: " , productQInCart)  */
   return (
     <Box
       sx={styles.box1}

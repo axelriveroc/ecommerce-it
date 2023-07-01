@@ -53,35 +53,19 @@ const styles = {
   },
 };
 
-const CardOneProductDetail = ({ product, onAdd, /* cart */ }) => {
+const CardOneProductDetail = ({ product, onAdd, quantityInCart }) => {
   return (
-    <Card
-      sx={styles.card}
-    >
-      <img
-        src={product.image}
-        alt=""
-        style={styles.image}
-      />
-      <CardContent
-        sx={styles.cardContent}
-      >
-        <Typography
-          sx={styles.newProduct}
-        >
+    <Card sx={styles.card}>
+      <img src={product.image} alt="" style={styles.image} />
+      <CardContent sx={styles.cardContent}>
+        <Typography sx={styles.newProduct}>
           {product.new && "NEW PRODUCT"}
         </Typography>
 
-        <Typography
-          variant="h4"
-          sx={styles.productName}
-        >
+        <Typography variant="h4" sx={styles.productName}>
           {product.name}
         </Typography>
-        <Typography
-          variant="p"
-          sx={styles.productDescription}
-        >
+        <Typography variant="p" sx={styles.productDescription}>
           {product.description}
         </Typography>
 
@@ -89,7 +73,11 @@ const CardOneProductDetail = ({ product, onAdd, /* cart */ }) => {
           ${product.price && product.price.toLocaleString("en-US")}
         </Typography>
 
-        <CounterContainer onAdd={onAdd} product={product} /* cart={cart} */ />
+        <CounterContainer
+          onAdd={onAdd}
+          product={product}
+          quantityInCart={quantityInCart}
+        />
       </CardContent>
     </Card>
   );

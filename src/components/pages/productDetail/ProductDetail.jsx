@@ -5,10 +5,14 @@ import CardOneProductDetailContainer from "../../common/cardOneProductDetail/Car
 import CardTripleContainer from "../../common/cardTriple/CardTripleContainer";
 import GaleryOneProductContainer from "../../common/galeryOneProduct/GaleryOneProductContainer"
 
-const ProductDetail = ({product, onAdd,/*  cart */}) => {
+const ProductDetail = ({product, onAdd, quantityInCart  }) => {
   return (
     <div>
-      <CardOneProductDetailContainer product={product} onAdd={onAdd} /* cart={cart} */ />
+      <CardOneProductDetailContainer
+        product={product}
+        onAdd={onAdd}
+        quantityInCart={quantityInCart}
+      />
       <CardFeaturesProductContainer product={product} />
       <GaleryOneProductContainer product={product} />
       <CardAlsoLikeContainer />

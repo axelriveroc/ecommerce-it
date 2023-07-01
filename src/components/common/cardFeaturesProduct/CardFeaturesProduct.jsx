@@ -34,6 +34,7 @@ const CardFeaturesProduct = ({ product }) => {
             lineHeight: "25px",
             opacity: 0.5,
             mt: 2,
+            whiteSpace: "pre-line",
           }}
         >
           {product.features}
