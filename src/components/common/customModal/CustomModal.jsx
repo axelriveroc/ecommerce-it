@@ -1,4 +1,4 @@
-import { Box, Button, Modal } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { clearCart } from "../../../store/cartSlice";
 import OneProductInCart from "./oneProductInCart/OneProductInCart";
@@ -9,12 +9,13 @@ const styles = {
     top: "45%",
     right: "0%",
     transform: "translate(-25%, -50%)",
-    width: 350,
+    width: 450,
     bgcolor: "background.paper",
-    border: "2px solid #000",
+    /* border: "2px solid #000", */
     boxShadow: 24,
     p: 4,
     minHeight: "400px",
+    border: "solid green",
   },
 };
 
@@ -28,8 +29,15 @@ const CustomModal = ({ open, handleClose, cart, dispatch, totalPrice }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.box1}>
-          <Button onClick={() => dispatch(clearCart())}>Remove All</Button>
-          {cart.map((item) =>  <OneProductInCart item={item} key={item.id} dispatch={dispatch} /> )}
+          <Box sx={{display:"flex"}}>
+            <Typography> CART({cart.length})</Typography>
+            <Button onClick={() => dispatch(clearCart())}>Remove All</Button>
+          </Box>
+
+          {cart.map((item) => (
+            <OneProductInCart item={item} key={item.id} dispatch={dispatch} />
+          ))}
+
           <div>
             <h5>total: </h5>
             <h5>{totalPrice}</h5>

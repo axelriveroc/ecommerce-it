@@ -25,21 +25,22 @@ const styles = {
 };
 
 const OneProductInCart = ({ item, dispatch }) => {
+  console.log(item)
   return (
-    <div key={item.id} style={{ border: "solid blue" }}>
+    <Box sx={{ border: "solid blue", display: "flex" }}>
       <IconButton onClick={() => dispatch(removeById(item.id))}>
         <DeleteIcon />
       </IconButton>
+
       <div>
-        <h3>
-          {item.name} - {item.quantity}
-        </h3>
+        <h3>{item.slug}</h3>
         <h4>${item.price}</h4>
       </div>
+
       <Box sx={styles.box2}>
         <Button
           sx={styles.boton}
-          onClick={ () => dispatch(decrementQ(item.id))}
+          onClick={() => dispatch(decrementQ(item.id))}
           disabled={item.quantity > 1 ? false : true}
         >
           -
@@ -47,13 +48,13 @@ const OneProductInCart = ({ item, dispatch }) => {
         <Typography>{item.quantity}</Typography>
         <Button
           sx={styles.boton}
-          onClick={ () => dispatch(incrementQ(item.id))}
-          disabled={ item.quantity < item.stock ? false : true}
+          onClick={() => dispatch(incrementQ(item.id))}
+          disabled={item.quantity < item.stock ? false : true}
         >
           +
         </Button>
       </Box>
-    </div>
+    </Box>
   );
 };
 
