@@ -1,0 +1,21 @@
+.stylesIMG {
+  width: 350px;
+  height: 300px;
+  position: absolute;
+  bottom: 40;
+  z-index: 4;
+}
+
+@media (max-width: 900px) {
+    .stylesIMG{
+        width: 300px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 600px) {
+    .stylesIMG{
+        width: 250px;
+        height: 200px;
+    }
+}

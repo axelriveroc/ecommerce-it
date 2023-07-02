@@ -1,0 +1,52 @@
+.img_mobile {
+  height: 450px;
+  align-self: flex-end;
+  position: relative;
+  top: 10px;
+}
+
+.img_mobile_earphone3 {
+  width: 45%;
+  height: 50vh;
+}
+
+.img_bringing {
+  width: 50%;
+  height: 100%;
+  display: block;
+}
+
+.img_briging_tablet {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .img_mobile {
+    height: 200px;
+    align-self: center;
+  }
+
+  .img_bringing {
+    display: none;
+  }
+  .img_briging_tablet {
+    display: block;
+    width: 100%;
+    height: 50%;
+  }
+
+   .img_mobile_earphone3 {
+    width: 50%;
+    height: 100%;
+  }
+
+
+}
+
+@media (max-width: 600px) {
+  .img_mobile_earphone3 {
+    width: 100%;
+    height: 50%;
+  }
+
+}

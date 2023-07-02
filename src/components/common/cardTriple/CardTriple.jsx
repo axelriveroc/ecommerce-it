@@ -6,13 +6,14 @@ const CardTriple = () => {
     <Card
       sx={{
         display: "flex",
+        flexDirection:{md:"row", xs:"column"},
         width: "80%",
         m: "0 auto",
         justifyContent: "space-evenly",
         alignItems: "center",
         mt: 10,
         mb: 10,
-        height: "55vh",
+        height: {md:"55vh", xs:"140vh"},
         gap: 3,
         border: "none",
         boxShadow: "none",

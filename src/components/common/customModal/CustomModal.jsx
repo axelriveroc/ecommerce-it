@@ -6,16 +6,62 @@ import OneProductInCart from "./oneProductInCart/OneProductInCart";
 const styles = {
   box1: {
     position: "absolute",
-    top: "45%",
-    right: "0%",
+    top: {md:"45%"},
+    bottom:{xs:"20%", md:"0%"},
+    left:{xs:"30%", md:"70%"},
     transform: "translate(-25%, -50%)",
-    width: 450,
+    width: {md:400, xs:350},
     bgcolor: "background.paper",
-    /* border: "2px solid #000", */
+    borderRadius: "8px",
+    background: "#FFF",
     boxShadow: 24,
     p: 4,
     minHeight: "400px",
-    border: "solid green",
+    display: "flex",
+    flexDirection: "column",
+    aligItems: "center",
+    justifyContent: "space-between",
+  },
+  boxHeader:{ display: "flex", alignItems:"center", justifyContent:"space-between" },
+  cartLength: {
+    color: "#000",
+    fontSize: "18px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "normal",
+    letterSpacing: "1.286px",
+    textTransform: "uppercase",
+  },
+  removeAll: {
+    color: "#000",
+    fontSize: "15px",
+    fontStyle: "normal",
+    fontWeight: 500,
+    lineHeight: "25px",
+    textDecorationLine: "underline",
+    opacity: 0.5,
+    textTransform: "none",
+  },
+  boxProducts: {
+    display: "flex",
+    flexDirection: "column",
+    aligItems: "center",
+    justifyContent: "space-between",
+    gap: 2,
+  },
+  totalPrice: {
+    fontSize: "15px",
+    fontStyle: "normal",
+    fontWeight: 500,
+    lineHeight: "25px",
+    opacity: 0.5,
+    textTransform: "uppercase",
+  },
+  price: {
+    fontSize: "18px",
+    color: "#000",
+    fontWeight: 700,
+    lineHeight: "normal",
   },
 };
 
@@ -29,21 +75,37 @@ const CustomModal = ({ open, handleClose, cart, dispatch, totalPrice }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.box1}>
-          <Box sx={{display:"flex"}}>
-            <Typography> CART({cart.length})</Typography>
-            <Button onClick={() => dispatch(clearCart())}>Remove All</Button>
+          <Box sx={styles.boxHeader}>
+            <Typography sx={styles.cartLength}> CART ({cart.length})</Typography>
+            <Button sx={styles.removeAll} onClick={() => dispatch(clearCart())}>
+              Remove all
+            </Button>
           </Box>
 
-          {cart.map((item) => (
-            <OneProductInCart item={item} key={item.id} dispatch={dispatch} />
-          ))}
+          <Box sx={styles.boxProducts}>
+            {cart.map((item) => (
+              <OneProductInCart item={item} key={item.id} dispatch={dispatch} />
+            ))}
+          </Box>
 
-          <div>
-            <h5>total: </h5>
-            <h5>{totalPrice}</h5>
-          </div>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              p: 1,
+            }}
+          >
+            <Typography variant="body2" sx={styles.totalPrice}>
+              total:{" "}
+            </Typography>
+            <Typography variant="body2" sx={styles.price}>
+              ${totalPrice.toLocaleString("en-US")}
+            </Typography>
+          </Box>
+
           <Link to="/checkout">
-            <Button variant="contained" onClick={handleClose}>
+            <Button variant="contained" onClick={handleClose} fullWidth>
               CheckOut
             </Button>
           </Link>

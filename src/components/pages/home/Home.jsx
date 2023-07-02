@@ -1,41 +1,49 @@
 import { Button, Card, CardContent, Typography } from "@mui/material";
-
+import imageBgMobile from "../../../assets/home/mobile/image-header.jpg"
 import imageBg from "../../../assets/home/desktop/image-hero.jpg";
+import imageBg_tablet from "../../../assets/home/tablet/image-header.jpg"
 import imgSpeaker1_desktop from "../../../assets/home/desktop/image-speaker-zx9.png";
 import imgSpeaker2_desktop from "../../../assets/home/desktop/image-speaker-zx7.jpg";
+import imgSpeaker2_mobile from "../../../assets/home/mobile/image-speaker-zx7.jpg";
+import imgSpeaker2_tablet from "../../../assets/home/tablet/image-speaker-zx7.jpg";
 import img3_desktop from "../../../assets/home/desktop/image-earphones-yx1.jpg";
 import CardBringingContainer from "../../common/cardBringing/CardBringingContainer";
 import CardTriple from "../../common/cardTriple/CardTriple";
+import "./HomeStyle.css"
 
 const Home = () => {
   return (
     <div>
       <Card
-        style={{
-          backgroundImage: `url(${imageBg})`,
+        sx={{
+          backgroundImage: {
+            md: `url(${imageBg})`,
+            xs: `url(${imageBgMobile})`,
+            sm: `url(${imageBg_tablet})`,
+          },
           backgroundColor: "rgb(25,25,25)",
-          backgroundSize: "70% auto",
+          backgroundSize:"contain",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "center right",
+          backgroundPosition: { md: "center right", xs: "center" },
           width: "100%",
           height: "70vh",
           overflow: "hidden",
           display: "flex",
-          justifyContent: "flex-start",
+          justifyContent: { md: "flex-start", xs: "center", sm:"center" },
           alignItems: "center",
           borderRadius: "0px",
         }}
       >
         <CardContent
           sx={{
-            width: "50%",
+            width: { md: "50%", xs: "90%", sm:"50%"},
             height: "80%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-around",
-            alignItems: "flex-start",
-            ml: 20,
-            gap: 3,
+            ml: { md: 20, xs: 0 },
+            gap: { md: 3, xs: 0 },
+            alignItems: { xs: "center", md: "flex-start" },
           }}
         >
           <Typography
@@ -52,11 +60,12 @@ const Home = () => {
             variant="h3"
             sx={{
               color: "#FFF",
-              fontSize: "56px",
+              fontSize: { md: "56px", xs: "40px", sm:"45px" },
               fontWeight: 700,
               lineHeight: "58px",
               letterSpacing: "2px",
               textTransform: "uppercase",
+              textAlign:{xs:"center", sm:"center", md:"start"}
             }}
           >
             XX99 Mark II Headphones
@@ -69,13 +78,16 @@ const Home = () => {
               lineHeight: "25px",
               letterSpacing: "1px",
               opacity: 0.75,
-              width: "60%",
+              width: { md: "60%", xs: "95%" },
+              textAlign: { xs: "center", md: "start" },
             }}
           >
             Experience natural, lifelike audio and exceptional build quality
             made for the passionate music enthusiast.
           </Typography>
-          <Button variant="contained">SEE PRODUCT</Button>
+          <Button variant="contained" sx={{ width: "50%" }}>
+            SEE PRODUCT
+          </Button>
         </CardContent>
       </Card>
 
@@ -83,36 +95,29 @@ const Home = () => {
 
       <Card
         sx={{
-          height: "560px",
+          height: { md: "560px", xs: "75vh" },
           margin: "0 auto",
           borderRadius: "8px",
           backgroundColor: "#D87D4A",
           mt: 10,
           mb: 5,
           display: "flex",
+          flexDirection: { md: "row", xs: "column" },
           justifyContent: "space-evenly",
           alignItems: "center",
-          width: "80%",
+          width: { md: "80%", xs: "95%" },
         }}
       >
-        <img
-          src={imgSpeaker1_desktop}
-          alt=""
-          style={{
-            height: "450px",
-            alignSelf: "flex-end",
-            position: "relative",
-            top: "10px",
-          }}
-        />
+        <img src={imgSpeaker1_desktop} alt="" className="img_mobile" />
         <CardContent
           sx={{
-            width: "30%",
-            height: "70%",
+            width: { md: "40%", xs: "99%" },
+            height: { md: "70%", xs: "55%" },
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-around",
-            pt: 4,
+            pt: { md: 4, xs: 1 },
+            textAlign: { md: "start", xs: "center" },
           }}
         >
           <Typography
@@ -145,6 +150,7 @@ const Home = () => {
               color: "secondary.second",
               width: "50%",
               transition: "ease all 600ms",
+              alignSelf: { xs: "center", md: "start" },
               "&:hover": {
                 backgroundColor: "secondary.second",
                 color: "secondary.main",
@@ -158,9 +164,13 @@ const Home = () => {
 
       <Card
         sx={{
-          backgroundImage: `url(${imgSpeaker2_desktop})`,
-          width: "80%",
-          height: "45vh",
+          backgroundImage: {
+            md: `url(${imgSpeaker2_desktop})`,
+            xs: `url(${imgSpeaker2_mobile})`,
+            sm: `url(${imgSpeaker2_tablet})`,
+          },
+          width: { md: "80%", xs: "95%" },
+          height: { md: "45vh", xs: "40vh" },
           m: "0 auto",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -168,13 +178,14 @@ const Home = () => {
           boxShadow: "none",
           display: "flex",
           justifyContent: "flex-start",
+          borderRadius: "8px",
         }}
       >
         <CardContent
           sx={{
-            width: "30%",
+            width: { md: "30%", xs: "80%" },
             pl: 5,
-            ml: 5,
+            ml: { md: 5, xs: 0 },
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -200,39 +211,35 @@ const Home = () => {
 
       <Card
         sx={{
-          width: "80%",
+          width: {md:"80%", xs:"95%"},
           m: "0 auto",
           mt: 5,
           display: "flex",
+          flexDirection: { md: "row", xs: "column", sm:"row" },
           justifyContent: "space-between",
           gap: 5,
-          boxShadow:"none"
+          boxShadow: "none",
+          height:{xs:"60vh", sm:"40vh"},
         }}
       >
-        <img
-          src={img3_desktop}
-          alt=""
-          style={{
-            width: "45%",
-            height: "50vh",
-          }}
-        />
+        <img src={img3_desktop} alt="" className="img_mobile_earphone3" />
         <CardContent
           sx={{
             backgroundColor: "#f1f1f1",
-            width: "45%",
-            display:"flex",
-            flexDirection:"column",
-            justifyContent:"center",
-            alignItems:"flex-start",
-            gap:5,
-            pl:10
+            width: {md:"45%", xs:"100%"},
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: {md:5, sm:2, xs:3},
+            pl: {md:10, sm:2.5},
+            height:{xs:"50%", sm:"100%"}
           }}
         >
           <Typography
             sx={{
               color: "#000",
-              fontSize: "28px",
+              fontSize: {md:"28px", sm:"25px"},
               fontWeight: 700,
               letterSpacing: "2px",
               textTransform: "uppercase",
@@ -240,7 +247,9 @@ const Home = () => {
           >
             YX1 EARPHONES
           </Typography>
-          <Button color="secondary" variant="outlined" sx={{width:"40%"}}>see product</Button>
+          <Button color="secondary" variant="outlined" sx={{ width: {md:"64%", xs:"60%", sm:"80%"} }}>
+            see product
+          </Button>
         </CardContent>
       </Card>
 

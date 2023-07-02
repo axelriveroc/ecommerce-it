@@ -8,6 +8,11 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const styles = {
+  boxProduct: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   box2: {
     display: "flex",
     width: "35%",
@@ -17,24 +22,56 @@ const styles = {
     p: 1,
   },
   boton: {
-    color: "secondary.main",
-    opacity: "0.25",
     minWidth: "20px",
     height: "20px",
+    color: "primary",
+    fontWeight:"bold",
+    fontSize:"1.5rem"
+          
+  },
+  nameProd: {
+    textTransform: "uppercase",
+    fontWeight: "bold",
+    lineHeight: "25px",
+    letterSpacing: 1,
+  },
+  price: {
+    color: "#000",
+    fontSize: "14px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "25px",
+    opacity: 0.5,
   },
 };
 
 const OneProductInCart = ({ item, dispatch }) => {
-  console.log(item)
+  const partes = item.slug.split("-");
+  const representacion = partes[0];
+
   return (
-    <Box sx={{ border: "solid blue", display: "flex" }}>
-      <IconButton onClick={() => dispatch(removeById(item.id))}>
+    <Box sx={styles.boxProduct}>
+      <IconButton
+        onClick={() => dispatch(removeById(item.id))}
+        sx={{ color: "primary.main" }}
+      >
         <DeleteIcon />
       </IconButton>
 
+      <img
+        src={item.image}
+        width={70}
+        height={70}
+        style={{ borderRadius: "8px" }}
+      />
+
       <div>
-        <h3>{item.slug}</h3>
-        <h4>${item.price}</h4>
+        <Typography variant="body1" sx={styles.nameProd}>
+          {representacion}
+        </Typography>
+        <Typography variant="body2" sx={styles.price}>
+          ${item.price}
+        </Typography>
       </div>
 
       <Box sx={styles.box2}>
