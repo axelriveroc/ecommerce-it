@@ -19,9 +19,8 @@ const CardProductsByCategory = ({ product, index }) => {
         justifyContent: "space-around",
         mt: "20px",
         mb: "25px",
-        /*  border: "none", */
+         border: "none",
         boxShadow: "none",
-        border: "solid red",
       }}
     >
       <img src={product.image} alt="" className="img_product" />
