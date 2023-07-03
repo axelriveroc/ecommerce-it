@@ -5,16 +5,17 @@ const CardFeaturesProduct = ({ product }) => {
     <Box
       sx={{
         display: "flex",
-        width: "80%",
+        width: {xs:"90%", md:"80%", sm:"80%"},
         m: "0 auto",
+        flexDirection:{md:"row", sm:"column", xs:"column"},
         justifyContent: "space-between",
         alignItems: "flex-start",
       }}
     >
       <Box
         sx={{
-          p: 5,
-          width: "60%",
+          p: {md:5, sm:5, xs:2},
+          width: {md:"60%", sm:"100%"},
         }}
       >
         <Typography
@@ -42,12 +43,13 @@ const CardFeaturesProduct = ({ product }) => {
       </Box>
       <Box
         sx={{
-          p: 5,
+          p: {md:5, sm:5, xs:2},
           mr: 4,
           display:"flex",
-          flexDirection:"column",
-          justifyContent:"flex-start",
+          flexDirection:{md:"column", sm:"row", xs:"column"},
+          justifyContent:{md:"flex-start", sm:"space-around"},
           alignItems:"flex-start",
+          width:{sm:"100%", md:"40%", sx:"100%"}
         }}
       >
         <Typography

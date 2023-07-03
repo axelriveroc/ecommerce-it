@@ -25,7 +25,7 @@ const stylesBox = {
   justifyContent: "flex-end",
   position: "absolute",
   bottom: 0,
-  pb: 2.5,
+ /*  pb: 2.5, */
 };
 const stylesTitle = {
   color: " #000",

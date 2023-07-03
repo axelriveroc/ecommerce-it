@@ -1,5 +1,7 @@
 import { Card, CardContent, Typography } from "@mui/material";
 import CounterContainer from "../counter/CounterContainer";
+import "./CardOneStyle.css";
+
 
 const styles = {
   card: {
@@ -7,22 +9,17 @@ const styles = {
     margin: "0 auto",
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-around",
+    flexDirection:{md:"row",sm:"row",xs:"column"},
+    justifyContent: {md:"space-around", sm:"space-evenly"},
     mt: "20px",
     mb: "25px",
+    height: {md:"80vh", sm:"80vh", xs:"120vh"} , 
     border: "none",
     boxShadow: "none",
   },
-  image: {
-    width: "420px",
-    height: "430px",
-    flexShrink: 0,
-    borderRadius: "8px",
-    background: "#F1F1F1",
-  },
   cardContent: {
     height: "100%",
-    width: "35%",
+    width: {md:"35%", sm:"50%"},
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-evenly",
@@ -56,7 +53,9 @@ const styles = {
 const CardOneProductDetail = ({ product, onAdd, quantityInCart }) => {
   return (
     <Card sx={styles.card}>
-      <img src={product.image} alt="" style={styles.image} />
+
+      <img src={product.image} alt="" className="image_cardOne" />
+
       <CardContent sx={styles.cardContent}>
         <Typography sx={styles.newProduct}>
           {product.new && "NEW PRODUCT"}
@@ -79,6 +78,7 @@ const CardOneProductDetail = ({ product, onAdd, quantityInCart }) => {
           quantityInCart={quantityInCart}
         />
       </CardContent>
+
     </Card>
   );
 };
