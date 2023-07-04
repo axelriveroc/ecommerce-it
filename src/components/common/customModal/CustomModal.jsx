@@ -15,8 +15,9 @@ const styles = {
     borderRadius: "8px",
     background: "#FFF",
     boxShadow: 24,
-    p: {md:4, sm:4, xs:2},
-    minHeight: "400px",
+    p: {md:3, sm:3, xs:2},
+    /* minHeight: "fit-content", */
+    minHeight:"80vh",
     display: "flex",
     flexDirection: "column",
     aligItems: "center",
@@ -48,6 +49,8 @@ const styles = {
     aligItems: "center",
     justifyContent: "space-between",
     gap: 2,
+    overflow:"auto",
+
   },
   totalPrice: {
     fontSize: "15px",

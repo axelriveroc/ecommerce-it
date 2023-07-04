@@ -12,14 +12,15 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    gap:{md:.5, sm:0.2,},
   },
   box2: {
     display: "flex",
-    width: "35%",
+    width: {md:"35%", sm:"30%"},
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#f1f1f1",
-    p: 1,
+    p: {md:1, sm:.5, xs:.5},
   },
   boton: {
     minWidth: "20px",
@@ -46,11 +47,14 @@ const styles = {
 };
 
 const OneProductInCart = ({ item, dispatch }) => {
-  const partes = item.slug.split("-");
-  const representacion = partes[0];
+  
 
   return (
     <Box sx={styles.boxProduct}>
+
+      <Box sx={styles.boxProduct}>
+
+      
       <IconButton
         onClick={() => dispatch(removeById(item.id))}
         sx={{ color: "primary.main" }}
@@ -67,12 +71,14 @@ const OneProductInCart = ({ item, dispatch }) => {
 
       <div>
         <Typography variant="body1" sx={styles.nameProd}>
-          {representacion}
+          {item.subname}
         </Typography>
         <Typography variant="body2" sx={styles.price}>
           ${item.price}
         </Typography>
       </div>
+      
+      </Box>
 
       <Box sx={styles.box2}>
         <Button

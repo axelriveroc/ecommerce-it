@@ -20,7 +20,6 @@ const useStyles = {
     alignItems: "center",
     marginTop: "20px",
     height:{sm:"90vh"},
-    border:"solid red"
   },
   card: {
     display: "flex",
@@ -29,11 +28,10 @@ const useStyles = {
     justifyContent: "space-around",
     textAlign: "center",
     /* padding: "16px", */
-    /* border: "none", */
+    border: "none",
     boxShadow: "none",
     borderRadius: "8px",
     height:"100%",
-    border:"solid green",
     
   },
   media: {

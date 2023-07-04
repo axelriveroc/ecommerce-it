@@ -35,7 +35,7 @@ const SummaryPay = ({cart, total}) => {
 
                     <div>
                         <Typography variant="body1" sx={styles.nameProd}>
-                            { item.slug2}
+                            { item.subname}
                         </Typography>
                         <Typography variant="body2" sx={styles.price}>
                             ${item.price}

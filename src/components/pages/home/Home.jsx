@@ -123,7 +123,7 @@ const Home = () => {
           <Typography
             sx={{
               color: "#FFF",
-              fontSize: "56px",
+              fontSize: {md:"56px", sm:"50px", xs:"45px" },
               fontWeight: 700,
               lineHeight: "58px",
               letterSpacing: "2px",
