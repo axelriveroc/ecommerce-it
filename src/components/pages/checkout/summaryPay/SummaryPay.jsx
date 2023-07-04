@@ -18,7 +18,7 @@ const styles={
 }
 
 const SummaryPay = ({cart, total}) => {
-    console.log(total)
+    console.log(cart)
 
   return (
     <div>
@@ -28,14 +28,14 @@ const SummaryPay = ({cart, total}) => {
                 <div key={item.id}>
                     <img
                             src={item.image}
-                            width={70}
-                            height={70}
+                            width={50}
+                            height={50}
                             style={{ borderRadius: "8px" }}
                         />
 
                     <div>
                         <Typography variant="body1" sx={styles.nameProd}>
-                            {item.name}
+                            { item.slug2}
                         </Typography>
                         <Typography variant="body2" sx={styles.price}>
                             ${item.price}
@@ -50,6 +50,9 @@ const SummaryPay = ({cart, total}) => {
 
         <div>
             <Typography>Total: {total}</Typography>
+            <Typography>Shipping: {(total*0.15)}</Typography>
+            <Typography>VAT(included): {(total*0.21)}</Typography>
+            <Typography>GRAND TOTAL: {(total*0.21)+(total*0.15)+total}</Typography>
         </div>
      
 
