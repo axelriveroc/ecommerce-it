@@ -1,24 +1,20 @@
 import { Box, Button, CardContent, Typography } from "@mui/material";
 import flecha from "../../../../assets/shared/desktop/icon-arrow-right.svg";
+import "./CardUnique.css";
+
 const stylesCardContext = {
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  width: "40%",
+  width: {md:"40%", xs:"99%"},
   height: "100%",
   p: 0,
   position: "relative",
   boxShadow: "none",
   border: "none",
 };
-const stylesIMG = {
-  width: "350px",
-  height: "300px",
-  position: "absolute",
-  bottom: 40,
-  zIndex: 4,
-};
+
 const stylesBox = {
   width: "100%",
   height: "55%",
@@ -29,7 +25,7 @@ const stylesBox = {
   justifyContent: "flex-end",
   position: "absolute",
   bottom: 0,
-  pb: 2.5,
+ /*  pb: 2.5, */
 };
 const stylesTitle = {
   color: " #000",
@@ -52,12 +48,13 @@ const stylesShop = {
   fontWeight: 700,
   letterSpacing: "1px",
   textTransform: "uppercase",
+  opacity:0.5,
 };
 
 const CardUnique = ({ product }) => {
   return (
     <CardContent sx={stylesCardContext}>
-      <img src={product.img} alt="" style={stylesIMG} />
+      <img src={product.img} alt="" className="stylesIMG" />
 
       <Box sx={stylesBox}>
         <Typography sx={stylesTitle}>{product.title}</Typography>

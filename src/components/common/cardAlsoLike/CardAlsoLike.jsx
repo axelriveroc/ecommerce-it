@@ -19,6 +19,7 @@ const useStyles = {
     justifyContent: "center",
     alignItems: "center",
     marginTop: "20px",
+    height:{sm:"90vh"},
   },
   card: {
     display: "flex",
@@ -26,10 +27,12 @@ const useStyles = {
     alignItems: "center",
     justifyContent: "space-around",
     textAlign: "center",
-    padding: "16px",
+    /* padding: "16px", */
     border: "none",
     boxShadow: "none",
     borderRadius: "8px",
+    height:"100%",
+    
   },
   media: {
     backgroundColor: "#f1f1f1",
@@ -54,8 +57,8 @@ const useStyles = {
 
 const CardAlsoLike = () => {
   return (
-    <Grid container spacing={2} sx={useStyles.container}>
-      <Grid item xs={12} sm={4}>
+    <Grid container  sx={useStyles.container}>
+      <Grid item xs={12} sm={4} sx={{height:"100%",p:1}}>
         <Card sx={useStyles.card}>
           <CardMedia
             sx={useStyles.media}
@@ -74,7 +77,7 @@ const CardAlsoLike = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={4} sx={{height:"100%", p:1}}>
         <Card sx={useStyles.card}>
           <CardMedia
             sx={useStyles.media}
@@ -93,7 +96,7 @@ const CardAlsoLike = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={4} sx={{height:"100%", p:1}}>
         <Card sx={useStyles.card}>
           <CardMedia
             sx={useStyles.media}

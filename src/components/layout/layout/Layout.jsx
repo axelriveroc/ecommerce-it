@@ -21,8 +21,7 @@ const Layout = () => {
          
         }}
       >
-        {" "}
-        <Outlet />{" "}
+        <Outlet />
       </div>
       <Box
         sx={{

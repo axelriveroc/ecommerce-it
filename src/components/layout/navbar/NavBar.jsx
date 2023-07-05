@@ -1,7 +1,6 @@
 import {
   AppBar,
   Box,
-  Button,
   Divider,
   IconButton,
   List,
@@ -34,36 +33,34 @@ const NavBar = ({ open, handleOpen, handleClose, cart }) => {
               justifyContent: "space-between",
               alignItems: "center",
               width: "80%",
-              margin: "0 auto",
+              m: "0 auto",
               borderBottom: "1px outset",
               borderColor: "secondary.second",
             }}
           >
-            <div style={{}}>
+            <div>
               <img
                 src="https://res.cloudinary.com/dwqrlr45w/image/upload/v1682637939/audiophileEcommerce/shared/desktop/logo_qnvapf.svg"
                 alt=""
               />
             </div>
 
-            <List sx={{ display: "flex" }}>
+            <List sx={{ display: "flex", gap: 2, pl: 1 }}>
               {menu.map(({ id, path, title }) => {
                 return (
-                  <Button key={id}>
-                    <ListItem component={Link} to={path}>
-                      <ListItemText
-                        primary={title.toUpperCase()}
-                        sx={{
-                          textDecoration: "none",
-                          color: "secondary.second",
-                          "&:hover": {
-                            backgroundColor: "",
-                            color: "primary.main",
-                          },
-                        }}
-                      />
-                    </ListItem>
-                  </Button>
+                  <ListItem component={Link} to={path} key={id} sx={{ p: 0 }}>
+                    <ListItemText
+                      primary={title.toUpperCase()}
+                      sx={{
+                        textDecoration: "none",
+                        color: "secondary.second",
+                        "&:hover": {
+                          backgroundColor: "",
+                          color: "primary.main",
+                        },
+                      }}
+                    />
+                  </ListItem>
                 );
               })}
             </List>
@@ -85,38 +82,34 @@ const NavBar = ({ open, handleOpen, handleClose, cart }) => {
               </IconButton>
               <CustomModalContainer open={open} handleClose={handleClose} />{" "}
               {/* Modal */}
-              <ListItem component={Link} to="/login">
-                <Button>
-                  <ListItemText
-                    primary="Login"
-                    sx={{
-                      textDecoration: "none",
-                      color: "primary.main",
-                      "&:hover": {
-                        color: "secondary.second",
-                      },
-                    }}
-                  />
-                </Button>
+              <ListItem component={Link} to="/login" sx={{ p: 1 }}>
+                <ListItemText
+                  primary="Login"
+                  sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                    "&:hover": {
+                      color: "secondary.second",
+                    },
+                  }}
+                />
               </ListItem>
               <Divider
                 orientation="vertical"
                 flexItem
                 sx={{ borderColor: "primary.main" }}
               />
-              <ListItem component={Link} to="/signup">
-                <Button>
-                  <ListItemText
-                    primary="Signup"
-                    sx={{
-                      textDecoration: "none",
-                      color: "primary.main",
-                      "&:hover": {
-                        color: "secondary.second",
-                      },
-                    }}
-                  />
-                </Button>
+              <ListItem component={Link} to="/signup" sx={{ p: 1 }}>
+                <ListItemText
+                  primary="Signup"
+                  sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                    "&:hover": {
+                      color: "secondary.second",
+                    },
+                  }}
+                />
               </ListItem>
             </div>
           </Box>
@@ -141,7 +134,21 @@ const NavBar = ({ open, handleOpen, handleClose, cart }) => {
             </div>
 
             <div style={{ display: "flex", alignItems: "center" }}>
-              <ShoppingCartOutlinedIcon />
+              <IconButton
+                sx={{
+                  color: "secondary.second",
+                  "&:hover": {
+                    backgroundColor: "secondary.second",
+                    color: "primary.main",
+                  },
+                }}
+                onClick={handleOpen}
+              >
+                <Badge badgeContent={cart.length} color="primary" showZero>
+                  <ShoppingCartOutlinedIcon />
+                </Badge>
+              </IconButton>
+              <CustomModalContainer open={open} handleClose={handleClose} />
             </div>
           </Box>
         </Toolbar>

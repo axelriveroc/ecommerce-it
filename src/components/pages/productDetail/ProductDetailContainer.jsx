@@ -11,7 +11,7 @@ const ProductDetailContainer = () => {
   const [product, setProduct] = useState({})
   const dispatch = useDispatch();
   const { cart } = useSelector(store => store.cartSlice);
-  const productInCart = cart.find( p => p.id === +id); //para el contador, encontrar la Q en el carrito de ese Product
+  const productInCart = cart.find( p => p.id === +id); //para eritl contador, encontrar la Q en el caro de ese Product
   let quantityInCart = productInCart?.quantity //si el prod está en el carrito se lo paso, sino será undefined
 
   useEffect(()=>{

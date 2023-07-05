@@ -9,7 +9,7 @@ const Category = ({ productsList, categoryName }) => {
       <Box
         sx={{
           width: "100%",
-          height: "120px",
+          height: "100px",
           backgroundColor: "rgb(25,25,25)",
           display: "flex",
           justifyContent: "center",
@@ -17,10 +17,11 @@ const Category = ({ productsList, categoryName }) => {
           textTransform: "uppercase",
         }}
       >
-        <Typography color="secondary.second" variant="h3">
+        <Typography color="secondary.second" variant="h3" sx={{fontSize:{xs:30}}}>
           {categoryName}
         </Typography>
       </Box>
+
       {productsList.map((p, i) => {
         return <CardProductsByCategory key={p.id} product={p} index={i} />;
       })}
