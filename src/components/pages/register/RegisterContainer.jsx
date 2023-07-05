@@ -2,6 +2,7 @@ import { useState } from "react";
 import Register from "./Register";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { register } from "../../../firebaseConfig";
 
 const VALID_PASSWORD_REGEX =
   /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/;
@@ -44,6 +45,7 @@ const RegisterContainer = () => {
     initialValues,
     onSubmit: (data) => {
       console.log("se envió el formulario registro", data);
+      register(data);
       //aca va a ir el envió a la API con firebase
       /* setValues(initialValues);
        resetForm(); */

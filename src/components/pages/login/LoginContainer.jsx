@@ -2,6 +2,7 @@ import { useState } from "react";
 import Login from "./Login";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { login } from "../../../firebaseConfig";
 
 const VALID_PASSWORD_REGEX =
   /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/;
@@ -32,16 +33,18 @@ const LoginContainer = () => {
     errors,
     touched,
     submitCount,
-    resetForm,
-    setValues,
+/*     resetForm,
+    setValues, */
     values
   } = useFormik({
     initialValues,
-    onSubmit: (data) => {
+    onSubmit: async(data) => {
       console.log("se envió el formulario", data);
+      let res = await login(data);
+      console.log(res)
       //aca va a ir el envió a la API con firebase
-      setValues(initialValues)
-      resetForm();
+      /* setValues(initialValues)
+      resetForm(); */
     },
     validateOnChange: false,
     validateOnBlur: true,
@@ -60,7 +63,6 @@ const LoginContainer = () => {
     }),
   });
 
-  console.log(errors);
   return (
     <Login
       showPassword={showPassword}
