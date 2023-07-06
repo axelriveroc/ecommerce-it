@@ -12,6 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import GoogleIcon from '@mui/icons-material/Google';
+
 
 const Login = ({
   showPassword,
@@ -121,7 +123,10 @@ const Login = ({
         <Button type="submit" variant="contained" sx={{ width: "90%" }}>
           Continue
         </Button>
-        <Button onClick={ingresarConGoogle}>Ingresar con Google</Button>
+        <IconButton onClick={ingresarConGoogle}>
+          <GoogleIcon />
+          <span>Ingresar con Google</span>
+          </IconButton>
       </Box>
     </Box>
   );

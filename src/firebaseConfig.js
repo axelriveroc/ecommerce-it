@@ -41,17 +41,12 @@ const auth = getAuth(app);
         }
     }
 
-
-
 // LOGIN WITH GOOGLE
-
     let googleProvider = new GoogleAuthProvider()
     export const loginWithGoogle = async()=>{
-
         try {
             let res = await signInWithPopup(auth, googleProvider);
-            return res;
-            
+            return res;  
         } catch (error) {
             console.log(error)
         }

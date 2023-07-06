@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom"
 import ProductDetail from "./ProductDetail"
 import { useEffect, useState } from "react";
-import { getProductByID } from "../../../services/productsServices";
+//import { getProductByID } from "../../../services/productsServices";
 import { useDispatch, useSelector, /* useSelector */ } from "react-redux";
 import { addToCart } from "../../../store/cartSlice";
+import { db } from "../../../firebaseConfig";
+import { collection, doc, getDoc } from "firebase/firestore";
 
 const ProductDetailContainer = () => {
 
@@ -16,8 +18,16 @@ const ProductDetailContainer = () => {
 
   useEffect(()=>{
     (async() => {
-      const data  = await getProductByID(id);
-      setProduct(data)
+      /* const data  = await getProductByID(id);
+      setProduct(data) */
+      let refCollection = collection(db, "products"); 
+      let refDoc = doc(refCollection, id);
+      let res = await getDoc(refDoc)
+      console.log(res)
+      setProduct({
+        ...res.data() ,
+        id: res.id 
+      })
     })()
   }, [id]);
 
