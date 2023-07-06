@@ -1,63 +1,90 @@
-import { Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material";
+import "./SummaryPayStyle.css"
 
-const styles={
-    nameProd: {
-        textTransform: "uppercase",
-        fontWeight: "bold",
-        lineHeight: "25px",
-        letterSpacing: 1,
-      },
-      price: {
-        color: "#000",
-        fontSize: "14px",
-        fontStyle: "normal",
-        fontWeight: 700,
-        lineHeight: "25px",
-        opacity: 0.5,
-      },
-}
+const styles = {
+	nameProd: {
+		textTransform: "uppercase",
+		fontWeight: "bold",
+		lineHeight: "25px",
+		letterSpacing: 1,
+	},
+	price: {
+		color: "#000",
+		fontSize: "14px",
+		fontStyle: "normal",
+		fontWeight: 700,
+		lineHeight: "25px",
+		opacity: 0.5,
+	},
+};
 
-const SummaryPay = ({cart, total}) => {
-    console.log(cart)
+const SummaryPay = ({ cart, total }) => {
+	console.log(cart);
 
-  return (
-    <div>
-        SUMMARY
-        { 
-            cart.map((item)=>(
-                <div key={item.id}>
-                    <img
-                            src={item.image}
-                            width={50}
-                            height={50}
-                            style={{ borderRadius: "8px" }}
-                        />
+	return (
+		<Box
+			sx={{
+				width: {md:"40%", sm:"90%"},
+				display: "flex",
+				flexDirection: "column",
+				gap: 1,
+				border: "solid violet",
+				p: 1,
+			}}
+		>
+			SUMMARY
+			{cart.map((item) => (
+				<Box key={item.id} sx={{ display: "flex", alignItems: "center" }}>
+					<Box
+						sx={{ display: "flex", width: "80%", alignItems: "center", gap: 1 }}
+					>
+						<img
+							src={item.image}
+							width={65}
+							height={65}
+							style={{ borderRadius: "8px" }}
+						/>
 
-                    <div>
-                        <Typography variant="body1" sx={styles.nameProd}>
-                            { item.subname}
-                        </Typography>
-                        <Typography variant="body2" sx={styles.price}>
-                            ${item.price}
-                        </Typography>
-                    </div>
-                    <div>
-                        <Typography>x{item.quantity}</Typography>
-                    </div>
-                </div>
-                ))
-        }
+						<Box sx={{ display: "flex", flexDirection: "column" }}>
+							<Typography variant="body1" sx={styles.nameProd}>
+								{item.subname}
+							</Typography>
+							<Typography variant="body2" sx={styles.price}>
+								${item.price}
+							</Typography>
+						</Box>
+					</Box>
+					<div style={{ alignSelf: "flex-start" }}>
+						<Typography>x{item.quantity}</Typography>
+					</div>
+				</Box>
+			))}
+			<Box sx={{ border: "solid green", display:"flex", flexDirection:"column", gap:1 }}>
+				<Box sx={{display:"flex", justifyContent:"space-between",width:"100%", border:"solid yellow"}}>
+					<Typography>Total: </Typography>
+                    <span>${total}</span>    
+				</Box>
+				<Box sx={{display:"flex", justifyContent:"space-between"}}>
+					<Typography>Shipping: </Typography>
+                       <span>${total * 0.15}</span> 
+				</Box>
+				<Box sx={{display:"flex", justifyContent:"space-between"}}>
+					<Typography>VAT(included): </Typography>
+                      <span>${total * 0.21}</span> 
+				</Box>
+				<Box sx={{display:"flex", justifyContent:"space-between"}}>
+					<Typography>
+						GRAND TOTAL: 
+					</Typography>
+                    <span>${total * 0.21 + total * 0.15 + total}</span>
+                        
+				</Box>
+			</Box>
+			<Button variant="contained" type="submit">
+				Continuea & pay
+			</Button>
+		</Box>
+	);
+};
 
-        <div>
-            <Typography>Total: {total}</Typography>
-            <Typography>Shipping: {(total*0.15)}</Typography>
-            <Typography>VAT(included): {(total*0.21)}</Typography>
-            <Typography>GRAND TOTAL: {(total*0.21)+(total*0.15)+total}</Typography>
-        </div>
-     
-
-    </div>
-  )
-}
-
-export default SummaryPay
+export default SummaryPay;
