@@ -43,9 +43,9 @@ const RegisterContainer = () => {
     values,
   } = useFormik({
     initialValues,
-    onSubmit: (data) => {
-      console.log("se envió el formulario registro", data);
-      register(data);
+    onSubmit: async(data) => {
+      let res = await register(data);
+      console.log(res)
       //aca va a ir el envió a la API con firebase
       /* setValues(initialValues);
        resetForm(); */

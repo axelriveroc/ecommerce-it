@@ -111,6 +111,7 @@ const NavBar = ({ open, handleOpen, handleClose, cart }) => {
                   }}
                 />
               </ListItem>
+              <Link to="/dashboard">dashboard</Link>
             </div>
           </Box>
 

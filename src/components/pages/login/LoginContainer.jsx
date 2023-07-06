@@ -2,12 +2,16 @@ import { useState } from "react";
 import Login from "./Login";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { login } from "../../../firebaseConfig";
+import { login, loginWithGoogle } from "../../../firebaseConfig";
+import { loginRedux } from "../../../store/authSlice";
+import { useDispatch } from "react-redux";
 
 const VALID_PASSWORD_REGEX =
   /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/;
 
 const LoginContainer = () => {
+
+  const dispatch = useDispatch();
   const [showPassword, setShowPassoword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -25,6 +29,12 @@ const LoginContainer = () => {
       (touched[fieldName] || submitCount > 0) && errors[fieldName]
     );
   };
+
+
+  const ingresarConGoogle = async()=>{
+    let res = await loginWithGoogle()
+    dispatch(loginRedux(res.user)) 
+  }
   
   const {
     handleChange,
@@ -38,10 +48,10 @@ const LoginContainer = () => {
     values
   } = useFormik({
     initialValues,
+
     onSubmit: async(data) => {
-      console.log("se envió el formulario", data);
       let res = await login(data);
-      console.log(res)
+      dispatch( loginRedux(res.user) );
       //aca va a ir el envió a la API con firebase
       /* setValues(initialValues)
       resetForm(); */
@@ -73,6 +83,7 @@ const LoginContainer = () => {
       errors={errors}
       shouldShowError={shouldShowError}
       values={values}
+      ingresarConGoogle={ingresarConGoogle}
     />
   );
 };

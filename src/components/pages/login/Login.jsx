@@ -22,6 +22,7 @@ const Login = ({
   errors,
   shouldShowError,
   values,
+  ingresarConGoogle
 }) => {
   return (
     <Box
@@ -30,14 +31,21 @@ const Login = ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: {md:"70vh", xs:"60vh"},
+        height: { md: "70vh", xs: "60vh" },
         backgroundColor: "#f1f1f1",
       }}
     >
-      <Box sx={{display:"flex", justifyContent:"flex-start", width:"50%", pl:5}}>
-      <Link to="/">
-        <Button sx={{ opacity: 0.5, maxWidth: "400px"}}>Go Back</Button>
-      </Link>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          width: "50%",
+          pl: 5,
+        }}
+      >
+        <Link to="/">
+          <Button sx={{ opacity: 0.5, maxWidth: "400px" }}>Go Back</Button>
+        </Link>
       </Box>
 
       <Box
@@ -46,11 +54,11 @@ const Login = ({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          width:{md:"50%", xs:"95%" },
+          width: { md: "50%", xs: "95%" },
           maxWidth: "80%",
           margin: "0 auto",
-          mt: {md:"20px", xs:"5px"},
-          p: {md:5, xs:4},
+          mt: { md: "20px", xs: "5px" },
+          p: { md: 5, xs: 4 },
           backgroundColor: "white",
           borderRadius: "8px",
           border: "none",
@@ -73,10 +81,7 @@ const Login = ({
           sx={{ width: "90%" }}
         />
 
-        <FormControl
-          sx={{ m: 1, width: "90%" }}
-          variant="outlined"
-        >
+        <FormControl sx={{ m: 1, width: "90%" }} variant="outlined">
           <InputLabel
             htmlFor="outlined-adornment-password"
             className={shouldShowError("password") ? "Mui-error" : ""}
@@ -116,6 +121,7 @@ const Login = ({
         <Button type="submit" variant="contained" sx={{ width: "90%" }}>
           Continue
         </Button>
+        <Button onClick={ingresarConGoogle}>Ingresar con Google</Button>
       </Box>
     </Box>
   );

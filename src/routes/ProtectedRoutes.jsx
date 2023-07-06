@@ -1,15 +1,18 @@
-import { Navigate, Outlet } from "react-router-dom"
+import { useSelector } from "react-redux";
+import { Navigate, Outlet } from "react-router-dom";
+
 
 const ProtectedRoutes = () => {
 
-    let isAutenticate = false; 
+  const { accessToken , isLogged} = useSelector((store) => store.authSlice);
+
   return (
-    <div>
+    <>
         {
-            isAutenticate ?  <Outlet /> : <Navigate to="/login" />
+            isLogged && accessToken ?  <Outlet /> : <Navigate to="/login" />
         }
        
-    </div>
+    </>
   )
 }
 
