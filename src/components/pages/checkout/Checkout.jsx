@@ -25,6 +25,7 @@ const Checkout = ({
   values,
   handleClose,
   open,
+  handleOpen
 }) => {
   return (
     <Box sx={{ backgroundColor: "#F1F1F1" }}>
@@ -87,6 +88,8 @@ const Checkout = ({
 
         <SummaryPayContainer />
       </Box>
+
+      <button onClick={handleOpen}>abrir modal </button>
     </Box>
   );
 };

@@ -44,7 +44,6 @@ const CheckoutContainer = () => {
     initialValues,
     onSubmit: (data) => {
       console.log("se envió el formulario", data);
-      //aca va a ir el envió a la API con firebase
       handleOpen()
       setValues(initialValues);
       resetForm();
@@ -81,6 +80,7 @@ const CheckoutContainer = () => {
       values={values}
       handleClose={handleClose}
       open={open}
+      handleOpen={handleOpen}
     />
   );
 };
