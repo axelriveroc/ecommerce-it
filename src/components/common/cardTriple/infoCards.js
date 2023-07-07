@@ -6,17 +6,17 @@ import parlantesIMG from "../../../assets/shared/desktop/image-category-thumbnai
 
 export const cardsTripleHome = [
   {
-    id: 1,
+    id: "xEkIHcdIYYV8zyJKySPI",
     title: "headphones",
     img: auricularesIMG,
   },
   {
-    id: 2,
+    id: "Z3F0dJb9r3FkXBmMfzw2",
     title: "speakers",
     img: parlantesIMG,
   },
   {
-    id: 3,
+    id: "QmseFohhzZfwQ7dqVeih",
     title: "earphones",
     img: earphonesIMG,
   },

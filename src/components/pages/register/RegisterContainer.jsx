@@ -46,7 +46,6 @@ const RegisterContainer = () => {
     onSubmit: async(data) => {
       let res = await register(data);
       console.log(res)
-      //aca va a ir el envió a la API con firebase
       /* setValues(initialValues);
        resetForm(); */
     },

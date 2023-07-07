@@ -35,7 +35,8 @@ const Checkout = ({
             width: "80%",
             margin: "0 auto",
             pt: 1,
-            color: "primary.second",
+            color: "primary.main",
+            opacity:0.5
           }}
         >
           {" "}

@@ -63,7 +63,6 @@ const PaymentsDetails = ({
                 control={<Radio />}
                 label="e-Money"
                 sx={{
-                  border: "solid orange 1px",
                   m: 0,
                   borderRadius: 2,
                   p: 1,
@@ -74,7 +73,6 @@ const PaymentsDetails = ({
                 control={<Radio />}
                 label="Cash on Delivery"
                 sx={{
-                  border: "solid orange 1px",
                   m: 0,
                   borderRadius: 2,
                   p: 1,

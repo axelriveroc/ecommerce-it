@@ -33,7 +33,7 @@ const Login = ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: { md: "70vh", xs: "60vh" },
+        height: { md: "90vh", xs: "60vh" },
         backgroundColor: "#f1f1f1",
       }}
     >

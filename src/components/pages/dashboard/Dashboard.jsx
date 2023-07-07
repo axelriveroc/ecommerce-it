@@ -1,10 +1,9 @@
-import { Button } from "@mui/material"
 
-const Dashboard = ({generarDocumentos}) => {
+const Dashboard = () => {
   return (
     <div>
       <h1>Dashborad</h1>
-      <Button onClick={generarDocumentos}>Generar Docs</Button>
+     {/*  <Button onClick={generarDocumentos}>Generar Docs</Button> */}
 
     </div>
   )

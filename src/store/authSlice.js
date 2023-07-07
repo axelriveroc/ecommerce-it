@@ -14,6 +14,7 @@ export const authSlice = createSlice({
     console.log("reducer: ", action.payload)
     state.accessToken = action.payload.accessToken;
     state.isLogged = true;
+    state.user = action.payload
    },
   },
 });

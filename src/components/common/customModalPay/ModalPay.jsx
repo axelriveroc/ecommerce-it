@@ -36,7 +36,7 @@ const ModalPay = ({ handleClose, open, cart, total }) => {
 						variant="h6"
 						sx={{
 							fontWeight: 700,
-							fontSize: "32px",
+							fontSize: {sm:"32px", xs:"25px"},
 							lineHeight: 1,
 							letterSpacing: "1.143px",
 						}}
@@ -46,9 +46,9 @@ const ModalPay = ({ handleClose, open, cart, total }) => {
 					<Typography
 						variant="body2"
 						sx={{
-							fontSize: "15px",
+							fontSize: {sm:"15px",xs:"13px"},
 							fontWeight: 500,
-							lineHeight: "25px",
+							lineHeight: {sm:"25px", xs:"16px"},
 							opacity: 0.5,
 						}}
 					>
@@ -70,9 +70,9 @@ const ModalPay = ({ handleClose, open, cart, total }) => {
 									width: "100%",
 									display: "flex",
 									flexDirection: "column",
-                  justifyContent:"center",
+                  justifyContent:{sm:"center", xs:"space-evenly"},
                   gap:{sm:1.2, xs:0.1},
-                  height:{xs:"50%", sm:"100%"},
+                  height:{xs:"60%", sm:"100%"},
                   borderRadius:{sm:"8px 0 0 8px ", xs:"8px 8px 0 0"}
 								}}
 							>
@@ -124,7 +124,7 @@ const ModalPay = ({ handleClose, open, cart, total }) => {
 									alignItems: "center",
 									justifyContent: "center",
                   backgroundColor:"#000",
-                  height:{xs:"50%", sm:"100%"},
+                  height:{xs:"40%", sm:"100%"},
                   borderRadius:{sm:"0 8px 8px 0", xs:"0 0 8px 8px"}
 
 								}}

@@ -1,6 +1,7 @@
 import { Box, Button, CardContent, Typography } from "@mui/material";
 import flecha from "../../../../assets/shared/desktop/icon-arrow-right.svg";
 import "./CardUnique.css";
+import { Link } from "react-router-dom";
 
 const stylesCardContext = {
   display: "flex",
@@ -59,8 +60,10 @@ const CardUnique = ({ product }) => {
       <Box sx={stylesBox}>
         <Typography sx={stylesTitle}>{product.title}</Typography>
         <Button style={stylesButton}>
+          <Link to={`/productDetail/${product.id}`} style={{display:"flex", alignItems:"center", gap:"8px", textDecoration:"none"}}>
           <Typography sx={stylesShop}>SHOP</Typography>
           <img src={flecha} alt="" style={{ width: "5px", height: "10px" }} />
+          </Link>
         </Button>
       </Box>
     </CardContent>

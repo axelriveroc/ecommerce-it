@@ -10,6 +10,7 @@ import {
 import img1 from "../../../assets/product-xx99-mark-two-headphones/tablet/image-product.jpg";
 import img2 from "../../../assets/product-yx1-earphones/tablet/image-product.jpg";
 import img3 from "../../../assets/product-zx7-speaker/tablet/image-product.jpg";
+import { Link } from "react-router-dom";
 
 const useStyles = {
   container: {
@@ -71,7 +72,9 @@ const CardAlsoLike = () => {
               xx99 mark II 
             </Typography>
             <Button variant="contained" color="primary">
+              <Link style={{textDecoration:"none", color:"white", fontWeight:"bold"}}>
               See Product
+              </Link>
             </Button>
           </CardContent>
         </Card>
