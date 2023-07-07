@@ -13,7 +13,6 @@ const ShippingInfo = ({
 			<Typography>Shipping Info</Typography>
 			<Box
 				sx={{
-					border: "solid yellow",
 					display: "flex",
 					flexDirection: {md:"row", sm:"column"},
 					flexWrap: "wrap",

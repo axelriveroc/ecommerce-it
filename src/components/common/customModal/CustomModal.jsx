@@ -6,24 +6,28 @@ import OneProductInCart from "./oneProductInCart/OneProductInCart";
 const styles = {
   box1: {
     position: "absolute",
-    top: {md:"45%", sm:"45%", xs:"45%"},
-    bottom:{xs:"20%", md:"0%"},
-    left:{xs:"30%", md:"65%", sm:"55%"},
+    top: { md: "45%", sm: "45%", xs: "45%" },
+    bottom: { xs: "20%", md: "0%" },
+    left: { xs: "30%", md: "65%", sm: "55%" },
     transform: "translate(-25%, -50%)",
-    width: {md:400 , xs:290, sm:350},
+    width: { md: 400, xs: 290, sm: 350 },
     bgcolor: "background.paper",
     borderRadius: "8px",
     background: "#FFF",
     boxShadow: 24,
-    p: {md:3, sm:3, xs:2},
+    p: { md: 3, sm: 3, xs: 2 },
     /* minHeight: "fit-content", */
-    minHeight:"80vh",
+    minHeight: "80vh",
     display: "flex",
     flexDirection: "column",
     aligItems: "center",
     justifyContent: "space-between",
   },
-  boxHeader:{ display: "flex", alignItems:"center", justifyContent:"space-between" },
+  boxHeader: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   cartLength: {
     color: "#000",
     fontSize: "18px",
@@ -49,8 +53,7 @@ const styles = {
     aligItems: "center",
     justifyContent: "space-between",
     gap: 2,
-    overflow:"auto",
-
+    overflow: "auto",
   },
   totalPrice: {
     fontSize: "15px",
@@ -79,16 +82,30 @@ const CustomModal = ({ open, handleClose, cart, dispatch, totalPrice }) => {
       >
         <Box sx={styles.box1}>
           <Box sx={styles.boxHeader}>
-            <Typography sx={styles.cartLength}> CART ({cart.length})</Typography>
+            <Typography sx={styles.cartLength}>
+              {" "}
+              CART ({cart.length})
+            </Typography>
             <Button sx={styles.removeAll} onClick={() => dispatch(clearCart())}>
               Remove all
             </Button>
           </Box>
 
           <Box sx={styles.boxProducts}>
-            {cart.map((item) => (
-              <OneProductInCart item={item} key={item.id} dispatch={dispatch} />
-            ))}
+            {cart &&
+              cart.length > 0 &&
+              cart.map((item) => (
+                <OneProductInCart
+                  item={item}
+                  key={item.id}
+                  dispatch={dispatch}
+                />
+              ))}
+
+              {
+                cart.length < 1 &&
+                <p>Aun no tienes productos en el carrito</p>
+              }
           </Box>
 
           <Box
@@ -107,11 +124,17 @@ const CustomModal = ({ open, handleClose, cart, dispatch, totalPrice }) => {
             </Typography>
           </Box>
 
-          <Link to="/checkout">
+          { 
+            cart && cart.length >= 1 && (
+              <Link to="/checkout">
             <Button variant="contained" onClick={handleClose} fullWidth>
               CheckOut
             </Button>
           </Link>
+            )
+          }
+
+          
         </Box>
       </Modal>
     </div>

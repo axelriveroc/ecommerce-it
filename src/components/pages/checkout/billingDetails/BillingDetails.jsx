@@ -12,7 +12,6 @@ const BillingDetails = ({
 			<Typography>Billing Details</Typography>
 			<Box
 				sx={{
-					border: "solid pink",
 					display: "flex",
 					flexDirection: {md:"row", sm:"column"},
 					flexWrap: "wrap",

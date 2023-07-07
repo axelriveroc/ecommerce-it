@@ -9,7 +9,6 @@ import PaymentsDetails from "./paymentsDetails/PaymentsDetails";
 
 const styles={
   box:{
-    border: "solid green",
     display: "flex",
     width: "90%",
     m: "0 auto",
@@ -37,7 +36,7 @@ const Checkout = ({
 				sx={styles.box}
 				onSubmit={handleSubmit}
 			>
-				<Box sx={{border:"solid blue"}}>
+				<Box sx={{p:2, display:"flex", flexDirection:"column", justifyContent:"space-evenly", gap:1}}>
 					<BillingDetails
 						shouldShowError={shouldShowError}
 						errors={errors}
