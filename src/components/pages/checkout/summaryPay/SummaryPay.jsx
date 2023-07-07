@@ -25,9 +25,10 @@ const SummaryPay = ({ cart, total }) => {
     <Box
       sx={{
         width: { md: "40%", sm: "90%" },
+        height:"50%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
         gap: 1,
         p: 2,
         backgroundColor:"#ffffff",

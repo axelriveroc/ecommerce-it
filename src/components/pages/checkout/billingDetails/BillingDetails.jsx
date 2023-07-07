@@ -9,7 +9,7 @@ const BillingDetails = ({
 }) => {
 	return (
 		<>
-			<Typography>Billing Details</Typography>
+			<Typography sx={{color:"primary.main"}}>Billing Details</Typography>
 			<Box
 				sx={{
 					display: "flex",

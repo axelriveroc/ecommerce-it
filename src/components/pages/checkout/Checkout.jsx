@@ -12,7 +12,7 @@ const styles = {
     m: "0 auto",
     flexDirection: { md: "row", sm: "column", xs: "column" },
     justifyContent: "space-evenly",
-	gap:1
+    gap: 1,
   },
 };
 
@@ -49,15 +49,15 @@ const Checkout = ({
             flexDirection: "column",
             justifyContent: "space-evenly",
             gap: 1,
-			backgroundColor:"#ffffff",
-			mb:2,
-			mt:2,
-			borderRadius:"8px",
-			boxShadow:"none",
-			borde:"none"
-
+            backgroundColor: "#ffffff",
+            mb: 2,
+            mt: 2,
+            borderRadius: "8px",
+            boxShadow: "none",
+            borde: "none",
           }}
         >
+          <h1>CHECKOUT</h1>
           <BillingDetails
             shouldShowError={shouldShowError}
             errors={errors}

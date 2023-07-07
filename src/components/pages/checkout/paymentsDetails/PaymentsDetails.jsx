@@ -21,7 +21,7 @@ const PaymentsDetails = ({
 }) => {
   return (
     <>
-      <Typography>Payments Details</Typography>
+      <Typography sx={{ color: "primary.main" }}>Payments Details</Typography>
       <Box
         sx={{
           display: "flex",
