@@ -30,6 +30,12 @@ const SummaryPay = ({ cart, total }) => {
         justifyContent: "space-evenly",
         gap: 1,
         p: 2,
+        backgroundColor:"#ffffff",
+        borderRadius:"8px",
+        border:"none",
+        boxShadow:"none",
+        mb:2,
+        mt:2,
       }}
     >
       SUMMARY
