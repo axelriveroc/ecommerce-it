@@ -1,12 +1,13 @@
-import { initializeApp } from "firebase/app";
-import {getFirestore} from "firebase/firestore"
+import { initializeApp } from "firebase/app"; // llamada a mi app de firebase
+import {getFirestore} from "firebase/firestore" // consumo DB de firebase
 import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-} from "firebase/auth";
+} from "firebase/auth"; //consumo autenticacion de firebase
+import { showMessage } from "./components/common/showMessageToast/showMessageToast";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
@@ -37,7 +38,15 @@ const auth = getAuth(app);
             let res = await createUserWithEmailAndPassword(auth, email, password)
             return res
         } catch (error) {
-            console.log(error)
+            if (error.code === "auth/invalid-email") {
+                showMessage("Email Invalido", "error")
+            }
+            else if (error.code === "auth/email-already-in-use") {
+                showMessage("Este correo ya esta en uso", "error")
+            }
+            else if(error.code){
+                showMessage("Hubo un error", "error")
+            }
         }
     }
 

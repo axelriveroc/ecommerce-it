@@ -12,6 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = ({
   showPassword,
@@ -24,6 +26,7 @@ const Register = ({
   errors,
   shouldShowError,
   values,
+  toastDispatch
 }) => {
   return (
     <Box
@@ -215,6 +218,8 @@ const Register = ({
           Registrarme
         </Button>
       </Box>
+      <Button onClick={()=>toastDispatch("welcome", "error")}>toast</Button>
+      <ToastContainer />
     </Box>
   );
 };

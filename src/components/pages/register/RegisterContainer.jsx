@@ -3,6 +3,7 @@ import Register from "./Register";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { register } from "../../../firebaseConfig";
+import { showMessage } from "../../common/showMessageToast/showMessageToast";
 
 const VALID_PASSWORD_REGEX =
   /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/;
@@ -10,6 +11,9 @@ const VALID_PASSWORD_REGEX =
 const RegisterContainer = () => {
   const [showPassword, setShowPassoword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassoword] = useState(false);
+
+  const toastDispatch = (message, type) => showMessage(message, type);
+  
 
   const handleClickShowPassword = () => {
     setShowPassoword(!showPassword);
@@ -45,7 +49,9 @@ const RegisterContainer = () => {
     initialValues,
     onSubmit: async(data) => {
       let res = await register(data);
+      toastDispatch("Welcome " + res.user.email)
       console.log(res)
+
       /* setValues(initialValues);
        resetForm(); */
     },
@@ -88,6 +94,7 @@ const RegisterContainer = () => {
       errors={errors}
       shouldShowError={shouldShowError}
       values={values}
+      toastDispatch={toastDispatch}
     />
   );
 };
