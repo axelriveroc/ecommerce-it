@@ -13,6 +13,9 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import GoogleIcon from '@mui/icons-material/Google';
+import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Login = ({
@@ -24,7 +27,8 @@ const Login = ({
   errors,
   shouldShowError,
   values,
-  ingresarConGoogle
+  ingresarConGoogle,
+  ingresarConFacebook
 }) => {
   return (
     <Box
@@ -127,7 +131,12 @@ const Login = ({
           <GoogleIcon />
           <span>Ingresar con Google</span>
           </IconButton>
+        <IconButton onClick={ingresarConFacebook}>
+          <FacebookOutlinedIcon />
+          <span>Ingresar con Facebook</span>
+          </IconButton>
       </Box>
+      <ToastContainer />
     </Box>
   );
 };

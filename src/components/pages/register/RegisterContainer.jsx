@@ -47,8 +47,8 @@ const RegisterContainer = () => {
     values,
   } = useFormik({
     initialValues,
-    onSubmit: async(data) => {
-      let res = await register(data);
+    onSubmit: async(data, {setErrors}) => {
+      let res = await register(data, setErrors);
       toastDispatch("Welcome " + res.user.email)
       console.log(res)
 

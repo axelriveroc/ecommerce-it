@@ -1,6 +1,7 @@
 import {
 	AppBar,
 	Box,
+	Button,
 	Divider,
 	IconButton,
 	List,
@@ -23,8 +24,8 @@ const NavBar = ({
 	cart,
 	isLogged,
 	accessToken,
+	logOut,
 }) => {
-
 	return (
 		<Box
 			sx={{ flexGrow: 1, backgroundColor: "secondary.main", height: "100%" }}
@@ -123,12 +124,12 @@ const NavBar = ({
 									</ListItem>
 								</>
 							)}
-              {
-               ( isLogged && accessToken ) && (
-                  
-                  <Link to="/dashboard">dashboard</Link>
-                )
-              }
+							{isLogged && accessToken && (
+								<>
+									<Link to="/dashboard">dashboard</Link>
+									<Button onClick={logOut}>Logout</Button>
+								</>
+							)}
 						</div>
 					</Box>
 

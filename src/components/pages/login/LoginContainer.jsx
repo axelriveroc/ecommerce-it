@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { login, loginWithGoogle } from "../../../firebaseConfig";
 import { loginRedux } from "../../../store/authSlice";
 import { useDispatch } from "react-redux";
+import { showMessage } from "../../common/showMessageToast/showMessageToast";
+import { loginWithFacebook } from "../../../facebookConfig";
 
 const VALID_PASSWORD_REGEX =
   /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/;
@@ -12,6 +14,8 @@ const VALID_PASSWORD_REGEX =
 const LoginContainer = () => {
 
   const dispatch = useDispatch();
+  const toastDispatch = (message, type) => showMessage(message, type);
+
   const [showPassword, setShowPassoword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -35,12 +39,19 @@ const LoginContainer = () => {
     let res = await loginWithGoogle()
     dispatch(loginRedux(res.user)) 
   }
+
+  const ingresarConFacebook = async()=>{
+    let res = await loginWithFacebook()
+    console.log(res)
+    dispatch(loginRedux(res.user))
+  }
   
   const {
     handleChange,
     handleBlur,
     handleSubmit,
     errors,
+    //setErrors,
     touched,
     submitCount,
 /*     resetForm,
@@ -49,10 +60,11 @@ const LoginContainer = () => {
   } = useFormik({
     initialValues,
 
-    onSubmit: async(data) => {
-      let res = await login(data);
-      dispatch( loginRedux(res.user) );
-      //aca va a ir el envió a la API con firebase
+    onSubmit: async(data, {setErrors}) => {
+      let res = await login(data, setErrors); //login de firebase con email y password
+      dispatch( loginRedux(res.user) ); // completo la info de mi reducer con la info de firebase
+      toastDispatch("Welcome " + res.user.email)
+
       /* setValues(initialValues)
       resetForm(); */
     },
@@ -84,6 +96,7 @@ const LoginContainer = () => {
       shouldShowError={shouldShowError}
       values={values}
       ingresarConGoogle={ingresarConGoogle}
+      ingresarConFacebook={ingresarConFacebook}
     />
   );
 };
