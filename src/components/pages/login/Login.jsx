@@ -28,7 +28,9 @@ const Login = ({
   shouldShowError,
   values,
   ingresarConGoogle,
-  ingresarConFacebook
+  ingresarConFacebook,
+  handleResetPassword,
+  mailChangePassword,
 }) => {
   return (
     <Box
@@ -37,7 +39,7 @@ const Login = ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: { md: "90vh", xs: "60vh" },
+        height: { md: "90vh", xs: "80vh" },
         backgroundColor: "#f1f1f1",
       }}
     >
@@ -127,14 +129,25 @@ const Login = ({
         <Button type="submit" variant="contained" sx={{ width: "90%" }}>
           Continue
         </Button>
+            <div>
+              <Button onClick={handleResetPassword}>Olvidaste tu contraseña?</Button >
+            </div>
+              {
+                mailChangePassword && <small>Se ha enviado un link a tu mail para cambiar de contraseña</small>
+              }
+        <div>
+          <h5 style={{textAlign:"center"}}>Ingresar con: </h5>
+
         <IconButton onClick={ingresarConGoogle}>
           <GoogleIcon />
-          <span>Ingresar con Google</span>
+          <span> - Google</span>
           </IconButton>
         <IconButton onClick={ingresarConFacebook}>
           <FacebookOutlinedIcon />
-          <span>Ingresar con Facebook</span>
+          <span> - Facebook</span>
           </IconButton>
+        </div>
+          
       </Box>
       <ToastContainer />
     </Box>

@@ -14,7 +14,11 @@ export const authSlice = createSlice({
     console.log("reducer: ", action.payload)
     state.accessToken = action.payload.accessToken;
     state.isLogged = true;
-    state.user = action.payload
+    state.user = {
+      displayName: action.payload.displayName || "usuario",
+      email: action.payload.email,
+      photoURL: action.payload.photoURL
+    };
    },
    logoutRedux: (state) => {
     state.accessToken = "";

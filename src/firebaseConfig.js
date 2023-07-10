@@ -10,6 +10,7 @@ import {
   onAuthStateChanged,
   setPersistence,
   browserLocalPersistence,
+  sendPasswordResetEmail,
 } from "firebase/auth"; //consumo autenticacion de firebase
 import { showMessage } from "./components/common/showMessageToast/showMessageToast";
 import { loginRedux, logoutRedux } from "./store/authSlice";
@@ -119,3 +120,7 @@ export const initAuthStateListener = (dispatch) => {
     }
   });
 };
+
+export const resetPassword = (email)=>{
+  sendPasswordResetEmail(auth , email)
+}

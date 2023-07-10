@@ -1,5 +1,6 @@
 import {
 	AppBar,
+	Avatar,
 	Box,
 	Button,
 	Divider,
@@ -8,6 +9,9 @@ import {
 	ListItem,
 	ListItemText,
 	Toolbar,
+	Tooltip,
+	Menu,
+	MenuItem,
 } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Link } from "react-router-dom";
@@ -16,6 +20,7 @@ import { menu } from "../../../routes/navigation";
 import "./NavBar.css";
 import CustomModalContainer from "../../common/customModal/CustomModalContainer";
 import Badge from "@mui/material/Badge";
+import { useState } from "react";
 
 const NavBar = ({
 	open,
@@ -25,7 +30,17 @@ const NavBar = ({
 	isLogged,
 	accessToken,
 	logOut,
+	user,
 }) => {
+	const [anchorElUser, setAnchorElUser] = useState(null);
+
+	const handleOpenUserMenu = (event) => {
+		setAnchorElUser(event.currentTarget);
+	};
+	const handleCloseUserMenu = () => {
+		setAnchorElUser(null);
+	};
+
 	return (
 		<Box
 			sx={{ flexGrow: 1, backgroundColor: "secondary.main", height: "100%" }}
@@ -74,7 +89,7 @@ const NavBar = ({
 							})}
 						</List>
 
-						<div style={{ display: "flex", alignItems: "center" }}>
+						<Box sx={{ display: "flex", alignItems: "center", gap:{md:1, sm:0.5} }}>
 							<IconButton
 								sx={{
 									color: "secondary.second",
@@ -125,12 +140,41 @@ const NavBar = ({
 								</>
 							)}
 							{isLogged && accessToken && (
-								<>
-									<Link to="/dashboard">dashboard</Link>
-									<Button onClick={logOut}>Logout</Button>
-								</>
+								
+									<Box sx={{ flexGrow: 1 }}>
+										<Tooltip title="Open settings">
+											<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+												<Avatar alt="Remy Sharp" src={user.photoURL} />
+											</IconButton>
+										</Tooltip>
+										<Menu
+											sx={{ mt: "45px" }}
+											id="menu-appbar"
+											anchorEl={anchorElUser}
+											anchorOrigin={{
+												vertical: "top",
+												horizontal: "right",
+											}}
+											keepMounted
+											transformOrigin={{
+												vertical: "top",
+												horizontal: "right",
+											}}
+											open={Boolean(anchorElUser)}
+											onClose={handleCloseUserMenu}
+										>
+											<MenuItem onClick={handleCloseUserMenu}>
+												<Link to="/dashboard">
+													<Button>dashboard</Button>
+												</Link>
+											</MenuItem>
+											<MenuItem onClick={handleCloseUserMenu}>
+												<Button onClick={logOut}>Logout</Button>
+											</MenuItem>
+										</Menu>
+									</Box>
 							)}
-						</div>
+						</Box>
 					</Box>
 
 					{/* Para MOBILE */}

@@ -13,11 +13,10 @@ const NavBarContainer = () => {
 
 	console.log(user);
 
-  const logOut = async()=>{
-    dispatch(logoutRedux());
-    await logoutFirebase()
-  }
-
+	const logOut = async () => {
+		dispatch(logoutRedux());
+		await logoutFirebase();
+	};
 
 	const [open, setOpen] = useState(false);
 
@@ -36,7 +35,8 @@ const NavBarContainer = () => {
 			cart={cart}
 			isLogged={isLogged}
 			accessToken={accessToken}
-      logOut={logOut}
+			logOut={logOut}
+			user={user}
 		/>
 	);
 };
