@@ -89,7 +89,13 @@ const NavBar = ({
 							})}
 						</List>
 
-						<Box sx={{ display: "flex", alignItems: "center", gap:{md:1, sm:0.5} }}>
+						<Box
+							sx={{
+								display: "flex",
+								alignItems: "center",
+								gap: { md: 1, sm: 0.5 },
+							}}
+						>
 							<IconButton
 								sx={{
 									color: "secondary.second",
@@ -140,39 +146,38 @@ const NavBar = ({
 								</>
 							)}
 							{isLogged && accessToken && (
-								
-									<Box sx={{ flexGrow: 1 }}>
-										<Tooltip title="Open settings">
-											<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-												<Avatar alt="Remy Sharp" src={user.photoURL} />
-											</IconButton>
-										</Tooltip>
-										<Menu
-											sx={{ mt: "45px" }}
-											id="menu-appbar"
-											anchorEl={anchorElUser}
-											anchorOrigin={{
-												vertical: "top",
-												horizontal: "right",
-											}}
-											keepMounted
-											transformOrigin={{
-												vertical: "top",
-												horizontal: "right",
-											}}
-											open={Boolean(anchorElUser)}
-											onClose={handleCloseUserMenu}
-										>
-											<MenuItem onClick={handleCloseUserMenu}>
-												<Link to="/dashboard">
-													<Button>dashboard</Button>
-												</Link>
-											</MenuItem>
-											<MenuItem onClick={handleCloseUserMenu}>
-												<Button onClick={logOut}>Logout</Button>
-											</MenuItem>
-										</Menu>
-									</Box>
+								<Box sx={{ flexGrow: 1 }}>
+									<Tooltip title="Open settings">
+										<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+											<Avatar alt="Remy Sharp" src={user.photoURL} />
+										</IconButton>
+									</Tooltip>
+									<Menu
+										sx={{ mt: "45px" }}
+										id="menu-appbar"
+										anchorEl={anchorElUser}
+										anchorOrigin={{
+											vertical: "top",
+											horizontal: "right",
+										}}
+										keepMounted
+										transformOrigin={{
+											vertical: "top",
+											horizontal: "right",
+										}}
+										open={Boolean(anchorElUser)}
+										onClose={handleCloseUserMenu}
+									>
+										<MenuItem onClick={handleCloseUserMenu}>
+											<Link to="/dashboard">
+												<Button>dashboard</Button>
+											</Link>
+										</MenuItem>
+										<MenuItem onClick={handleCloseUserMenu}>
+											<Button onClick={logOut}>Logout</Button>
+										</MenuItem>
+									</Menu>
+								</Box>
 							)}
 						</Box>
 					</Box>
@@ -186,7 +191,13 @@ const NavBar = ({
 							width: "100%",
 						}}
 					>
-						<DrawerMUI />
+						<DrawerMUI
+							isLogged={isLogged}
+							accessToken={accessToken}
+							handleCloseUserMenu={handleCloseUserMenu}
+							logOut={logOut}
+							user={user}
+						/>
 
 						<div>
 							<img
