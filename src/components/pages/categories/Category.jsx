@@ -2,10 +2,13 @@ import { Box, Typography } from "@mui/material";
 import CardProductsByCategory from "../../common/cardProductsByCategory/CardProductsByCategory";
 import CardBringingContainer from "../../common/cardBringing/CardBringingContainer";
 import CardTripleContainer from "../../common/cardTriple/CardTripleContainer";
+import ScrollToTopButton from "../../common/scrollToTop/ScrollToTop";
 
 const Category = ({ productsList, categoryName }) => {
   return (
     <div>
+			<ScrollToTopButton />
+
       <Box
         sx={{
           width: "100%",

@@ -11,10 +11,13 @@ import CardBringingContainer from "../../common/cardBringing/CardBringingContain
 import CardTriple from "../../common/cardTriple/CardTriple";
 import "./HomeStyle.css";
 import { Link } from "react-router-dom";
+import ScrollToTopButton from "../../common/scrollToTop/ScrollToTop";
 
 const Home = () => {
 	return (
 		<div>
+			<ScrollToTopButton />
+
 			<Card
 				sx={{
 					backgroundImage: {
@@ -86,11 +89,14 @@ const Home = () => {
 						Experience natural, lifelike audio and exceptional build quality
 						made for the passionate music enthusiast.
 					</Typography>
-						<Button variant="contained" sx={{ width: "50%" }}>
-					<Link to="/productDetail/VE9G9DQy9MSSDH9Sk0be" style={{textDecoration:"none", color:"white"}}>
+					<Button variant="contained" sx={{ width: "50%" }}>
+						<Link
+							to="/productDetail/VE9G9DQy9MSSDH9Sk0be"
+							style={{ textDecoration: "none", color: "white" }}
+						>
 							SEE PRODUCT
-					</Link>
-						</Button>
+						</Link>
+					</Button>
 				</CardContent>
 			</Card>
 
@@ -156,9 +162,12 @@ const Home = () => {
 							alignSelf: { xs: "center", md: "start" },
 						}}
 					>
-            <Link to="/productDetail/Z3F0dJb9r3FkXBmMfzw2" style={{textDecoration:"none", color:"white"}}>
-						see product
-            </Link>
+						<Link
+							to="/productDetail/Z3F0dJb9r3FkXBmMfzw2"
+							style={{ textDecoration: "none", color: "white" }}
+						>
+							see product
+						</Link>
 					</Button>
 				</CardContent>
 			</Card>
@@ -205,9 +214,12 @@ const Home = () => {
 						ZX7 SPEAKER
 					</Typography>
 					<Button variant="outlined" color="secondary" sx={{ width: "60%" }}>
-            <Link to="/productDetail/uVp6EOW3ooHwKTIVTGil" style={{textDecoration:"none", color:"black"}}>
-						see product
-            </Link>
+						<Link
+							to="/productDetail/uVp6EOW3ooHwKTIVTGil"
+							style={{ textDecoration: "none", color: "black" }}
+						>
+							see product
+						</Link>
 					</Button>
 				</CardContent>
 			</Card>
@@ -255,9 +267,12 @@ const Home = () => {
 						variant="outlined"
 						sx={{ width: { md: "64%", xs: "60%", sm: "80%" } }}
 					>
-            <Link to="/productDetail/QmseFohhzZfwQ7dqVeih" style={{textDecoration:"none", color:"black"}}>
-						see product
-            </Link>
+						<Link
+							to="/productDetail/QmseFohhzZfwQ7dqVeih"
+							style={{ textDecoration: "none", color: "black" }}
+						>
+							see product
+						</Link>
 					</Button>
 				</CardContent>
 			</Card>

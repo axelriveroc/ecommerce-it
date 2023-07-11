@@ -4,10 +4,13 @@ import CardFeaturesProductContainer from "../../common/cardFeaturesProduct/CardF
 import CardOneProductDetailContainer from "../../common/cardOneProductDetail/CardOneProductDetailContainer"
 import CardTripleContainer from "../../common/cardTriple/CardTripleContainer";
 import GaleryOneProductContainer from "../../common/galeryOneProduct/GaleryOneProductContainer"
+import ScrollToTopButton from "../../common/scrollToTop/ScrollToTop";
 
 const ProductDetail = ({product, onAdd, quantityInCart  }) => {
   return (
     <div>
+			<ScrollToTopButton />
+
       <CardOneProductDetailContainer
         product={product}
         onAdd={onAdd}
