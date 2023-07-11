@@ -1,8 +1,12 @@
-import { useState } from "react";
+import {  useState } from "react";
 import Login from "./Login";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { login, loginWithGoogle, resetPassword } from "../../../firebaseConfig";
+import {
+	login,
+	loginWithGoogle,
+	resetPassword,
+} from "../../../firebaseConfig";
 import { loginRedux } from "../../../store/authSlice";
 import { useDispatch } from "react-redux";
 import { showMessage } from "../../common/showMessageToast/showMessageToast";
@@ -13,7 +17,7 @@ const VALID_PASSWORD_REGEX =
 
 const LoginContainer = () => {
 
-	const [mailChangePassword, setMailChangePassword] = useState(false)
+	const [mailChangePassword, setMailChangePassword] = useState(false);
 	const dispatch = useDispatch();
 	const toastDispatch = (message, type) => showMessage(message, type);
 
@@ -139,12 +143,13 @@ const LoginContainer = () => {
 		// funciona pero hay que validar que no mande el link al pedo
 		//validar que realmente sea un mail ya registrado en nuestra base de datos.
 		try {
-			if (values.email == "") console.log("email vacio , no podes recuperar tu contraseña asi");
+			if (values.email == "")
+				console.log("email vacio , no podes recuperar tu contraseña asi");
 			if (errors.email) console.log("tenes errores en el mail");
 			await resetPassword(values.email);
-			setMailChangePassword(true)
+			setMailChangePassword(true);
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 		}
 	};
 

@@ -2,6 +2,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   FormHelperText,
   IconButton,
@@ -39,7 +40,7 @@ const Login = ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: { md: "90vh", xs: "80vh" },
+        height: { md: "90vh", xs: "90vh" },
         backgroundColor: "#f1f1f1",
       }}
     >
@@ -130,23 +131,23 @@ const Login = ({
           Continue
         </Button>
             <div>
-              <Button onClick={handleResetPassword}>Olvidaste tu contraseña?</Button >
+              <Button onClick={handleResetPassword} sx={{fontSize:{md:10.2,xs:10}}}>Olvidaste tu contraseña?</Button >
             </div>
               {
                 mailChangePassword && <small>Se ha enviado un link a tu mail para cambiar de contraseña</small>
               }
-        <div>
-          <h5 style={{textAlign:"center"}}>Ingresar con: </h5>
-
-        <IconButton onClick={ingresarConGoogle}>
+        <Box sx={{display:"flex", flexDirection:{xs:"column", md:"row"}, alignItems:"flex-start"}}>
+          <h6 style={{alignSelf:"center"}}>Ingresar con: </h6>
+        <Divider  />
+        <IconButton onClick={ingresarConGoogle} sx={{color:"primary.main"}}>
           <GoogleIcon />
-          <span> - Google</span>
+          <Typography sx={{fontSize:{md:"18px", xs:"15px"}}}> - Google</Typography>
           </IconButton>
-        <IconButton onClick={ingresarConFacebook}>
+        <IconButton onClick={ingresarConFacebook} sx={{color:"primary.main"}}>
           <FacebookOutlinedIcon />
-          <span> - Facebook</span>
+          <Typography sx={{fontSize:{md:"18px", xs:"15px"}}}> - Facebook</Typography>
           </IconButton>
-        </div>
+        </Box >
           
       </Box>
       <ToastContainer />
