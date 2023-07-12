@@ -3,13 +3,10 @@ import Login from "./Login";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-	loginWithGoogle,
-	onSignInFirebase,
 	resetPassword,
 } from "../../../firebaseConfig";
 import { loginRedux } from "../../../store/authSlice";
-import { useDispatch } from "react-redux";
-import { showMessage } from "../../common/showMessageToast/showMessageToast";
+import { useDispatch, useSelector } from "react-redux";
 import { loginWithFacebook } from "../../../facebookConfig";
 import { loggin, logginWithGoogle } from "../../../store/authThunk";
 
@@ -20,7 +17,8 @@ const LoginContainer = () => {
 
 	const [mailChangePassword, setMailChangePassword] = useState(false);
 	const dispatch = useDispatch();
-	const toastDispatch = (message, type) => showMessage(message, type);
+	const { isLoading } = useSelector(store => store.authSlice)
+	//const toastDispatch = (message, type) => showMessage(message, type);
 
 	const [showPassword, setShowPassoword] = useState(false);
 
@@ -40,7 +38,7 @@ const LoginContainer = () => {
 		);
 	};
 
-	const ingresarConGoogle = async () => {
+	/* const ingresarConGoogle = async () => {
 		let res = await loginWithGoogle();
 
 		/*
@@ -72,10 +70,10 @@ const LoginContainer = () => {
 		dispatch(loginRedux(userData));
 
     hacerlo en un try-catch
-*/
+
 
 		dispatch(loginRedux(res.user));
-	};
+	}; */
 
 	const ingresarConFacebook = async () => {
 		let res = await loginWithFacebook();
@@ -156,22 +154,23 @@ const LoginContainer = () => {
 	};
 	
 	return (
-		<Login
-			showPassword={showPassword}
-			handleClickShowPassword={handleClickShowPassword}
-			handleSubmit={handleSubmit}
-			handleChange={handleChange}
-			handleBlur={handleBlur}
-			errors={errors}
-			shouldShowError={shouldShowError}
-			values={values}
-			ingresarConGoogle={logginWithGoogle}
-			ingresarConFacebook={ingresarConFacebook}
-			handleResetPassword={handleResetPassword}
-			mailChangePassword={mailChangePassword}
-			dispatch={dispatch}
-		/>
-	);
+    <Login
+      showPassword={showPassword}
+      handleClickShowPassword={handleClickShowPassword}
+      handleSubmit={handleSubmit}
+      handleChange={handleChange}
+      handleBlur={handleBlur}
+      errors={errors}
+      shouldShowError={shouldShowError}
+      values={values}
+      ingresarConGoogle={logginWithGoogle}
+      ingresarConFacebook={ingresarConFacebook}
+      handleResetPassword={handleResetPassword}
+      mailChangePassword={mailChangePassword}
+      dispatch={dispatch}
+      isLoading={isLoading}
+    />
+  );
 };
 
 export default LoginContainer;

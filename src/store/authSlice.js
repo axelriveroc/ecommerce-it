@@ -5,7 +5,7 @@ const initialState = {
   user: {},
   accessToken: "",
   isLogged: false,
-  isLoading: true,
+  isLoading: false,
 };
 
 export const authSlice = createSlice({
@@ -41,7 +41,6 @@ export const authSlice = createSlice({
     });
     builder.addCase(loggin.pending, (state) => {
       state.isLoading = true;
-      console.log("pending..." + state);
     });
     builder.addCase(loggin.rejected, (state) => {
       state.isLogged = false;

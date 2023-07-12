@@ -13,11 +13,11 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import GoogleIcon from '@mui/icons-material/Google';
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import GoogleIcon from "@mui/icons-material/Google";
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import LoadingButton from "../../common/loadingButton/LoadingButton";
 
 const Login = ({
   showPassword,
@@ -32,7 +32,8 @@ const Login = ({
   ingresarConFacebook,
   handleResetPassword,
   mailChangePassword,
-  dispatch
+  dispatch,
+  isLoading,
 }) => {
   return (
     <Box
@@ -78,7 +79,6 @@ const Login = ({
         <Typography variant="h3" align="left" paragraph sx={{}}>
           Login
         </Typography>
-
         <TextField
           label="Email"
           variant="outlined"
@@ -90,7 +90,6 @@ const Login = ({
           helperText={shouldShowError("email") ? errors.email : ""}
           sx={{ width: "90%" }}
         />
-
         <FormControl sx={{ m: 1, width: "90%" }} variant="outlined">
           <InputLabel
             htmlFor="outlined-adornment-password"
@@ -128,28 +127,57 @@ const Login = ({
           )}
         </FormControl>
 
-        <Button type="submit" variant="contained" sx={{ width: "90%" }}>
-          Continue
-        </Button>
-            <div>
-              <Button onClick={handleResetPassword} sx={{fontSize:{md:10.2,xs:10}}}>Olvidaste tu contraseña?</Button >
-            </div>
-              {
-                mailChangePassword && <small>Se ha enviado un link a tu mail para cambiar de contraseña</small>
-              }
-        <Box sx={{display:"flex", flexDirection:{xs:"column", md:"row"}, alignItems:"flex-start"}}>
-          <h6 style={{alignSelf:"center"}}>Ingresar con: </h6>
-        <Divider  />
-        <IconButton onClick={()=> dispatch(ingresarConGoogle())} sx={{color:"primary.main"}}>
-          <GoogleIcon />
-          <Typography sx={{fontSize:{md:"18px", xs:"15px"}}}> - Google</Typography>
+        {isLoading ? (
+          <LoadingButton />
+        ) : (
+          <Button type="submit" variant="contained" sx={{ width: "90%" }}>
+            Continue
+          </Button>
+        )}
+
+        <div>
+          <Button
+            onClick={handleResetPassword}
+            sx={{ fontSize: { md: 10.2, xs: 10 } }}
+          >
+            Olvidaste tu contraseña?
+          </Button>
+        </div>
+        {mailChangePassword && (
+          <small>
+            Se ha enviado un link a tu mail para cambiar de contraseña
+          </small>
+        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: "flex-start",
+          }}
+        >
+          <h6 style={{ alignSelf: "center" }}>Ingresar con: </h6>
+          <Divider />
+          <IconButton
+            onClick={() => dispatch(ingresarConGoogle())}
+            sx={{ color: "primary.main" }}
+          >
+            <GoogleIcon />
+            <Typography sx={{ fontSize: { md: "18px", xs: "15px" } }}>
+              {" "}
+              - Google
+            </Typography>
           </IconButton>
-        <IconButton onClick={ingresarConFacebook} sx={{color:"primary.main"}}>
-          <FacebookOutlinedIcon />
-          <Typography sx={{fontSize:{md:"18px", xs:"15px"}}}> - Facebook</Typography>
+          <IconButton
+            onClick={ingresarConFacebook}
+            sx={{ color: "primary.main" }}
+          >
+            <FacebookOutlinedIcon />
+            <Typography sx={{ fontSize: { md: "18px", xs: "15px" } }}>
+              {" "}
+              - Facebook
+            </Typography>
           </IconButton>
-        </Box >
-          
+        </Box>
       </Box>
       <ToastContainer />
     </Box>
