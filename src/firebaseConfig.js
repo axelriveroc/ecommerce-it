@@ -39,7 +39,7 @@ setPersistence(auth, browserLocalPersistence)
   });
 
 // LOGIN
-export const login = async ({ email, password }, setErrors) => {
+export const onSignInFirebase = async ({ email, password }, setErrors) => {
   try {
     let res = await signInWithEmailAndPassword(auth, email, password);
     return res;
@@ -54,6 +54,8 @@ export const login = async ({ email, password }, setErrors) => {
     } else if (error.code === "auth/user-not-found") {
       showMessage("Este usuario no existe", "error");
       setErrors({ email: "Este usuario no existe" });
+    }else{
+      console.log(error)
     }
   }
 };
@@ -108,6 +110,7 @@ export const initAuthStateListener = (dispatch) => {
       //const { uid, email } = user;
       if (dispatch && typeof dispatch === "function") {
         dispatch(loginRedux(user));
+        //dispatch(loggin(user))  --> no llamar al thunk asyncronico xq me lo rechaza y está para la conexion con la DB. 
       }
       //tmb puedo consultar a la DB cuanto esta autenticado.
     } else {

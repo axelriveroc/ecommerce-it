@@ -32,6 +32,7 @@ const Login = ({
   ingresarConFacebook,
   handleResetPassword,
   mailChangePassword,
+  dispatch
 }) => {
   return (
     <Box
@@ -139,7 +140,7 @@ const Login = ({
         <Box sx={{display:"flex", flexDirection:{xs:"column", md:"row"}, alignItems:"flex-start"}}>
           <h6 style={{alignSelf:"center"}}>Ingresar con: </h6>
         <Divider  />
-        <IconButton onClick={ingresarConGoogle} sx={{color:"primary.main"}}>
+        <IconButton onClick={()=> dispatch(ingresarConGoogle())} sx={{color:"primary.main"}}>
           <GoogleIcon />
           <Typography sx={{fontSize:{md:"18px", xs:"15px"}}}> - Google</Typography>
           </IconButton>
