@@ -71,7 +71,7 @@ export default function DrawerMUI({ isLogged, accessToken, logOut, user }) {
 			{isLogged && accessToken && (
 				<List >
 					<ListItem disablePadding sx={{pl:1, display:"flex", gap:1}}>
-						<Avatar src={user?.photoURL} />
+						<Avatar src={user?.photoUrl} />
             <Typography sx={{color:"white"}}> {user.displayName} </Typography>
 					</ListItem>
 
