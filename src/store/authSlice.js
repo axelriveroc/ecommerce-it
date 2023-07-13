@@ -16,6 +16,7 @@ export const authSlice = createSlice({
       console.log("reducer: ", action.payload);
       state.accessToken = action.payload.accessToken;
       state.isLogged = true;
+      //aca necesito llamar a la base de datos para traerme la info
       state.user = {
         displayName: action.payload.displayName || "usuario",
         email: action.payload.email,
@@ -30,14 +31,10 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loggin.fulfilled, (state, action) => {
-      state.accessToken = action.payload.accessToken;
+      state.user = action.payload.userData; //me llega del loggin de authThunk
+      state.accessToken = action.payload.accessToken; //me llega del loggin de authThunk
       state.isLogged = true;
       state.isLoading = false;
-      state.user = {
-        displayName: action.payload.displayName || "usuario",
-        email: action.payload.email,
-        photoURL: action.payload.photoURL,
-      };
     });
     builder.addCase(loggin.pending, (state) => {
       state.isLoading = true;

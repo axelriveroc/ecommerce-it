@@ -106,7 +106,7 @@ export const initAuthStateListener = (dispatch) => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // Usuario autenticado
-      console.log("Usuario autenticado:", user);
+      console.log("Usuario autenticado:", user.email);
       //const { uid, email } = user;
       if (dispatch && typeof dispatch === "function") {
         dispatch(loginRedux(user));

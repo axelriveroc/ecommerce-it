@@ -2,8 +2,9 @@ import { useState } from "react";
 import Register from "./Register";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { register } from "../../../firebaseConfig";
+import { db, register } from "../../../firebaseConfig";
 import { showMessage } from "../../common/showMessageToast/showMessageToast";
+import { addDoc, collection } from "firebase/firestore";
 
 const VALID_PASSWORD_REGEX =
   /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/;
@@ -48,9 +49,26 @@ const RegisterContainer = () => {
   } = useFormik({
     initialValues,
     onSubmit: async(data, {setErrors}) => {
+
+      //register es para la authentication de firebase
       let res = await register(data, setErrors);
       toastDispatch("Welcome " + res.user.email)
-      console.log(res)
+
+      //guardamos info para la base de datos de firebase
+      let fullName = `${data.name}  ${data.lastName}`
+      let userForDB = {
+        email: data.email,
+        displayName: fullName,
+        photoUrl:
+          "https://media.tycsports.com/files/2023/06/18/582719/lionel-messi-seleccion-argentina_416x234.webp",
+          rol: "customer"
+      };
+
+      const usersCollection = collection(db, "users");
+      addDoc(usersCollection, userForDB)
+
+
+
 
       /* setValues(initialValues);
        resetForm(); */
