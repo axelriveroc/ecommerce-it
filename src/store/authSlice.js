@@ -17,7 +17,7 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.isLogged = true;
       //aca necesito llamar a la base de datos para traerme la info
-      state.user = action.payload
+      state.user = action.payload.userData
     },
     logoutRedux: (state) => {
       state.accessToken = "";

@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app"; // llamada a mi app de firebase
-import { getFirestore } from "firebase/firestore"; // consumo DB de firebase
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore"; // consumo DB de firebase
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -54,8 +60,8 @@ export const onSignInFirebase = async ({ email, password }, setErrors) => {
     } else if (error.code === "auth/user-not-found") {
       showMessage("Este usuario no existe", "error");
       setErrors({ email: "Este usuario no existe" });
-    }else{
-      console.log(error)
+    } else {
+      console.log(error);
     }
   }
 };
@@ -103,27 +109,41 @@ export const logoutFirebase = async () => {
 
 // escuchar cambios en la autenticacion del usuario con firebase con onAuthStateChanged
 export const initAuthStateListener = (dispatch) => {
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
       // Usuario autenticado
       console.log("Usuario autenticado:", user.email);
       //const { uid, email } = user;
       if (dispatch && typeof dispatch === "function") {
-        dispatch(loginRedux(user));
-        //dispatch(loggin(user))  --> no llamar al thunk asyncronico xq me lo rechaza y está para la conexion con la DB. 
+        let usersCollection = collection(db, "users");
+        let q = query(usersCollection, where("email", "==", user.email));
+        const userInfo = await getDocs(q); //usamos getDocs y me devuelve un ARRAY.
+
+        const userData = {
+          ...userInfo.docs[0].data(), //esparso mi usuario ---> necesito el metodo data()
+          id: userInfo.docs[0].id, // uso el ID.     ---> necesito acceder a la propiedad docs que me trae el id
+        };
+
+         
+
+        dispatch(loginRedux( {
+           userData,
+           accessToken: user.accessToken,
+         }));
+        //dispatch(loggin(user))  --> no llamar al thunk asyncronico xq me lo rechaza y está para la conexion con la DB.
       }
       //tmb puedo consultar a la DB cuanto esta autenticado.
     } else {
       // Usuario no autenticado
       console.log("Usuario NO autenticado");
 
-       if (dispatch && typeof dispatch === "function") {
-         dispatch(logoutRedux());
-       }
+      if (dispatch && typeof dispatch === "function") {
+        dispatch(logoutRedux());
+      }
     }
   });
 };
 
-export const resetPassword = (email)=>{
-  sendPasswordResetEmail(auth , email)
-}
+export const resetPassword = (email) => {
+  sendPasswordResetEmail(auth, email);
+};

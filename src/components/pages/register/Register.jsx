@@ -12,8 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = ({
   showPassword,
@@ -26,7 +26,7 @@ const Register = ({
   errors,
   shouldShowError,
   values,
-  toastDispatch
+  toastDispatch,
 }) => {
   return (
     <Box
@@ -45,7 +45,7 @@ const Register = ({
           justifyContent: "flex-start",
           width: { md: "80%", xs: "95%" },
           mt: 2,
-          pl: {md:5, xs:0},
+          pl: { md: 5, xs: 0 },
         }}
       >
         <Link to="/">
@@ -107,6 +107,15 @@ const Register = ({
             }
             sx={{ width: { md: "45%", xs: "99%" }, alignSelf: "flex-start" }}
           />
+
+          <Button
+            variant="outlined"
+            component="label"
+            sx={{ width: { md: "45%", xs: "99%" },  p: "14px 15px", alignSelf: "flex-start" }}
+          >
+            Upload File
+            <input type="file" hidden />
+          </Button>
         </Box>
 
         <Typography sx={{ mb: 3, mt: 3, color: "primary.main" }}>
@@ -218,7 +227,7 @@ const Register = ({
           Registrarme
         </Button>
       </Box>
-      <Button onClick={()=>toastDispatch("welcome", "error")}>toast</Button>
+      <Button onClick={() => toastDispatch("welcome", "error")}>toast</Button>
       <ToastContainer />
     </Box>
   );
