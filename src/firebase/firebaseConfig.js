@@ -1,10 +1,6 @@
 import { initializeApp } from "firebase/app"; // llamada a mi app de firebase
 import {
-  collection,
-  getDocs,
   getFirestore,
-  query,
-  where,
 } from "firebase/firestore"; // consumo DB de firebase
 import {
   getAuth,
@@ -20,6 +16,7 @@ import {
 } from "firebase/auth"; //consumo autenticacion de firebase
 import { showMessage } from "../components/common/showMessageToast/showMessageToast";
 import { loginRedux, logoutRedux } from "../store/authSlice";
+import useFirebaseData from "../hooks/useFirebaseData";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
@@ -115,14 +112,8 @@ export const initAuthStateListener = (dispatch) => {
       console.log("Usuario autenticado:", user.email);
       //const { uid, email } = user;
       if (dispatch && typeof dispatch === "function") {
-        let usersCollection = collection(db, "users");
-        let q = query(usersCollection, where("email", "==", user.email));
-        const userInfo = await getDocs(q); //usamos getDocs y me devuelve un ARRAY.
 
-        const userData = {
-          ...userInfo.docs[0].data(), //esparso mi usuario ---> necesito el metodo data()
-          id: userInfo.docs[0].id, // uso el ID.     ---> necesito acceder a la propiedad docs que me trae el id
-        };
+        const userData = await useFirebaseData( "users", "email", user.email )
 
         dispatch(
           loginRedux({

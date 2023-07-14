@@ -4,12 +4,12 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoutes = () => {
 
-  const { accessToken , isLogged} = useSelector((store) => store.authSlice);
+  const { accessToken , isLogged, user} = useSelector((store) => store.authSlice);
 
   return (
     <>
         {
-            isLogged && accessToken ?  <Outlet /> : <Navigate to="/login" />
+            isLogged && accessToken && user.rol === "admin" ?  <Outlet /> : <Navigate to="/login" />
         }
        
     </>
