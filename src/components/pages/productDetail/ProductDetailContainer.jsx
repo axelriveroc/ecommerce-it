@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 //import { getProductByID } from "../../../services/productsServices";
 import { useDispatch, useSelector, /* useSelector */ } from "react-redux";
 import { addToCart } from "../../../store/cartSlice";
-import { db } from "../../../firebaseConfig";
+import { db } from "../../../firebase/firebaseConfig";
 import { collection, doc, getDoc } from "firebase/firestore";
 
 const ProductDetailContainer = () => {

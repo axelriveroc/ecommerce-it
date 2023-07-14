@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { customTheme } from "./ThemeConfig";
 import { CssBaseline } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { initAuthStateListener } from "./firebaseConfig";
+import { initAuthStateListener } from "./firebase/firebaseConfig";
 import { useEffect } from "react";
 
 function App() {

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { db, loginWithGoogle, onSignInFirebase } from "../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { db , loginWithGoogle, onSignInFirebase } from "../firebase/firebaseConfig";
 
 export const loggin = createAsyncThunk(
   "login",

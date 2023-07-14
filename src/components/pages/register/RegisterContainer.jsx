@@ -2,7 +2,7 @@ import { useState } from "react";
 import Register from "./Register";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { db, register } from "../../../firebaseConfig";
+import { db, register } from "../../../firebase/firebaseConfig";
 import { showMessage } from "../../common/showMessageToast/showMessageToast";
 import { addDoc, collection } from "firebase/firestore";
 

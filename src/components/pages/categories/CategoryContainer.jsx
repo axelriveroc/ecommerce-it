@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 /* import { getAllProducts } from "../../../services/productsServices";
  */
-import { db } from "../../../firebaseConfig";
+import { db } from "../../../firebase/firebaseConfig";
 import { collection , getDocs, query, where } from "firebase/firestore"
 
 

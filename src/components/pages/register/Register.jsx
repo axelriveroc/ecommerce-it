@@ -117,7 +117,7 @@ const Register = ({
             <input type="file" hidden />
           </Button>
         </Box>
-
+n
         <Typography sx={{ mb: 3, mt: 3, color: "primary.main" }}>
           Login Details
         </Typography>

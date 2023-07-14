@@ -4,10 +4,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
 	resetPassword,
-} from "../../../firebaseConfig";
+} from "../../../firebase/firebaseConfig";
 import { loginRedux } from "../../../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { loginWithFacebook } from "../../../facebookConfig";
+import { loginWithFacebook } from "../../../firebase/facebookConfig";
 import { loggin, logginWithGoogle } from "../../../store/authThunk";
 
 const VALID_PASSWORD_REGEX =

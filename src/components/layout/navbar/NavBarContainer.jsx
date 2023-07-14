@@ -2,7 +2,7 @@ import { useState } from "react";
 import NavBar from "./NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRedux } from "../../../store/authSlice";
-import { logoutFirebase } from "../../../firebaseConfig";
+import { logoutFirebase } from "../../../firebase/firebaseConfig";
 
 const NavBarContainer = () => {
 	const { cart } = useSelector((store) => store.cartSlice);

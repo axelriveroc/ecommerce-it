@@ -18,8 +18,8 @@ import {
   browserLocalPersistence,
   sendPasswordResetEmail,
 } from "firebase/auth"; //consumo autenticacion de firebase
-import { showMessage } from "./components/common/showMessageToast/showMessageToast";
-import { loginRedux, logoutRedux } from "./store/authSlice";
+import { showMessage } from "../components/common/showMessageToast/showMessageToast";
+import { loginRedux, logoutRedux } from "../store/authSlice";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
@@ -124,12 +124,12 @@ export const initAuthStateListener = (dispatch) => {
           id: userInfo.docs[0].id, // uso el ID.     ---> necesito acceder a la propiedad docs que me trae el id
         };
 
-         
-
-        dispatch(loginRedux( {
-           userData,
-           accessToken: user.accessToken,
-         }));
+        dispatch(
+          loginRedux({
+            userData,
+            accessToken: user.accessToken,
+          })
+        );
         //dispatch(loggin(user))  --> no llamar al thunk asyncronico xq me lo rechaza y está para la conexion con la DB.
       }
       //tmb puedo consultar a la DB cuanto esta autenticado.

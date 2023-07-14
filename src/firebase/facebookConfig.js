@@ -2,7 +2,7 @@ import {
 	signInWithPopup,
 	FacebookAuthProvider,
 } from "firebase/auth"; //consumo autenticacion de firebase
-import { showMessage } from "./components/common/showMessageToast/showMessageToast";
+import { showMessage } from "../components/common/showMessageToast/showMessageToast";
 import { auth } from "./firebaseConfig";
 
 
