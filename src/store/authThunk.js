@@ -41,6 +41,16 @@ export const logginWithGoogle = createAsyncThunk(
 			if (res.user.accessToken) {
         console.log("Respuesta del login con google, el res.user: ",res.user) 
         // EMAIL QUE ME DEVUELVE ES riverocoronelaxel@gmail.com --> no existe en mi base de datos
+
+        // 1er buscamos si existe ese usuario en mi DB
+        const userData = await useFirebaseData(
+					"users",
+					"email",
+					res.user.email
+				);
+
+        console.log("Lo que me devuelve userData cuando busca en mi base de datos: ", userData) // si existe me devuelve un objeto y sino 
+
 				//const userData = await useFirebaseData( "users", "email", res.user.email )
 				return res;
 				/*  return {
