@@ -9,3 +9,5 @@
 "Poner alerta cuando edito un producto"
 
 "Agregar la funcionalidad de crear un nuevo producto"
+
+"Añadir una página para suumar opciones de editado que no entran en el modal"
