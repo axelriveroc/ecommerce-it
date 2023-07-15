@@ -40,7 +40,7 @@ export const authSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(logginWithGoogle.fulfilled, (state, action) => {
-      state.user = action.payload.userData
+      state.user = action.payload.userData;
       state.accessToken = action.payload.accessToken;
       state.isLogged = true;
       state.isLoading = false;

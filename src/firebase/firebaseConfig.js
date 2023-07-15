@@ -1,7 +1,5 @@
 import { initializeApp } from "firebase/app"; // llamada a mi app de firebase
-import {
-  getFirestore,
-} from "firebase/firestore"; // consumo DB de firebase
+import { getFirestore } from "firebase/firestore"; // consumo DB de firebase
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -16,7 +14,7 @@ import {
 } from "firebase/auth"; //consumo autenticacion de firebase
 import { showMessage } from "../components/common/showMessageToast/showMessageToast";
 import { loginRedux, logoutRedux } from "../store/authSlice";
-import useFirebaseData from "../hooks/useFirebaseData";
+import useFirebaseData from "../hooks/useGetFirebaseData";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
@@ -112,8 +110,7 @@ export const initAuthStateListener = (dispatch) => {
       console.log("Usuario autenticado:", user.email);
       //const { uid, email } = user;
       if (dispatch && typeof dispatch === "function") {
-
-        const userData = await useFirebaseData( "users", "email", user.email )
+        const userData = await useFirebaseData("users", "email", user.email);
 
         dispatch(
           loginRedux({

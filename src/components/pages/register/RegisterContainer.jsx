@@ -67,9 +67,6 @@ const RegisterContainer = () => {
       const usersCollection = collection(db, "users");
       addDoc(usersCollection, userForDB)
 
-
-
-
       /* setValues(initialValues);
        resetForm(); */
     },
