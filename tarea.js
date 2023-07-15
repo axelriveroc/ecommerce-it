@@ -4,3 +4,4 @@
 "tengo 2 problemas cuando ingreso con google: "
    1 -" me dice usuario autenticado y no me autologgea"
    2 -"No me devuelve la info precisa para renderizar los datos en redux"
+   // ---> se resuelve en el doc.id de lo que me devuelve el google firebase. revisar eso

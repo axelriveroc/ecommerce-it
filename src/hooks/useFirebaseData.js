@@ -8,10 +8,11 @@ const useFirebaseData = async (collectionName, queryName, dataFinded) => {
 	let q = query(usersCollection, where(queryName, "==", dataFinded));
 	const userInfo = await getDocs(q); //usamos getDocs y me devuelve un ARRAY.
 
+	console.log(userInfo)
 	//desarmo ese usuario de mi DB. El id viene separado de mi user. Entonces lo tengo que armar en userData.
 	const userData = {
-		...userInfo.docs[0].data(), //esparso mi usuario ---> necesito el metodo data()
-		id: userInfo.docs[0].id, // uso el ID.     ---> necesito acceder a la propiedad docs que me trae el id
+		...userInfo.docs[0]?.data(), //esparso mi usuario ---> necesito el metodo data()
+		id: userInfo.docs[0]?.id, // uso el ID.     ---> necesito acceder a la propiedad docs que me trae el id
 	};
 
 	return userData;
