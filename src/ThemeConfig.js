@@ -24,8 +24,8 @@ export const customDark = createTheme({
       second: "#FBAF85",
     },
     secondary: {
-      main: "#101010",
-      second: "#f1f1f1",
+      main: "#f1f1f1",
+      second: "white",
     },
   },
 });

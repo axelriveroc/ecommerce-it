@@ -30,7 +30,7 @@ const ModalDashboard = ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: {xs:320,sm:400},
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -110,7 +110,7 @@ const ModalDashboard = ({
       >
         <Box sx={style}>
           <form onSubmit={handleSubmit} className="formulario">
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}>
               <Typography
                 variant="h5"
                 sx={{ textAlign: "center", fontWeight: "bold" }}
@@ -226,7 +226,7 @@ const ModalDashboard = ({
                 gap: 1,
               }}
             >
-              <img src={imagePreview} width={100} height={100} /> {/* solo muestra la url para mostrar al usuario cuando carga un nuevo archivo */} 
+              <img src={imagePreview} width={100} height={100} className="fotoProduct" /> {/* solo muestra la url para mostrar al usuario cuando carga un nuevo archivo */} 
               <input
                 type="file"
                 id="file-input"

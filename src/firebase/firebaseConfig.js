@@ -112,12 +112,19 @@ export const initAuthStateListener = (dispatch) => {
       if (dispatch && typeof dispatch === "function") {
         const userData = await useFirebaseData("users", "email", user.email);
 
-        dispatch(
+        console.log("como se ejecuta primero el usuario autenticado, busca en la base de datos, esto llega en userData: " , userData)
+        // userData = {id:undefined}
+
+        //aca le digo que loggee con redux si mi usuario existe en lal DB
+        if (userData?.id ) {
+           dispatch(
           loginRedux({
             userData,
             accessToken: user.accessToken,
           })
         );
+        }
+      
         //dispatch(loggin(user))  --> no llamar al thunk asyncronico xq me lo rechaza y está para la conexion con la DB.
       }
       //tmb puedo consultar a la DB cuanto esta autenticado.

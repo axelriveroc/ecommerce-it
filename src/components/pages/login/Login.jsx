@@ -168,7 +168,7 @@ const Login = ({
             </Typography>
           </IconButton>
           <IconButton
-            onClick={ingresarConFacebook}
+            onClick={()=> dispatch(ingresarConFacebook())}
             sx={{ color: "primary.main" }}
           >
             <FacebookOutlinedIcon />

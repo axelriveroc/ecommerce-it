@@ -59,20 +59,20 @@ const Dashboard = ({
           br: "12px",
         }}
       >
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ color: "primary.second" }}>NAME</TableCell>
-              <TableCell align="right" sx={{ color: "primary.second" }}>
+              <TableCell sx={{ color: "primary.second", p:{xs:0, sm:1} }}>NAME</TableCell>
+              <TableCell align="right" sx={{ color: "primary.second", p:{xs:0.5, sm:1}, display:{xs:"none", sm:"table-cell"} }}>
                 ID
               </TableCell>
-              <TableCell align="right" sx={{ color: "primary.second" }}>
+              <TableCell align="right" sx={{ color: "primary.second", p:{xs:0.5, sm:1} }}>
                 PRICE
               </TableCell>
-              <TableCell align="right" sx={{ color: "primary.second" }}>
+              <TableCell align="right" sx={{ color: "primary.second", p:{xs:0.5, sm:1} }}>
                 STOCK
               </TableCell>
-              <TableCell align="right" sx={{ color: "primary.second" }}>
+              <TableCell align="right" sx={{ color: "primary.second", p:{xs:0.5, sm:1} }}>
                 ACTIONS
               </TableCell>
             </TableRow>
@@ -81,7 +81,7 @@ const Dashboard = ({
             {productsList.map((p) => (
               <TableRow
                 key={p.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 }, p:{xs:0.5, sm:1}, }}
               >
                 <TableCell
                   component="th"
@@ -91,7 +91,7 @@ const Dashboard = ({
                   {p.name}
                 </TableCell>
                 <TableCell
-                  sx={{ p: { xs: 0.5, md: 1 }, color: "secondary.second" }}
+                  sx={{ p: { xs: 0.5, md: 1 }, color: "secondary.second",display:{xs:"none", sm:"table-cell"}}}
                   align="right"
                 >
                   {p.id}

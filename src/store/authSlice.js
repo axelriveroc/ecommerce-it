@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loggin, logginWithGoogle } from "./authThunk";
+import { loggin, logginWithFacebook, logginWithGoogle } from "./authThunk";
 
 const initialState = {
   user: {},
@@ -16,7 +16,6 @@ export const authSlice = createSlice({
       console.log("reducer: ", action.payload);
       state.accessToken = action.payload.accessToken;
       state.isLogged = true;
-      //aca necesito llamar a la base de datos para traerme la info
       state.user = action.payload.userData
     },
     logoutRedux: (state) => {
@@ -44,6 +43,13 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.isLogged = true;
       state.isLoading = false;
+    });
+    builder.addCase(logginWithFacebook.fulfilled, (state, action) => {
+      console.log("estoy en el authSlice y me llega esto como action.payload: ",action.payload)
+      state.user = action.payload.userData;
+      state.accessToken = action.payload.accessToken;
+      state.isLogged = true;
+      state.isLoading = false; 
     });
   },
 });

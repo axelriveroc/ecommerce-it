@@ -5,10 +5,8 @@ import * as Yup from "yup";
 import {
 	resetPassword,
 } from "../../../firebase/firebaseConfig";
-import { loginRedux } from "../../../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { loginWithFacebook } from "../../../firebase/facebookConfig";
-import { loggin, logginWithGoogle } from "../../../store/authThunk";
+import { loggin, logginWithGoogle, logginWithFacebook } from "../../../store/authThunk";
 
 const VALID_PASSWORD_REGEX =
 	/^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/;
@@ -75,11 +73,11 @@ const LoginContainer = () => {
 		dispatch(loginRedux(res.user));
 	}; */
 
-	const ingresarConFacebook = async () => {
+	/* const ingresarConFacebook = async () => {
 		let res = await loginWithFacebook();
 		console.log(res);
 		dispatch(loginRedux(res.user));
-	};
+	}; */
 
 	const {
 		handleChange,
@@ -164,7 +162,7 @@ const LoginContainer = () => {
       shouldShowError={shouldShowError}
       values={values}
       ingresarConGoogle={logginWithGoogle}
-      ingresarConFacebook={ingresarConFacebook}
+      ingresarConFacebook={logginWithFacebook}
       handleResetPassword={handleResetPassword}
       mailChangePassword={mailChangePassword}
       dispatch={dispatch}
