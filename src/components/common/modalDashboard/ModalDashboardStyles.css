@@ -22,3 +22,12 @@
     border: none;
     border-radius: 8px;
 }
+.fotoProduct-gallery{
+    display: block;
+    object-fit: cover;
+    /* padding: 0px; */
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+    border-radius: 8px;
+}

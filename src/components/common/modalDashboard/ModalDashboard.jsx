@@ -56,7 +56,9 @@ const ModalDashboard = ({
 			image: data.image,
 			description: data.description,
 			features: data.features,
-      new: data.new
+			new: data.new,
+			includes: data.includes,
+			gallery: data.gallery,
 		},
 		onSubmit: (dataForm) => {
 			// los dataForm son los valores que se envian en el formulario
@@ -96,6 +98,10 @@ const ModalDashboard = ({
 	});
 
 	const [imagePreview, setImagePreview] = useState(data.image);
+  const [imagePreviewGalleryF , setImagePreviewGalleryF] = useState(data.gallery.first)
+  const [imagePreviewGalleryS , setImagePreviewGalleryS] = useState(data.gallery.second)
+  const [imagePreviewGalleryT , setImagePreviewGalleryT] = useState(data.gallery.third)
+
 
 	const handleImageChange = (event) => {
 		const file = event.target.files[0];
@@ -106,7 +112,21 @@ const ModalDashboard = ({
 		}
 	};
 
-  console.log(values.image)
+  const handleImageChangeTemp = (fieldName, file) => {
+    if (fieldName == "gallery.first") {
+      setImagePreviewGalleryF(URL.createObjectURL(file));
+    }
+    if (fieldName == "gallery.second") {
+      setImagePreviewGalleryS(URL.createObjectURL(file));
+    }
+    if (fieldName == "gallery.third") {
+      setImagePreviewGalleryT(URL.createObjectURL(file));
+    }
+    //setFieldValue(fieldName, file);
+    values.fieldName = file
+  };
+
+	console.log(values.gallery)
 
 	return (
 		<div>
@@ -179,6 +199,39 @@ const ModalDashboard = ({
 								backgroundColor: "rgba(255, 255, 255, 0.8)",
 							}}
 						/>
+						<p>Includes: </p>
+						{data.includes.map((item, index) => (
+							<Box key={item.id} sx={{ display: "flex" }}>
+								<TextField
+									name={`includes[${index}].item`}
+									label="Item included"
+									defaultValue={item.item}
+									//value={values.item}
+									disabled={disabled}
+									onChange={handleChange}
+									sx={{
+										boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+										backgroundColor: "rgba(255, 255, 255, 0.8)",
+										width: "75%",
+									}}
+								/>
+
+								<TextField
+									type="number"
+									name={`includes[${index}].quantity`}
+									label="Quantity"
+									defaultValue={item.quantity}
+									//value={values.quantity}
+									disabled={disabled}
+									onChange={handleChange}
+									sx={{
+										boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+										backgroundColor: "rgba(255, 255, 255, 0.8)",
+										width: "25%",
+									}}
+								/>
+							</Box>
+						))}
 
 						{/*  TEXTAREA DESCRIPTION */}
 
@@ -188,7 +241,6 @@ const ModalDashboard = ({
 							disabled={disabled}
 							name="description"
 							onChange={handleChange}
-
 						/>
 
 						{/* TEXTAREA FEATURES */}
@@ -200,7 +252,6 @@ const ModalDashboard = ({
 							style={{ overflow: "auto", height: "auto" }}
 							name="features"
 							onChange={handleChange}
-
 						/>
 
 						<FormControlLabel
@@ -208,15 +259,15 @@ const ModalDashboard = ({
 								minWidth: 120,
 								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
 								backgroundColor: "rgba(255, 255, 255, 0.8)",
-                ml:0,mr:0,p:.5,
+								ml: 0,
+								mr: 0,
+								p: 0.5,
 							}}
-							control={<Checkbox defaultChecked={ data.new ? true : false} />}
+							control={<Checkbox defaultChecked={data.new ? true : false} />}
 							label="New product"
-              name="new"
+							name="new"
 							disabled={disabled}
 							onChange={handleChange}
-
-
 						/>
 
 						{/* SELECT */}
@@ -274,6 +325,7 @@ const ModalDashboard = ({
 						</Box>
 
 						{/* IMAGEN */}
+						<p>Main Photo</p>
 						<Box
 							sx={{
 								display: "flex",
@@ -309,6 +361,119 @@ const ModalDashboard = ({
 								</label>
 							)}
 						</Box>
+
+						{/*  GALLERY */}
+						<p>Gallery</p>
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center",
+								gap: 1,
+							}}
+						>
+
+              <Box sx={{display:"flex", flexDirection:"column"}}>
+							<img
+								//src={values.gallery.first}
+                src={imagePreviewGalleryF}
+								width="100%"
+								height={70}
+								className="fotoProduct-gallery"
+							/>
+							<input
+								type="file"
+								name="gallery.first"
+								//onChange={handleChange}
+                onChange={(e) => handleImageChangeTemp('gallery.first', e.target.files[0])}
+
+								id="file-input-first"
+								accept="image/*"
+								style={{ display: "none" }}
+
+							/>
+							{!disabled && (
+								<label htmlFor="file-input-first">
+									<Button variant="outlined" component="span">
+										+
+									</Button>
+									<Typography variant="body2" component="span">
+										{values.image ? "" : "Ningún archivo seleccionado"}
+									</Typography>
+								</label>
+							)}  
+              </Box>
+
+              
+              <Box sx={{display:"flex", flexDirection:"column"}}>
+							<img
+								//src={values.gallery.second}
+                src={imagePreviewGalleryS}
+
+								width="100%"
+								height={70}
+								className="fotoProduct-gallery"
+							/>
+							<input
+								type="file"
+								name="gallery.second"
+								//onChange={handleChange}
+                onChange={(e) => handleImageChangeTemp('gallery.second', e.target.files[0])}
+
+								id="file-input-second"
+								accept="image/*"
+								style={{ display: "none" }}
+
+							/>
+							{!disabled && (
+								<label htmlFor="file-input-second">
+									<Button variant="outlined" component="span">
+										+
+									</Button>
+									<Typography variant="body2" component="span">
+										{values.image ? "" : "Ningún archivo seleccionado"}
+									</Typography>
+								</label>
+							)}  
+              </Box>
+              <Box sx={{display:"flex", flexDirection:"column"}}>
+
+            
+							<img
+								//src={values.gallery.third}
+                src={imagePreviewGalleryT}
+
+								width="100%"
+								height={70}
+								className="fotoProduct-gallery"
+							/>
+							<input
+								type="file"
+								name="gallery.third"
+								//onChange={handleChange}
+                onChange={(e) => handleImageChangeTemp('gallery.third', e.target.files[0])}
+								id="file-input-third"
+								accept="image/*"
+								style={{ display: "none" }}
+
+							/>
+							{!disabled && (
+								<label htmlFor="file-input-third">
+									<Button variant="outlined" component="span">
+										+
+									</Button>
+									<Typography variant="body2" component="span">
+										{values.image ? "" : "Ningún archivo seleccionado"}
+									</Typography>
+								</label>
+							)}  
+              </Box>
+
+
+						
+						</Box>
+
+						{/* BUTTONS */}
 						<Box
 							sx={{ display: "flex", gap: 0.5, justifyContent: "space-evenly" }}
 						>
