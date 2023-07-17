@@ -4,4 +4,7 @@
 
 "Manipular la imagen cuando edito (luego en crear) el producto para subirla a la nube 1ero antes de mandarla a la DB"
 
-"Agregar el gallery y el includes al editar"
+"actualizar los datos correctamente con imagenes en el editado"
+
+"Agregar las validaciones al formulario edit"
+
