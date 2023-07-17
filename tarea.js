@@ -2,6 +2,6 @@
 
 "Agregar la funcionalidad de crear un nuevo producto"
 
-"Añadir una página para sumar opciones de editado que no entran en el modal"
-
 "Manipular la imagen cuando edito (luego en crear) el producto para subirla a la nube 1ero antes de mandarla a la DB"
+
+"Agregar el gallery y el includes al editar"
