@@ -8,3 +8,4 @@
 
 "Agregar las validaciones al formulario edit"
 
+" averiguar como validar con yup y formik el campo imagen "

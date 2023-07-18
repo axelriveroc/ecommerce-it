@@ -98,10 +98,15 @@ const ModalDashboard = ({
 	});
 
 	const [imagePreview, setImagePreview] = useState(data.image);
-  const [imagePreviewGalleryF , setImagePreviewGalleryF] = useState(data.gallery.first)
-  const [imagePreviewGalleryS , setImagePreviewGalleryS] = useState(data.gallery.second)
-  const [imagePreviewGalleryT , setImagePreviewGalleryT] = useState(data.gallery.third)
-
+	const [imagePreviewGalleryF, setImagePreviewGalleryF] = useState(
+		data.gallery.first
+	);
+	const [imagePreviewGalleryS, setImagePreviewGalleryS] = useState(
+		data.gallery.second
+	);
+	const [imagePreviewGalleryT, setImagePreviewGalleryT] = useState(
+		data.gallery.third
+	);
 
 	const handleImageChange = (event) => {
 		const file = event.target.files[0];
@@ -112,21 +117,21 @@ const ModalDashboard = ({
 		}
 	};
 
-  const handleImageChangeTemp = (fieldName, file) => {
-    if (fieldName == "gallery.first") {
-      setImagePreviewGalleryF(URL.createObjectURL(file));
-    }
-    if (fieldName == "gallery.second") {
-      setImagePreviewGalleryS(URL.createObjectURL(file));
-    }
-    if (fieldName == "gallery.third") {
-      setImagePreviewGalleryT(URL.createObjectURL(file));
-    }
-    //setFieldValue(fieldName, file);
-    values.fieldName = file
-  };
+	const handleImageChangeTemp = (fieldName, file) => {
+		if (fieldName == "gallery.first") {
+			setImagePreviewGalleryF(URL.createObjectURL(file));
+		}
+		if (fieldName == "gallery.second") {
+			setImagePreviewGalleryS(URL.createObjectURL(file));
+		}
+		if (fieldName == "gallery.third") {
+			setImagePreviewGalleryT(URL.createObjectURL(file));
+		}
+		//setFieldValue(fieldName, file);
+		values.fieldName = file;
+	};
 
-	console.log(values.gallery)
+	console.log(values.gallery);
 
 	return (
 		<div>
@@ -372,105 +377,95 @@ const ModalDashboard = ({
 								gap: 1,
 							}}
 						>
+							<Box sx={{ display: "flex", flexDirection: "column" }}>
+								<img
+									//src={values.gallery.first}
+									src={imagePreviewGalleryF}
+									width="100%"
+									height={70}
+									className="fotoProduct-gallery"
+								/>
+								<input
+									type="file"
+									name="gallery.first"
+									//onChange={handleChange}
+									onChange={(e) =>
+										handleImageChangeTemp("gallery.first", e.target.files[0])
+									}
+									id="file-input-first"
+									accept="image/*"
+									style={{ display: "none" }}
+								/>
+								{!disabled && (
+									<label htmlFor="file-input-first">
+										<Button variant="outlined" component="span">
+											+
+										</Button>
+										<Typography variant="body2" component="span">
+											{values.image ? "" : "Ningún archivo seleccionado"}
+										</Typography>
+									</label>
+								)}
+							</Box>
 
-              <Box sx={{display:"flex", flexDirection:"column"}}>
-							<img
-								//src={values.gallery.first}
-                src={imagePreviewGalleryF}
-								width="100%"
-								height={70}
-								className="fotoProduct-gallery"
-							/>
-							<input
-								type="file"
-								name="gallery.first"
-								//onChange={handleChange}
-                onChange={(e) => handleImageChangeTemp('gallery.first', e.target.files[0])}
-
-								id="file-input-first"
-								accept="image/*"
-								style={{ display: "none" }}
-
-							/>
-							{!disabled && (
-								<label htmlFor="file-input-first">
-									<Button variant="outlined" component="span">
-										+
-									</Button>
-									<Typography variant="body2" component="span">
-										{values.image ? "" : "Ningún archivo seleccionado"}
-									</Typography>
-								</label>
-							)}  
-              </Box>
-
-              
-              <Box sx={{display:"flex", flexDirection:"column"}}>
-							<img
-								//src={values.gallery.second}
-                src={imagePreviewGalleryS}
-
-								width="100%"
-								height={70}
-								className="fotoProduct-gallery"
-							/>
-							<input
-								type="file"
-								name="gallery.second"
-								//onChange={handleChange}
-                onChange={(e) => handleImageChangeTemp('gallery.second', e.target.files[0])}
-
-								id="file-input-second"
-								accept="image/*"
-								style={{ display: "none" }}
-
-							/>
-							{!disabled && (
-								<label htmlFor="file-input-second">
-									<Button variant="outlined" component="span">
-										+
-									</Button>
-									<Typography variant="body2" component="span">
-										{values.image ? "" : "Ningún archivo seleccionado"}
-									</Typography>
-								</label>
-							)}  
-              </Box>
-              <Box sx={{display:"flex", flexDirection:"column"}}>
-
-            
-							<img
-								//src={values.gallery.third}
-                src={imagePreviewGalleryT}
-
-								width="100%"
-								height={70}
-								className="fotoProduct-gallery"
-							/>
-							<input
-								type="file"
-								name="gallery.third"
-								//onChange={handleChange}
-                onChange={(e) => handleImageChangeTemp('gallery.third', e.target.files[0])}
-								id="file-input-third"
-								accept="image/*"
-								style={{ display: "none" }}
-
-							/>
-							{!disabled && (
-								<label htmlFor="file-input-third">
-									<Button variant="outlined" component="span">
-										+
-									</Button>
-									<Typography variant="body2" component="span">
-										{values.image ? "" : "Ningún archivo seleccionado"}
-									</Typography>
-								</label>
-							)}  
-              </Box>
-
-
-						
+							<Box sx={{ display: "flex", flexDirection: "column" }}>
+								<img
+									//src={values.gallery.second}
+									src={imagePreviewGalleryS}
+									width="100%"
+									height={70}
+									className="fotoProduct-gallery"
+								/>
+								<input
+									type="file"
+									name="gallery.second"
+									//onChange={handleChange}
+									onChange={(e) =>
+										handleImageChangeTemp("gallery.second", e.target.files[0])
+									}
+									id="file-input-second"
+									accept="image/*"
+									style={{ display: "none" }}
+								/>
+								{!disabled && (
+									<label htmlFor="file-input-second">
+										<Button variant="outlined" component="span">
+											+
+										</Button>
+										<Typography variant="body2" component="span">
+											{values.image ? "" : "Ningún archivo seleccionado"}
+										</Typography>
+									</label>
+								)}
+							</Box>
+							<Box sx={{ display: "flex", flexDirection: "column" }}>
+								<img
+									//src={values.gallery.third}
+									src={imagePreviewGalleryT}
+									width="100%"
+									height={70}
+									className="fotoProduct-gallery"
+								/>
+								<input
+									type="file"
+									name="gallery.third"
+									//onChange={handleChange}
+									onChange={(e) => handleImageChangeTemp("gallery.third", e.target.files[0])}
+									id="file-input-third"
+									accept="image/*"
+									style={{ display: "none" }}
+								/>
+								{!disabled && (
+									<label htmlFor="file-input-third">
+										<Button variant="outlined" component="span">
+											+
+										</Button>
+										<Typography variant="body2" component="span">
+											{values.image ? "" : "Ningún archivo seleccionado"}
+										</Typography>
+									</label>
+								)}
+							</Box>
 						</Box>
 
 						{/* BUTTONS */}
