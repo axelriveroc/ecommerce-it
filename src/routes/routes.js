@@ -33,7 +33,7 @@ export const menuRoutes = [
   },
   {
     id: "register",
-    path: "/register",
+    path: "/signup",
     Element: RegisterContainer,
   },
 ];

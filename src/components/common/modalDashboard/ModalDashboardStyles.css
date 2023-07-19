@@ -1,0 +1,33 @@
+.formulario{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.textArea{
+    padding: 5px;
+    width: 100%;
+    min-height: 120px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.8);
+    overflow-y: auto;
+}
+
+.fotoProduct{
+    display: block;
+    object-fit: cover;
+    /* padding: 0px; */
+    width: 40%;
+    aspect-ratio: 16/9;
+    border: none;
+    border-radius: 8px;
+}
+.fotoProduct-gallery{
+    display: block;
+    object-fit: cover;
+    /* padding: 0px; */
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+    border-radius: 8px;
+}

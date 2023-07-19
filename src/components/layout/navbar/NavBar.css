@@ -1,0 +1,9 @@
+.boxDesktop {
+  justify-content: "space-between";
+  align-items: "center";
+  width: "80%";
+  margin: "0 auto";
+  border-bottom: "2px solid";
+  border-color: "secondary.second";
+  background-color: red;
+}
