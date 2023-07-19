@@ -8,4 +8,8 @@
 
 "Agregar las validaciones al formulario edit"
 
+"Hacer un drawer para el dashboard como tiene Jorge min 39"
+
 " averiguar como validar con yup y formik el campo imagen "
+
+"quede en min 35. tabla de users"

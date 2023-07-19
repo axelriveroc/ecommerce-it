@@ -1,33 +1,19 @@
 import {
 	Box,
 	Button,
-	Checkbox,
-	FormControl,
-	FormControlLabel,
 	IconButton,
-	InputLabel,
-	MenuItem,
 	Modal,
-	Select,
 	TextField,
 	Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
-import { db } from "../../../firebase/firebaseConfig";
-import { doc, updateDoc } from "firebase/firestore";
-import Swal from "sweetalert2";
-import "./ModalDashboardStyles.css";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { useState } from "react";
-import { TextareaAutosize } from "@mui/base";
+import { useFormik } from "formik";
+import Swal from "sweetalert2";
 
-const ModalDashboard = ({
-	open,
-	data,
-	handleClose,
-	disabled,
-	setChangesProducts,
-}) => {
+
+
+
+const ModalCreateProd = ({open , handleClose}) => {
 	const style = {
 		position: "absolute",
 		top: "50%",
@@ -38,44 +24,40 @@ const ModalDashboard = ({
 		border: "2px solid #000",
 		boxShadow: 24,
 		p: 4,
-		backgroundImage: `url(${data.image})`,
-		backgroundSize: "cover",
-		backgroundPosition: "center",
 		maxHeight: "95vh",
 		overflowY: "auto",
 	};
 
-	const { handleChange, handleSubmit, values } = useFormik({
+    const { handleChange, handleSubmit, values } = useFormik({
 		initialValues: {
 			// agrego los valores iniciales de mi formulario con las prop del prod que me llega x props.
-			name: data.name,
-			subname: data.subname,
-			price: data.price,
-			stock: data.stock,
-			category: data.category,
-			image: data.image,
-			description: data.description,
-			features: data.features,
-			new: data.new,
-			includes: data.includes,
-			gallery: data.gallery,
+			name: "",
+			subname: "",
+			price: "",
+			stock: "",
+			category: "",
+			image: "",
+			description: "",
+			features: "",
+			new: false,
+			gallery: "",
 		},
 		onSubmit: (dataForm) => {
 			// los dataForm son los valores que se envian en el formulario
-			let obj = {
+			/* let obj = {
 				...dataForm,
 				price: +dataForm.price,
-			};
+			}; */
 
 			handleClose();
 			Swal.fire({
-				title: "Editar este produto ?",
-				text: "Una vez editado se actualiza con esta nueva informacion",
+				title: "Crear este produto ?",
+				text: "Se agregara este producto !",
 				icon: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#3085d6",
 				cancelButtonColor: "#d33",
-				confirmButtonText: "Si, modificarlo!",
+				confirmButtonText: "Si, Crearlo!",
 			}).then((result) => {
 				if (result.isConfirmed) {
 					/* OJO 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 */
@@ -83,13 +65,11 @@ const ModalDashboard = ({
 					 * MANIPULAR LA IMAGEN PARA GUARDARLA EN LA NUBE PRIMERO ANTES DE MANDARLA A LA DB
 					 */
 
-					let refDoc = doc(db, "products", data.id); // accedo al id del prod xq se lo pase como props
-					updateDoc(refDoc, obj); // UPDATEDOC = PATCH --> le paso el product de mi DB y luego las prop que modifico
-					setChangesProducts(true);
+                    console.log("producto creado: " , dataForm) // obj seria acá
 
 					Swal.fire(
-						"Editado!",
-						"Su producto ha sido editado con éxito",
+						"Creado!",
+						"Su producto ha sido Creado con éxito",
 						"success"
 					);
 				}
@@ -97,42 +77,7 @@ const ModalDashboard = ({
 		},
 	});
 
-	const [imagePreview, setImagePreview] = useState(data.image);
-	const [imagePreviewGalleryF, setImagePreviewGalleryF] = useState(
-		data.gallery.first
-	);
-	const [imagePreviewGalleryS, setImagePreviewGalleryS] = useState(
-		data.gallery.second
-	);
-	const [imagePreviewGalleryT, setImagePreviewGalleryT] = useState(
-		data.gallery.third
-	);
-
-	const handleImageChange = (event) => {
-		const file = event.target.files[0];
-		if (file) {
-			setImagePreview(URL.createObjectURL(file)); // setea la imagen para que el usuario la vea en su navegador solamente
-			values.image = file; // pero en mi formulario cargamos la ruta de la imagen propiamente dicha.
-			// OJO deberiamos MANIPULAR PARA QUE LA IMAGEN SE GUARDE EN LA NUBE Y DE AHI MANDAR LA URL A LA DB.
-		}
-	};
-
-	const handleImageChangeTemp = (fieldName, file) => {
-		if (fieldName == "gallery.first") {
-			setImagePreviewGalleryF(URL.createObjectURL(file));
-		}
-		if (fieldName == "gallery.second") {
-			setImagePreviewGalleryS(URL.createObjectURL(file));
-		}
-		if (fieldName == "gallery.third") {
-			setImagePreviewGalleryT(URL.createObjectURL(file));
-		}
-		//setFieldValue(fieldName, file);
-		values.fieldName = file;
-	};
-
-	console.log(values.gallery);
-
+    console.log("Valores del formulario: " , values)
 	return (
 		<div>
 			<Modal
@@ -154,7 +99,7 @@ const ModalDashboard = ({
 								variant="h5"
 								sx={{ textAlign: "center", fontWeight: "bold" }}
 							>
-								{disabled ? "VER PRODUCTO" : "EDITAR PRODUCTO"}
+								Crear Producto
 							</Typography>
 							<IconButton onClick={handleClose} color="primary">
 								<CancelIcon />
@@ -163,55 +108,50 @@ const ModalDashboard = ({
 						<TextField
 							name="name"
 							label="Name"
-							defaultValue={data.name}
-							disabled={disabled}
-							onChange={handleChange}
 							sx={{
 								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
 								backgroundColor: "rgba(255, 255, 255, 0.8)",
 							}}
+                            onChange={handleChange}
+                            value={values.name}
 						/>
 						<TextField
 							name="subname"
 							label="subname"
-							defaultValue={data.subname}
-							disabled={disabled}
-							onChange={handleChange}
 							sx={{
 								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
 								backgroundColor: "rgba(255, 255, 255, 0.8)",
 							}}
+                            onChange={handleChange}
+                            value={values.subname}
 						/>
 						<TextField
 							name="price"
 							label="Price"
-							defaultValue={!disabled ? data.price : `$${data.price}`}
-							disabled={disabled}
-							onChange={handleChange}
 							sx={{
 								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
 								backgroundColor: "rgba(255, 255, 255, 0.8)",
 							}}
+                            onChange={handleChange}
+                            value={values.price}
 						/>
 						<TextField
 							name="stock"
 							label="Stock"
-							defaultValue={data.stock}
-							disabled={disabled}
-							onChange={handleChange}
 							sx={{
 								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
 								backgroundColor: "rgba(255, 255, 255, 0.8)",
 							}}
+                            onChange={handleChange}
+                            value={values.stock}
 						/>
 						<p>Includes: </p>
-						{data.includes.map((item, index) => (
-							<Box key={index} sx={{ display: "flex" }}>
+						{/* {data.includes.map((item, index) => (
+							<Box key={item.id} sx={{ display: "flex" }}>
 								<TextField
 									name={`includes[${index}].item`}
 									label="Item included"
 									defaultValue={item.item}
-									//value={values.item}
 									disabled={disabled}
 									onChange={handleChange}
 									sx={{
@@ -236,20 +176,20 @@ const ModalDashboard = ({
 									}}
 								/>
 							</Box>
-						))}
+						))} */}
 
 						{/*  TEXTAREA DESCRIPTION */}
 
-						<textarea
+						{/* <textarea
 							className="textArea"
 							defaultValue={`DESCRIPCION: ${data.description}`}
 							disabled={disabled}
 							name="description"
 							onChange={handleChange}
-						/>
+						/> */}
 
 						{/* TEXTAREA FEATURES */}
-						<TextareaAutosize
+						{/* <TextareaAutosize
 							placeholder="Features"
 							className="textArea"
 							defaultValue={`FEATURES: ${data.features}`}
@@ -273,11 +213,11 @@ const ModalDashboard = ({
 							name="new"
 							disabled={disabled}
 							onChange={handleChange}
-						/>
+						/> */}
 
 						{/* SELECT */}
 
-						<Box
+						{/* 	<Box
 							sx={{
 								minWidth: 120,
 								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
@@ -327,11 +267,11 @@ const ModalDashboard = ({
 									</MenuItem>
 								</Select>
 							</FormControl>
-						</Box>
+						</Box> */}
 
 						{/* IMAGEN */}
 						<p>Main Photo</p>
-						<Box
+						{/* <Box
 							sx={{
 								display: "flex",
 								flexDirection: "row",
@@ -345,13 +285,11 @@ const ModalDashboard = ({
 								height={100}
 								className="fotoProduct"
 							/>{" "}
-							{/* solo muestra la url para mostrar al usuario cuando carga un nuevo archivo */}
 							<input
 								type="file"
 								id="file-input"
 								accept="image/*"
 								name="image"
-								//onChange={handleChange}
 								onChange={handleImageChange}
 								style={{ display: "none" }}
 							/>
@@ -365,11 +303,11 @@ const ModalDashboard = ({
 									</Typography>
 								</label>
 							)}
-						</Box>
+						</Box> */}
 
 						{/*  GALLERY */}
 						<p>Gallery</p>
-						<Box
+						{/* <Box
 							sx={{
 								display: "flex",
 								flexDirection: "row",
@@ -466,19 +404,15 @@ const ModalDashboard = ({
 									</label>
 								)}
 							</Box>
-						</Box>
+						</Box> */}
 
 						{/* BUTTONS */}
 						<Box
 							sx={{ display: "flex", gap: 0.5, justifyContent: "space-evenly" }}
 						>
-							{!disabled && (
-								<>
-									<Button type="submit" variant="contained" fullWidth>
-										Enviar
-									</Button>
-								</>
-							)}
+							<Button type="submit" variant="contained" fullWidth>
+								Enviar
+							</Button>
 						</Box>
 					</form>
 				</Box>
@@ -487,4 +421,4 @@ const ModalDashboard = ({
 	);
 };
 
-export default ModalDashboard;
+export default ModalCreateProd;

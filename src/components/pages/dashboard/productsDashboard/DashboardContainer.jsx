@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Dashboard from "./Dashboard";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { db } from "../../../firebase/firebaseConfig";
+import { db } from "../../../../firebase/firebaseConfig";
 import Swal from "sweetalert2";
 
 const DashboardContainer = () => {
@@ -10,6 +10,10 @@ const DashboardContainer = () => {
 	const [disabled, setDisabled] = useState(true);
 	const [data, setData] = useState({});
 	const [changesProducts, setChangesProducts] = useState(false);
+	const [openCreate, setOpenCreate] = useState(false);
+	const handleCloseCreate = () => {
+		setOpenCreate(false);
+	};
 
 	const handleClose = () => {
 		setOpen(false);
@@ -70,7 +74,10 @@ const DashboardContainer = () => {
 		handleClose,
 		disabled,
 		data,
-    setChangesProducts,
+		setChangesProducts,
+		openCreate,
+		setOpenCreate,
+		handleCloseCreate,
 	};
 
 	return <Dashboard {...props} />;
