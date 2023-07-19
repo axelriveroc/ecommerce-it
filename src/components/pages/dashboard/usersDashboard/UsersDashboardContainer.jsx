@@ -19,7 +19,7 @@ const UsersDashboardContainer = () => {
             })
             setUsers(getUsers)
         })()
-    })
+    }, [users])
 
   return (
     <UsersDashboard users={users}/>

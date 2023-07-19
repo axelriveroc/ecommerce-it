@@ -6,7 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Checkbox } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
+import { Box } from "@mui/system";
 const UsersDashboard = ({ users }) => {
 	const StyledTableCell = styled(TableCell)(({ theme }) => ({
 		[`&.${tableCellClasses.head}`]: {
@@ -30,10 +31,10 @@ const UsersDashboard = ({ users }) => {
 
 
 	return (
-		<div>
+		<Box sx={{background:"rgba(255, 255, 255, 0.12)"}}>
 			UsersDashboard
-			<TableContainer component={Paper}>
-				<Table sx={{ minWidth: 700 }} aria-label="customized table">
+			<TableContainer component={Paper}  sx={{width:"80%", m: "0 auto" }}>
+				<Table aria-label="customized table">
 					<TableHead>
 						<TableRow>
 							<StyledTableCell>Name</StyledTableCell>
@@ -51,14 +52,30 @@ const UsersDashboard = ({ users }) => {
 								<StyledTableCell align="right">{id}</StyledTableCell>
 								<StyledTableCell align="right">{email}</StyledTableCell>
 								<StyledTableCell align="right">
-									<Checkbox  color="primary" />
+									<FormControlLabel
+										sx={{
+											minWidth: 120,
+											boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+											backgroundColor: "rgba(255, 255, 255, 0.8)",
+											ml: 0,
+											mr: 0,
+											p: 0.5,
+										}}
+										control={
+											<Checkbox
+											
+											/>
+										}
+										label="Admin"
+										name="new"
+									/>
 								</StyledTableCell>
 							</StyledTableRow>
 						))}
 					</TableBody>
 				</Table>
 			</TableContainer>
-		</div>
+		</Box>
 	);
 };
 
