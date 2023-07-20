@@ -34,7 +34,9 @@ const Register = ({
 	console.log(values);
 	const [image, setImage] = useState("");
 	const [imageUrl, setImageUrl] = useState("");
+
 	console.log(imageUrl)
+
 	const handleImageChange = (e) => {
 		setImage(e.target.files[0]);
 	};
@@ -43,15 +45,18 @@ const Register = ({
 		try {
 			if (!image) return;
 
+			// formatea la informacion que va a enviar a cloudinary con el objeto formData
 			const formData = new FormData();
 			formData.append("file", image);
-			formData.append("upload_preset", "r8lr9ctz"); // Replace with your upload preset
+			formData.append("upload_preset", "r8lr9ctz"); 
 
+			//envia la info a cloudinary
 			const response = await axios.post(
-				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload", // Replace with your cloud name
+				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload", 
 				formData
 			);
 
+			//setea el estado de mi imagen con la rta de cloudinary
 			setImageUrl(response.data.secure_url);
 		} catch (error) {
 			console.error("Error uploading image: ", error);
