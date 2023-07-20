@@ -1,4 +1,4 @@
-import { FileUpload, Visibility, VisibilityOff } from "@mui/icons-material";
+import {  Visibility, VisibilityOff } from "@mui/icons-material";
 import {
 	Box,
 	Button,
@@ -11,9 +11,12 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import axios from "axios";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {Image} from "cloudinary-react"
 
 const Register = ({
 	showPassword,
@@ -29,6 +32,31 @@ const Register = ({
 	toastDispatch,
 }) => {
 	console.log(values);
+	const [image, setImage] = useState("");
+	const [imageUrl, setImageUrl] = useState("");
+	console.log(imageUrl)
+	const handleImageChange = (e) => {
+		setImage(e.target.files[0]);
+	};
+
+	const handleImageUpload = async () => {
+		try {
+			if (!image) return;
+
+			const formData = new FormData();
+			formData.append("file", image);
+			formData.append("upload_preset", "r8lr9ctz"); // Replace with your upload preset
+
+			const response = await axios.post(
+				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload", // Replace with your cloud name
+				formData
+			);
+
+			setImageUrl(response.data.secure_url);
+		} catch (error) {
+			console.error("Error uploading image: ", error);
+		}
+	};
 
 	return (
 		<Box
@@ -110,7 +138,7 @@ const Register = ({
 						sx={{ width: { md: "45%", xs: "99%" }, alignSelf: "flex-start" }}
 					/>
 
-					<Button
+					{/* <Button
 						variant="outlined"
 						component="label"
 						sx={{
@@ -131,7 +159,29 @@ const Register = ({
 					{errors.photoUrl && (
 						<FormHelperText error>{errors.photoUrl}</FormHelperText>
 					)}
-          <FileUpload />
+					<FileUpload /> */}
+
+
+
+
+
+
+
+
+					<div>
+						<input type="file" onChange={handleImageChange} />
+						<button onClick={handleImageUpload} type="button">Upload Image</button>
+						{imageUrl && (
+							<Image cloudName="dgur5apfu" publicId={imageUrl} />
+						)}
+
+
+						{/* 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚔 */}
+					</div>
+
+
+
+
 				</Box>
 				<Typography sx={{ mb: 3, mt: 3, color: "primary.main" }}>
 					Login Details

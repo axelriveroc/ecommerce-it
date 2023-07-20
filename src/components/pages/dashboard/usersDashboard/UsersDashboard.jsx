@@ -61,11 +61,8 @@ const UsersDashboard = ({ users }) => {
 											mr: 0,
 											p: 0.5,
 										}}
-										control={
-											<Checkbox
-											
-											/>
-										}
+										
+										control={<Checkbox  defaultChecked={rol === "admin" ? true : false}/>}
 										label="Admin"
 										name="new"
 									/>

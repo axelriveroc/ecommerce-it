@@ -13,3 +13,7 @@
 " averiguar como validar con yup y formik el campo imagen "
 
 "quede en min 35. tabla de users"
+
+"agregar el responsive y css en el deploy"
+
+"agregar el skeleton como tiene sacci"
