@@ -1,21 +1,22 @@
-import {  useState } from "react";
+import { useState } from "react";
 import Login from "./Login";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-	resetPassword,
-} from "../../../firebase/firebaseConfig";
+import { resetPassword } from "../../../firebase/firebaseConfig";
 import { useDispatch, useSelector } from "react-redux";
-import { loggin, logginWithGoogle, logginWithFacebook } from "../../../store/authThunk";
+import {
+	loggin,
+	logginWithGoogle,
+	logginWithFacebook,
+} from "../../../store/authThunk";
 
 const VALID_PASSWORD_REGEX =
 	/^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{6,20}$/;
 
 const LoginContainer = () => {
-
 	const [mailChangePassword, setMailChangePassword] = useState(false);
 	const dispatch = useDispatch();
-	const { isLoading } = useSelector(store => store.authSlice)
+	const { isLoading } = useSelector((store) => store.authSlice);
 	//const toastDispatch = (message, type) => showMessage(message, type);
 
 	const [showPassword, setShowPassoword] = useState(false);
@@ -86,6 +87,7 @@ const LoginContainer = () => {
 		errors,
 		touched,
 		submitCount,
+		setValues,
 		/*     resetForm,
     setValues, */
 		values,
@@ -95,7 +97,7 @@ const LoginContainer = () => {
 		onSubmit: (data, { setErrors }) => {
 			//let res = await onSignInFirebase(data, setErrors); //login de firebase con email y password
 			//dispatch(loginRedux(res.user)); // completo la info de mi reducer con la info de firebase
-			dispatch(loggin({data, setErrors}))
+			dispatch(loggin({ data, setErrors }));
 			//toastDispatch("Welcome " + res.user.email);
 
 			/**
@@ -117,8 +119,9 @@ const LoginContainer = () => {
        * 
       */
 
-			/* setValues(initialValues)
-      resetForm(); */
+			setValues(initialValues);
+			//window.location.href = "/";
+
 		},
 		validateOnChange: false,
 		validateOnBlur: true,
@@ -150,25 +153,25 @@ const LoginContainer = () => {
 			console.log(error);
 		}
 	};
-	
+
 	return (
-    <Login
-      showPassword={showPassword}
-      handleClickShowPassword={handleClickShowPassword}
-      handleSubmit={handleSubmit}
-      handleChange={handleChange}
-      handleBlur={handleBlur}
-      errors={errors}
-      shouldShowError={shouldShowError}
-      values={values}
-      ingresarConGoogle={logginWithGoogle}
-      ingresarConFacebook={logginWithFacebook}
-      handleResetPassword={handleResetPassword}
-      mailChangePassword={mailChangePassword}
-      dispatch={dispatch}
-      isLoading={isLoading}
-    />
-  );
+		<Login
+			showPassword={showPassword}
+			handleClickShowPassword={handleClickShowPassword}
+			handleSubmit={handleSubmit}
+			handleChange={handleChange}
+			handleBlur={handleBlur}
+			errors={errors}
+			shouldShowError={shouldShowError}
+			values={values}
+			ingresarConGoogle={logginWithGoogle}
+			ingresarConFacebook={logginWithFacebook}
+			handleResetPassword={handleResetPassword}
+			mailChangePassword={mailChangePassword}
+			dispatch={dispatch}
+			isLoading={isLoading}
+		/>
+	);
 };
 
 export default LoginContainer;

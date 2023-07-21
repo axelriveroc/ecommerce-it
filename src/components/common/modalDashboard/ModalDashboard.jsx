@@ -20,6 +20,8 @@ import "./ModalDashboardStyles.css";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useState } from "react";
 import { TextareaAutosize } from "@mui/base";
+import axios from "axios";
+import { Image } from "cloudinary-react";
 
 const ModalDashboard = ({
 	open,
@@ -97,7 +99,43 @@ const ModalDashboard = ({
 		},
 	});
 
-	const [imagePreview, setImagePreview] = useState(data.image);
+	// Manipular la imagen ppal con Cloudinary:
+	const [image, setImage] = useState("");
+	const [imageUrl, setImageUrl] = useState("");
+
+	console.log(image)
+	console.log(imageUrl)
+
+
+	const handleImageChange = (e) => {
+		setImage(e.target.files[0]);
+	};
+
+	const handleImageUpload = async () => {
+		try {
+			if (!image) return;
+
+			// formatea la informacion que va a enviar a cloudinary con el objeto formData
+			const formData = new FormData();
+			formData.append("file", image);
+			formData.append("upload_preset", "r8lr9ctz"); 
+
+			//envia la info a cloudinary
+			const response = await axios.post(
+				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload", 
+				formData
+			);
+
+			//setea el estado de mi imagen con la rta de cloudinary
+			setImageUrl(response.data.secure_url);
+		} catch (error) {
+			console.error("Error uploading image: ", error);
+		}
+	};
+
+
+
+
 	const [imagePreviewGalleryF, setImagePreviewGalleryF] = useState(
 		data.gallery.first
 	);
@@ -107,16 +145,6 @@ const ModalDashboard = ({
 	const [imagePreviewGalleryT, setImagePreviewGalleryT] = useState(
 		data.gallery.third
 	);
-
-	const handleImageChange = (event) => {
-		const file = event.target.files[0];
-		if (file) {
-			setImagePreview(URL.createObjectURL(file)); // setea la imagen para que el usuario la vea en su navegador solamente
-			values.image = file; // pero en mi formulario cargamos la ruta de la imagen propiamente dicha.
-			// OJO deberiamos MANIPULAR PARA QUE LA IMAGEN SE GUARDE EN LA NUBE Y DE AHI MANDAR LA URL A LA DB.
-		}
-	};
-
 	const handleImageChangeTemp = (fieldName, file) => {
 		if (fieldName == "gallery.first") {
 			setImagePreviewGalleryF(URL.createObjectURL(file));
@@ -131,7 +159,7 @@ const ModalDashboard = ({
 		values.fieldName = file;
 	};
 
-	console.log(values.gallery);
+	console.log(values);
 
 	return (
 		<div>
@@ -331,7 +359,17 @@ const ModalDashboard = ({
 
 						{/* IMAGEN */}
 						<p>Main Photo</p>
-						<Box
+						<div>
+						<input type="file" onChange={handleImageChange} />
+						<button onClick={handleImageUpload} type="button">Upload Image</button>
+						{imageUrl && (
+							<Image cloudName="dgur5apfu" publicId={imageUrl} />
+						)}
+
+
+						{/* 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚔 */}
+					</div>
+						{/* <Box
 							sx={{
 								display: "flex",
 								flexDirection: "row",
@@ -345,13 +383,13 @@ const ModalDashboard = ({
 								height={100}
 								className="fotoProduct"
 							/>{" "}
-							{/* solo muestra la url para mostrar al usuario cuando carga un nuevo archivo */}
+						
 							<input
 								type="file"
 								id="file-input"
 								accept="image/*"
 								name="image"
-								//onChange={handleChange}
+								
 								onChange={handleImageChange}
 								style={{ display: "none" }}
 							/>
@@ -365,7 +403,7 @@ const ModalDashboard = ({
 									</Typography>
 								</label>
 							)}
-						</Box>
+						</Box> */}
 
 						{/*  GALLERY */}
 						<p>Gallery</p>

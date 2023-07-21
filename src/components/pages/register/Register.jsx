@@ -1,4 +1,4 @@
-import {  Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
 	Box,
 	Button,
@@ -12,11 +12,11 @@ import {
 	Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {Image} from "cloudinary-react"
+import { Image } from "cloudinary-react";
+import { useState } from "react";
 
 const Register = ({
 	showPassword,
@@ -29,35 +29,58 @@ const Register = ({
 	errors,
 	shouldShowError,
 	values,
-	toastDispatch,
+	setFieldValue,
+	setFieldError,
 }) => {
-	console.log(values);
+	const allowedFileTypes = [
+		"image/jpeg",
+		"image/png",
+		"image/gif",
+		"image/svg+xml",
+	];
+
 	const [image, setImage] = useState("");
-	const [imageUrl, setImageUrl] = useState("");
 
-	console.log(imageUrl)
-
+	// Primero carga el archivo que selecciona el usuario en el estado image para luego usarlo.
 	const handleImageChange = (e) => {
-		setImage(e.target.files[0]);
+		if (!allowedFileTypes.includes(e.target.files[0].type)) {
+			setFieldError(
+				"photoUrl",
+				"Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
+			);
+			setImage("")
+			console.error(
+				"Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
+			);
+			return;
+		} else {
+			setImage(e.target.files[0]);//setFieldValue --> no lo puedo setear xq todavia no es la url de la nube
+			setFieldError("photoUrl", "");
+		}
 	};
-
+	console.log("values: ", values);
+	console.log("image: ", image);
+	console.log("errors: ", errors);
+	// Recien cuando hace click en subir imagen , ahi se sube a cloudinary.
 	const handleImageUpload = async () => {
 		try {
 			if (!image) return;
 
+			setFieldError("photoUrl", "");
 			// formatea la informacion que va a enviar a cloudinary con el objeto formData
 			const formData = new FormData();
 			formData.append("file", image);
-			formData.append("upload_preset", "r8lr9ctz"); 
+			formData.append("upload_preset", "r8lr9ctz");
 
 			//envia la info a cloudinary
 			const response = await axios.post(
-				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload", 
+				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
 				formData
 			);
 
-			//setea el estado de mi imagen con la rta de cloudinary
-			setImageUrl(response.data.secure_url);
+			//Aca lo que habria que hacer en realidad es setear el estado de formik de photoUrl
+			//values.photoUrl = response.data.secure_url;
+			setFieldValue("photoUrl", response.data.secure_url);
 		} catch (error) {
 			console.error("Error uploading image: ", error);
 		}
@@ -166,27 +189,28 @@ const Register = ({
 					)}
 					<FileUpload /> */}
 
-
-
-
-
-
-
-
 					<div>
-						<input type="file" onChange={handleImageChange} />
-						<button onClick={handleImageUpload} type="button">Upload Image</button>
-						{imageUrl && (
-							<Image cloudName="dgur5apfu" publicId={imageUrl} />
-						)}
+						<input
+							type="file"
+							onChange={handleImageChange}
+							name="photoUrl"
+							//value={values.photoUrl} //--> me tira error
+						/>
 
+						{image && (
+							<button onClick={handleImageUpload} type="button">
+								Upload Image
+							</button>
+						)}
+						{errors.photoUrl && (
+							<FormHelperText error>{errors.photoUrl}</FormHelperText>
+						)}
+						{values.photoUrl && (
+							<Image cloudName="dgur5apfu" publicId={values.photoUrl} />
+						)}
 
 						{/* 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚔 */}
 					</div>
-
-
-
-
 				</Box>
 				<Typography sx={{ mb: 3, mt: 3, color: "primary.main" }}>
 					Login Details
@@ -297,7 +321,6 @@ const Register = ({
 					Registrarme
 				</Button>
 			</Box>
-			<Button onClick={() => toastDispatch("welcome", "error")}>toast</Button>
 			<ToastContainer />
 		</Box>
 	);

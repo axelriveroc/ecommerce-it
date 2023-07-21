@@ -25,7 +25,7 @@ const RegisterContainer = () => {
 	const initialValues = {
 		name: "",
 		lastName: "",
-		phoneNumer: "",
+		phoneNumber: "",
 		email: "",
 		password: "",
 		repeatPassword: "",
@@ -46,30 +46,37 @@ const RegisterContainer = () => {
 		touched,
 		submitCount,
 		values,
+		setFieldValue,
+		setFieldError,
+		setFieldTouched,
+		setValues
 	} = useFormik({
 		initialValues,
 		onSubmit: async (data, { setErrors }) => {
-			console.log("onSubmit del formulario --> data: " + data);
-
+			console.log("onSubmit del formulario --> data: ", data);
+			if (data.photoUrl === "") {
+				setErrors({ photoUrl: "Debes Elegir una foto" });
+			}
 			//register es para la authentication de firebase
-			//let res = await register(data, setErrors);
-			//toastDispatch("Welcome " + res.user.email)
+			let res = await register(data, setErrors);
+			toastDispatch("Welcome " + res.user.email);
 
 			//guardamos info para la base de datos de firebase
-			/* let fullName = `${data.name}  ${data.lastName}`
-      let userForDB = {
-        email: data.email,
-        displayName: fullName,
-        photoUrl:
-          "https://media.tycsports.com/files/2023/06/18/582719/lionel-messi-seleccion-argentina_416x234.webp",
-          rol: "customer"
-      }; */
+			let fullName = `${data.name}  ${data.lastName}`;
+			let userForDB = {
+				email: data.email.trim().toLowerCase(),
+				displayName: fullName.trim().toLowerCase(),
+				photoUrl: data.photoUrl,
+				rol: "customer",
+			};
 
-			/*   const usersCollection = collection(db, "users");
-      addDoc(usersCollection, userForDB) */
+			const usersCollection = collection(db, "users");
+			addDoc(usersCollection, userForDB);
 
-			/* setValues(initialValues);
-       resetForm(); */
+			setValues(initialValues);
+			//window.location.href = "/";
+
+			
 		},
 		validateOnChange: false,
 		validateOnBlur: true,
@@ -96,17 +103,7 @@ const RegisterContainer = () => {
 				.oneOf([Yup.ref("password"), null], "Las contraseñas no  coinciden")
 				.required("Campo Obligatorio"),
 		}),
-		photoUrl: Yup.mixed().test(
-			"fileFormat",
-			"Solo se permiten archivos de imagen",
-			(value) => {
-				if (value && value.name) {
-					const acceptedFormats = ["image/jpeg", "image/png", "image/gif"];
-					return acceptedFormats.includes(value.type);
-				}
-				return true;
-			}
-		),
+		photoUrl: Yup.string().required("Campo Obligatorio"),
 	});
 
 	return (
@@ -122,6 +119,9 @@ const RegisterContainer = () => {
 			shouldShowError={shouldShowError}
 			values={values}
 			toastDispatch={toastDispatch}
+			setFieldValue={setFieldValue}
+			setFieldError={setFieldError}
+			setFieldTouched={setFieldTouched}
 		/>
 	);
 };
