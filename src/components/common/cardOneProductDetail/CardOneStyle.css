@@ -1,0 +1,15 @@
+
+.image_cardOne{
+    width: 50%;
+    height: 100%;
+    border-radius: 8px;
+    background-color: #F1F1F1;
+    object-fit: cover;
+}
+
+@media(max-width:600px){
+    .image_cardOne{
+        width: 100%;
+        height: 40%;
+    }
+}
