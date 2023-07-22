@@ -1,0 +1,18 @@
+.custom-file-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: solid #D87D4A 0.5px;
+    color: rgb(95, 95, 95);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+  }
+  
+  .custom-file-button:hover {
+    background-color: #D87D4A;
+    color:white;
+  }
+  
+  .custom-file-button:active {
+    background-color: #D87D4A;
+  }

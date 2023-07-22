@@ -5,6 +5,7 @@ import {
 	FormControl,
 	FormHelperText,
 	IconButton,
+	Input,
 	InputAdornment,
 	InputLabel,
 	OutlinedInput,
@@ -17,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Image } from "cloudinary-react";
 import { useState } from "react";
+import "./RegisterStyle.css";
 
 const Register = ({
 	showPassword,
@@ -48,13 +50,13 @@ const Register = ({
 				"photoUrl",
 				"Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
 			);
-			setImage("")
+			setImage("");
 			console.error(
 				"Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
 			);
 			return;
 		} else {
-			setImage(e.target.files[0]);//setFieldValue --> no lo puedo setear xq todavia no es la url de la nube
+			setImage(e.target.files[0]); //setFieldValue --> no lo puedo setear xq todavia no es la url de la nube
 			setFieldError("photoUrl", "");
 		}
 	};
@@ -165,53 +167,58 @@ const Register = ({
 						}
 						sx={{ width: { md: "45%", xs: "99%" }, alignSelf: "flex-start" }}
 					/>
-
-					{/* <Button
-						variant="outlined"
-						component="label"
-						sx={{
-							width: { md: "45%", xs: "99%" },
-							p: "14px 15px",
-							alignSelf: "flex-start",
-						}}
-					>
-						{values.photoUrl ? "Archivo Cargado ✔" : "Upload File"}
-						<input
-							type="file"
-							hidden
-							onChange={handleChange}
-							name="photoUrl"
-							value={values.photoUrl}
-						/>
-					</Button>
-					{errors.photoUrl && (
-						<FormHelperText error>{errors.photoUrl}</FormHelperText>
-					)}
-					<FileUpload /> */}
-
-					<div>
-						<input
-							type="file"
-							onChange={handleImageChange}
-							name="photoUrl"
-							//value={values.photoUrl} //--> me tira error
-						/>
+						<Button
+							component="label"
+							variant="outlined"
+							sx={{
+								width: { md: "45%", xs: "99%" },
+								p: "14px 15px",
+								alignSelf: "flex-start",
+							}}
+						>
+							{values.photoUrl ? "Cargado ✔" : "upload photo"}
+							<Input
+								type="file"
+								id="photoUrl"
+								onChange={handleImageChange}
+								name="photoUrl"
+								sx={{
+									letterSpacing: "inherit",
+									height: "1.4375em",
+									padding: " 16px 14px",
+									p: 2.5,
+									display: "none",
+								}}
+								variant="outlined"
+								error={shouldShowError("photoUrl")}
+								helperText={shouldShowError("photoUrl") ? errors.photoUrl : ""}
+							/>
+						</Button>
 
 						{image && (
-							<button onClick={handleImageUpload} type="button">
-								Upload Image
-							</button>
+							<Button
+								onClick={handleImageUpload}
+								type="button"
+								variant="contained"
+								sx={{width: { md: "45%", xs: "99%" }}}
+							>
+								Confirm Image
+							</Button>
 						)}
 						{errors.photoUrl && (
 							<FormHelperText error>{errors.photoUrl}</FormHelperText>
 						)}
+							{/* </Box> */}
+							</Box>
 						{values.photoUrl && (
-							<Image cloudName="dgur5apfu" publicId={values.photoUrl} />
+							<Image
+								cloudName="dgur5apfu"
+								publicId={values.photoUrl}
+								style={{ width: "20%", height: "100%", objectFit: "cover", marginTop:"10px" }}
+							/>
 						)}
 
 						{/* 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚔 */}
-					</div>
-				</Box>
 				<Typography sx={{ mb: 3, mt: 3, color: "primary.main" }}>
 					Login Details
 				</Typography>
