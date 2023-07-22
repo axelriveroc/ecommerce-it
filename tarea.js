@@ -13,7 +13,6 @@
 
 "Agregar las validaciones al formulario edit"
 
-
 "Manipular la imagen cuando edito (luego en crear) el producto para subirla a la nube 1ero antes de mandarla a la DB"
 
 " HACER LOGICA DE IMAGENES EN CREAR Y EDITAR PRODUCTS "
