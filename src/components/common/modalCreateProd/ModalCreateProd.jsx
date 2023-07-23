@@ -1,9 +1,16 @@
 import {
   Box,
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
+  FormHelperText,
   IconButton,
+  Input,
+  InputLabel,
+  MenuItem,
   Modal,
+  Select,
   TextField,
   TextareaAutosize,
   Typography,
@@ -12,6 +19,9 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import axios from "axios";
+import { Image } from "cloudinary-react";
 
 const ModalCreateProd = ({ open, handleClose }) => {
   const style = {
@@ -28,7 +38,67 @@ const ModalCreateProd = ({ open, handleClose }) => {
     overflowY: "auto",
   };
 
-  const { handleChange, handleSubmit, values, setFieldValue, errors } = useFormik({
+  // IMG PPAL MANEJO CON CLOUDINARY
+  const allowedFileTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/svg+xml",
+  ];
+
+  const [imagePpal, setImagePpal] = useState("");
+
+  // Primero carga el archivo que selecciona el usuario en el estado image para luego usarlo.
+  const handleImageChange = (e) => {
+    if (!allowedFileTypes.includes(e.target.files[0].type)) {
+      setFieldError(
+        "image",
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
+      );
+      setImagePpal("");
+      console.error(
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
+      );
+      return;
+    } else {
+      setImagePpal(e.target.files[0]); //setFieldValue --> no lo puedo setear xq todavia no es la url de la nube
+      setFieldError("image", "");
+    }
+  };
+
+  // Recien cuando hace click en subir imagen , ahi se sube a cloudinary.
+  const handleImageUpload = async () => {
+    try {
+      if (!imagePpal) return;
+
+      setFieldError("image", "");
+      // formatea la informacion que va a enviar a cloudinary con el objeto formData
+      const formData = new FormData();
+      formData.append("file", imagePpal);
+      formData.append("upload_preset", "r8lr9ctz");
+
+      //envia la info a cloudinary
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
+        formData
+      );
+
+      //Aca lo que habria que hacer en realidad es setear el estado de formik de photoUrl
+      //values.photoUrl = response.data.secure_url;
+      setFieldValue("image", response.data.secure_url);
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  };
+
+  const {
+    handleChange,
+    handleSubmit,
+    values,
+    setFieldValue,
+    errors,
+    setFieldError,
+  } = useFormik({
     initialValues: {
       // agrego los valores iniciales de mi formulario con las prop del prod que me llega x props.
       name: "",
@@ -101,7 +171,7 @@ const ModalCreateProd = ({ open, handleClose }) => {
   const isLastIncludeValid = lastInclude.item !== "";
 
   console.log("Valores del formulario: ", values);
-  console.log("errors: " , errors)
+  console.log("errors: ", errors);
   //console.log("errors: " , errors.includes[0].item)
   return (
     <div>
@@ -247,111 +317,131 @@ const ModalCreateProd = ({ open, handleClose }) => {
             </FormControl>
 
             {/* CHECKBOX NEW PRODUCT */}
-            {/*	<FormControlLabel
-							sx={{
-								minWidth: 120,
-								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-								backgroundColor: "rgba(255, 255, 255, 0.8)",
-								ml: 0,
-								mr: 0,
-								p: 0.5,
-							}}
-							control={<Checkbox defaultChecked={data.new ? true : false} />}
-							label="New product"
-							name="new"
-							disabled={disabled}
-							onChange={handleChange}
-						/> */}
+            <FormControlLabel
+              sx={{
+                minWidth: 120,
+                boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                ml: 0,
+                mr: 0,
+                p: 0.5,
+              }}
+              control={<Checkbox />}
+              label="New product"
+              name="new"
+              onChange={handleChange}
+            />
 
             {/* SELECT */}
 
-            {/* 	<Box
-							sx={{
-								minWidth: 120,
-								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-								backgroundColor: "rgba(255, 255, 255, 0.8)",
-							}}
-						>
-							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">Category</InputLabel>
-								<Select
-									name="category"
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									label="Age"
-									value={disabled ? data.category : values.category}
-									onChange={handleChange}
-									sx={{
-										boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-										backgroundColor: "transparent",
-									}}
-								>
-									<MenuItem
-										value="headphones"
-										sx={{
-											boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-											backgroundColor: "rgba(255, 255, 255, 0.8)",
-										}}
-									>
-										Headphones
-									</MenuItem>
-									<MenuItem
-										value="speakers"
-										sx={{
-											boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-											backgroundColor: "rgba(255, 255, 255, 0.8)",
-										}}
-									>
-										Speakers
-									</MenuItem>
-									<MenuItem
-										value="earphones"
-										sx={{
-											boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-											backgroundColor: "rgba(255, 255, 255, 0.8)",
-										}}
-									>
-										Earphones
-									</MenuItem>
-								</Select>
-							</FormControl>
-						</Box> */}
+            <Box
+              sx={{
+                minWidth: 120,
+                boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+              }}
+            >
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <Select
+                  name="category"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Age"
+                  value={values.category}
+                  onChange={handleChange}
+                  sx={{
+                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <MenuItem
+                    value="headphones"
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    Headphones
+                  </MenuItem>
+                  <MenuItem
+                    value="speakers"
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    Speakers
+                  </MenuItem>
+                  <MenuItem
+                    value="earphones"
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    Earphones
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
 
             {/* IMAGEN */}
             <p>Main Photo</p>
-            {/* <Box
-							sx={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center",
-								gap: 1,
-							}}
-						>
-							<img
-								src={imagePreview}
-								width={100}
-								height={100}
-								className="fotoProduct"
-							/>{" "}
-							<input
-								type="file"
-								id="file-input"
-								accept="image/*"
-								name="image"
-								onChange={handleImageChange}
-								style={{ display: "none" }}
-							/>
-							{!disabled && (
-								<label htmlFor="file-input">
-									<Button variant="outlined" component="span">
-										nueva foto
-									</Button>
-									<Typography variant="body2" component="span">
-										{values.image ? "" : "Ningún archivo seleccionado"}
-									</Typography>
-								</label>
-							)}
-						</Box> */}
+            <Button
+              component="label"
+              variant="outlined"
+              sx={{
+                width: { md: "45%", xs: "99%" },
+                p: "14px 15px",
+                alignSelf: "flex-start",
+              }}
+            >
+              {values.image ? "Cargado ✔" : "upload photo"}
+              <Input
+                type="file"
+                id="image"
+                onChange={handleImageChange}
+                name="image"
+                sx={{
+                  letterSpacing: "inherit",
+                  height: "1.4375em",
+                  padding: " 16px 14px",
+                  p: 2.5,
+                  display: "none",
+                }}
+                variant="outlined"
+                error={errors.image ? true : false}
+                helperText={errors.image ? true : false}
+              />
+            </Button>
+
+            {imagePpal && (
+              <Button
+                onClick={handleImageUpload}
+                type="button"
+                variant="contained"
+                sx={{ width: { md: "45%", xs: "99%" } }}
+              >
+                Confirm Image
+              </Button>
+            )}
+            {errors.image && (
+              <FormHelperText error>{errors.image}</FormHelperText>
+            )}
+
+            {values.image && (
+              <Image
+                cloudName="dgur5apfu"
+                publicId={values.image}
+                style={{
+                  width: "20%",
+                  height: "100%",
+                  objectFit: "cover",
+                  marginTop: "10px",
+                }}
+              />
+            )}
 
             {/*  GALLERY */}
             <p>Gallery</p>
