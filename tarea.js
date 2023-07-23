@@ -9,7 +9,7 @@
 
 "-------------------------  PRIMERO HACEMOS ESTO 👇 -----------------------------"
 
-"Agregar la funcionalidad de crear un nuevo producto"
+"Agregar la funcionalidad subir a la base de datos el nuevo producto"
 
 "Agregar las validaciones al formulario edit"
 
