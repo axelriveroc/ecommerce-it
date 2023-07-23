@@ -12,7 +12,6 @@ import {
   Modal,
   Select,
   TextField,
-  TextareaAutosize,
   Typography,
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -47,6 +46,9 @@ const ModalCreateProd = ({ open, handleClose }) => {
   ];
 
   const [imagePpal, setImagePpal] = useState("");
+  const [imagePpalFirst, setImagePpalFirst] = useState("");
+  const [imagePpalSecond, setImagePpalSecond] = useState("");
+  const [imagePpalThird, setImagePpalThird] = useState("");
 
   // Primero carga el archivo que selecciona el usuario en el estado image para luego usarlo.
   const handleImageChange = (e) => {
@@ -63,6 +65,39 @@ const ModalCreateProd = ({ open, handleClose }) => {
     } else {
       setImagePpal(e.target.files[0]); //setFieldValue --> no lo puedo setear xq todavia no es la url de la nube
       setFieldError("image", "");
+    }
+  };
+
+  const handleGalleryImageChange = (event) => {
+    const file = event.target.files[0]; // Obtener el archivo seleccionado por el usuario
+    const fieldName = event.target.name; // Nombre del campo (ejemplo: "gallery.first", "gallery.second", etc.)
+
+    if (!allowedFileTypes.includes(file.type)) {
+      setFieldError(
+        fieldName,
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
+      );
+      if (fieldName === "gallery.first") {
+        setImagePpalFirst("");
+      } else if (fieldName === "gallery.second") {
+        setImagePpalSecond("");
+      } else {
+        setImagePpalThird("");
+      }
+      console.error(
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
+      );
+      return;
+    } else {
+      if (fieldName === "gallery.first") {
+        setImagePpalFirst(file);
+      } else if (fieldName === "gallery.second") {
+        setImagePpalSecond(file);
+      } else {
+        setImagePpalThird(file);
+      }
+      //setFieldValue(fieldName, file); // Actualizar el estado de Formik con la imagen seleccionada
+      setFieldError(fieldName, "");
     }
   };
 
@@ -91,13 +126,52 @@ const ModalCreateProd = ({ open, handleClose }) => {
     }
   };
 
+  const handleGalleryImageUpload = async (fieldName) => {
+    try {
+      // Obtener la imagen seleccionada del estado de Formik
+      if (fieldName === "first") {
+        if (!imagePpalFirst) return;
+      } else if (fieldName === "second") {
+        if (!imagePpalFirst) return;
+      } else {
+        if (!imagePpalFirst) return;
+      }
+
+      setFieldError(`gallery.${fieldName}`, "");
+
+      // formatea la información que va a enviar a Cloudinary con el objeto formData
+      const formData = new FormData();
+      if (fieldName === "first") {
+        formData.append("file", imagePpalFirst);
+      } else if (fieldName === "second") {
+        formData.append("file", imagePpalSecond);
+      } else {
+        formData.append("file", imagePpalThird);
+      }
+      formData.append("upload_preset", "r8lr9ctz");
+
+      // envía la información a Cloudinary
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
+        formData
+      );
+
+      // Actualiza el estado de Formik con la URL de la imagen subida a Cloudinary
+      setFieldValue(`gallery.${fieldName}`, response.data.secure_url);
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  };
+
   const {
     handleChange,
     handleSubmit,
+    handleBlur,
     values,
     setFieldValue,
     errors,
     setFieldError,
+    touched,
   } = useFormik({
     initialValues: {
       // agrego los valores iniciales de mi formulario con las prop del prod que me llega x props.
@@ -110,10 +184,11 @@ const ModalCreateProd = ({ open, handleClose }) => {
       description: "",
       features: "",
       new: false,
-      gallery: "",
+      gallery: { first: null, second: null, third: null },
       includes: [{ item: "", quantity: 1 }],
     },
     onSubmit: (dataForm) => {
+      console.log(dataForm);
       // los dataForm son los valores que se envian en el formulario
       /* let obj = {
 				...dataForm,
@@ -146,7 +221,48 @@ const ModalCreateProd = ({ open, handleClose }) => {
         }
       });
     },
-    validationSchema: Yup.object({
+    validationSchema: Yup.object().shape({
+      name: Yup.string().required("El campo 'Name' es obligatorio."),
+      subname: Yup.string().required("El campo 'Subname' es obligatorio."),
+      price: Yup.number()
+        .typeError("El campo 'Price' debe ser un número.")
+        .required("El campo 'Price' es obligatorio.")
+        .positive("El precio debe ser un valor positivo.")
+        .test(
+          "is-decimal",
+          "El precio debe tener dos decimales como máximo.",
+          (value) => /^\d+(\.\d{1,2})?$/.test(value)
+        ),
+      stock: Yup.number()
+        .typeError("El campo 'Stock' debe ser un número.")
+        .required("El campo 'Stock' es obligatorio.")
+        .integer("El stock debe ser un número entero.")
+        .min(0, "El stock no puede ser negativo."),
+      category: Yup.string().required("El campo 'Category' es obligatorio."),
+      image: Yup.mixed().required("Debe cargar una imagen principal."),
+      description: Yup.string().required(
+        "El campo 'Description' es obligatorio."
+      ),
+      features: Yup.string().required("El campo 'Features' es obligatorio."),
+      new: Yup.boolean(),
+      gallery: Yup.object().shape({
+        first: Yup.mixed()
+          .required("Debe cargar una imagen para 'First Image'.")
+          /* .test("is-valid-image", "Tipo de archivo no válido.", (value) => {
+            if (!value) return true;
+            return [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/svg+xml",
+            ].includes(value.type);
+          }) */,
+        second: Yup.mixed()
+          .required("Debe cargar una imagen para 'Second Image'."),
+        third: Yup.mixed()
+          .required("Debe cargar una imagen para 'Third Image'.")
+          ,
+      }),
       includes: Yup.array()
         .of(
           Yup.object().shape({
@@ -161,6 +277,8 @@ const ModalCreateProd = ({ open, handleClose }) => {
         )
         .required("El campo 'Includes' es obligatorio."), // Validación para asegurarse que el array 'includes' no esté vacío
     }),
+    validateOnChange: false,
+    validateOnBlur: true,
   });
 
   // Obtener el último objeto "includes" agregado
@@ -208,7 +326,10 @@ const ModalCreateProd = ({ open, handleClose }) => {
                 backgroundColor: "rgba(255, 255, 255, 0.8)",
               }}
               onChange={handleChange}
+              onBlur={handleBlur}
               value={values.name}
+              error={errors.name && touched.name ? true : false}
+              helperText={errors.name && touched.name ? errors.name : ""}
             />
             <TextField
               name="subname"
@@ -219,6 +340,11 @@ const ModalCreateProd = ({ open, handleClose }) => {
               }}
               onChange={handleChange}
               value={values.subname}
+              onBlur={handleBlur}
+              error={errors.subname && touched.subname ? true : false}
+              helperText={
+                errors.subname && touched.subname ? errors.subname : ""
+              }
             />
             <TextField
               name="price"
@@ -229,6 +355,9 @@ const ModalCreateProd = ({ open, handleClose }) => {
               }}
               onChange={handleChange}
               value={values.price}
+              onBlur={handleBlur}
+              error={errors.price && touched.price ? true : false}
+              helperText={errors.price && touched.price ? errors.price : ""}
             />
             <TextField
               name="stock"
@@ -239,6 +368,9 @@ const ModalCreateProd = ({ open, handleClose }) => {
               }}
               onChange={handleChange}
               value={values.stock}
+              onBlur={handleBlur}
+              error={errors.stock && touched.stock ? true : false}
+              helperText={errors.stock && touched.stock ? errors.stock : ""}
             />
 
             {/* INCLUDES */}
@@ -259,60 +391,106 @@ const ModalCreateProd = ({ open, handleClose }) => {
             )}
 
             {values.includes.map((include, index) => (
-              <Box key={index} sx={{ display: "flex" }}>
-                <TextField
-                  name={`includes[${index}].item`}
-                  label="Item included"
-                  onChange={handleChange}
-                  value={include.item}
-                  sx={{
-                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-                    backgroundColor: "rgba(255, 255, 255, 0.8)",
-                    width: "75%",
-                  }}
-                />
+              <Box key={index}>
+                <Box sx={{ display: "flex" }}>
+                  <TextField
+                    name={`includes[${index}].item`}
+                    label="Item included"
+                    onChange={handleChange}
+                    value={include.item}
+                    onBlur={handleBlur}
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      width: "75%",
+                    }}
+                    error={
+                      errors.includes &&
+                      touched.includes &&
+                      touched.includes[index]?.item &&
+                      errors.includes[index]?.item
+                        ? true
+                        : false
+                    }
+                    helpertext={
+                      errors.includes &&
+                      touched.includes &&
+                      touched.includes[index]?.item &&
+                      errors.includes[index]?.item
+                        ? errors.includes[index]?.item
+                        : ""
+                    }
+                  />
 
-                <TextField
-                  type="number"
-                  name={`includes[${index}].quantity`}
-                  label="Quantity"
-                  onChange={handleChange}
-                  value={include.quantity}
-                  inputProps={{
-                    min: 1, // Establecer el valor mínimo como 1
-                  }}
-                  sx={{
-                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-                    backgroundColor: "rgba(255, 255, 255, 0.8)",
-                    width: "25%",
-                  }}
-                />
+                  <TextField
+                    type="number"
+                    name={`includes[${index}].quantity`}
+                    label="Quantity"
+                    onChange={handleChange}
+                    value={include.quantity}
+                    /*        error={errors.includes[index].quantity ? true : false}
+                  helpertext={errors.includes[index].quantity ? true : false} */
+                    inputProps={{
+                      min: 1, // Establecer el valor mínimo como 1
+                    }}
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      width: "25%",
+                    }}
+                  />
+                </Box>
+                <FormHelperText error>
+                  {errors.includes &&
+                  touched.includes &&
+                  touched.includes[index]?.item &&
+                  errors.includes[index]?.item
+                    ? errors.includes[index]?.item
+                    : ""}
+                </FormHelperText>
               </Box>
             ))}
 
             {/*  TEXTAREA DESCRIPTION */}
-
             <FormControl>
-              <p>Description</p>
-              <TextareaAutosize
+              <InputLabel htmlFor="description"></InputLabel>
+              <TextField
                 placeholder="Description"
                 id="description"
                 className="textArea"
                 name="description"
                 onChange={handleChange}
                 value={values.description}
+                onBlur={handleBlur}
+                error={errors.description && touched.description ? true : false}
+                helperText={
+                  errors.description && touched.description
+                    ? errors.description
+                    : ""
+                }
+                multiline
+                rows={4}
               />
             </FormControl>
 
             {/* TEXTAREA FEATURES */}
+
             <FormControl>
-              <p>Features</p>
-              <TextareaAutosize
+              <InputLabel htmlFor="features"></InputLabel>
+              <TextField
                 placeholder="Features"
+                id="features"
                 className="textArea"
-                style={{ overflow: "auto", height: "auto" }}
                 name="features"
                 onChange={handleChange}
+                value={values.features}
+                onBlur={handleBlur}
+                error={errors.features && touched.features ? true : false}
+                helperText={
+                  errors.features && touched.features ? errors.features : ""
+                }
+                multiline
+                rows={4}
               />
             </FormControl>
 
@@ -354,6 +532,11 @@ const ModalCreateProd = ({ open, handleClose }) => {
                     boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
                     backgroundColor: "transparent",
                   }}
+                  onBlur={handleBlur}
+                  error={errors.category && touched.category ? true : false}
+                  helperText={
+                    errors.category && touched.category ? errors.category : ""
+                  }
                 >
                   <MenuItem
                     value="headphones"
@@ -384,6 +567,9 @@ const ModalCreateProd = ({ open, handleClose }) => {
                   </MenuItem>
                 </Select>
               </FormControl>
+              <FormHelperText error>
+                {errors.category && touched.category ? errors.category : ""}
+              </FormHelperText>
             </Box>
 
             {/* IMAGEN */}
@@ -411,8 +597,9 @@ const ModalCreateProd = ({ open, handleClose }) => {
                   display: "none",
                 }}
                 variant="outlined"
-                error={errors.image ? true : false}
-                helperText={errors.image ? true : false}
+                onBlur={handleBlur}
+                error={errors.image && touched.image ? true : false}
+                helperText={errors.image && touched.image ? errors.image : ""}
               />
             </Button>
 
@@ -427,7 +614,9 @@ const ModalCreateProd = ({ open, handleClose }) => {
               </Button>
             )}
             {errors.image && (
-              <FormHelperText error>{errors.image}</FormHelperText>
+              <FormHelperText error>
+                {errors.image && touched.image ? errors.image : ""}
+              </FormHelperText>
             )}
 
             {values.image && (
@@ -444,105 +633,217 @@ const ModalCreateProd = ({ open, handleClose }) => {
             )}
 
             {/*  GALLERY */}
-            <p>Gallery</p>
-            {/* <Box
-							sx={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center",
-								gap: 1,
-							}}
-						>
-							<Box sx={{ display: "flex", flexDirection: "column" }}>
-								<img
-									//src={values.gallery.first}
-									src={imagePreviewGalleryF}
-									width="100%"
-									height={70}
-									className="fotoProduct-gallery"
-								/>
-								<input
-									type="file"
-									name="gallery.first"
-									//onChange={handleChange}
-									onChange={(e) =>
-										handleImageChangeTemp("gallery.first", e.target.files[0])
-									}
-									id="file-input-first"
-									accept="image/*"
-									style={{ display: "none" }}
-								/>
-								{!disabled && (
-									<label htmlFor="file-input-first">
-										<Button variant="outlined" component="span">
-											+
-										</Button>
-										<Typography variant="body2" component="span">
-											{values.image ? "" : "Ningún archivo seleccionado"}
-										</Typography>
-									</label>
-								)}
-							</Box>
+            <p>Gallery photos</p>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              {/* INPUT PARA PRIMERA IMAGEN DE GALLERY */}
 
-							<Box sx={{ display: "flex", flexDirection: "column" }}>
-								<img
-									//src={values.gallery.second}
-									src={imagePreviewGalleryS}
-									width="100%"
-									height={70}
-									className="fotoProduct-gallery"
-								/>
-								<input
-									type="file"
-									name="gallery.second"
-									//onChange={handleChange}
-									onChange={(e) =>
-										handleImageChangeTemp("gallery.second", e.target.files[0])
-									}
-									id="file-input-second"
-									accept="image/*"
-									style={{ display: "none" }}
-								/>
-								{!disabled && (
-									<label htmlFor="file-input-second">
-										<Button variant="outlined" component="span">
-											+
-										</Button>
-										<Typography variant="body2" component="span">
-											{values.image ? "" : "Ningún archivo seleccionado"}
-										</Typography>
-									</label>
-								)}
-							</Box>
-							<Box sx={{ display: "flex", flexDirection: "column" }}>
-								<img
-									//src={values.gallery.third}
-									src={imagePreviewGalleryT}
-									width="100%"
-									height={70}
-									className="fotoProduct-gallery"
-								/>
-								<input
-									type="file"
-									name="gallery.third"
-									//onChange={handleChange}
-									onChange={(e) => handleImageChangeTemp("gallery.third", e.target.files[0])}
-									id="file-input-third"
-									accept="image/*"
-									style={{ display: "none" }}
-								/>
-								{!disabled && (
-									<label htmlFor="file-input-third">
-										<Button variant="outlined" component="span">
-											+
-										</Button>
-										<Typography variant="body2" component="span">
-											{values.image ? "" : "Ningún archivo seleccionado"}
-										</Typography>
-									</label>
-								)}
-							</Box>
-						</Box> */}
+              <p>First Image</p>
+              <Button
+                component="label"
+                variant="outlined"
+                sx={{
+                  width: { md: "45%", xs: "99%" },
+                  p: "14px 15px",
+                  alignSelf: "flex-start",
+                }}
+              >
+                {values.gallery.first ? "Cargado ✔" : "Subir imagen"}
+                <Input
+                  type="file"
+                  id="gallery-first"
+                  onChange={handleGalleryImageChange}
+                  name="gallery.first"
+                  sx={{
+                    letterSpacing: "inherit",
+                    height: "1.4375em",
+                    padding: " 16px 14px",
+                    p: 2.5,
+                    display: "none",
+                  }}
+                  variant="outlined"
+                  onBlur={handleBlur}
+                  error={
+                    errors.gallery?.first && touched.gallery?.first
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    errors.gallery?.first && touched.gallery?.first
+                      ? errors.gallery?.first
+                      : ""
+                  }
+                />
+              </Button>
+              {imagePpalFirst && (
+                <Button
+                  onClick={() => handleGalleryImageUpload("first")}
+                  type="button"
+                  variant="outlined"
+                  color="success"
+                  sx={{ width: { md: "45%", xs: "99%" }, borderRadius: 2 }}
+                >
+                  Confirm ✔
+                </Button>
+              )}
+
+              {errors.gallery?.first && (
+                <FormHelperText error>
+                  {errors.gallery?.first && touched.gallery?.first
+                    ? errors.gallery?.first
+                    : ""}
+                </FormHelperText>
+              )}
+              {values.gallery.first && (
+                <Image
+                  cloudName="dgur5apfu"
+                  publicId={values.gallery.first}
+                  style={{
+                    width: "20%",
+                    height: "100%",
+                    objectFit: "cover",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
+
+              {/* INPUT PARA SEGUNDA IMAGEN DE GALLERY */}
+              <p>Second Image</p>
+              <Button
+                component="label"
+                variant="outlined"
+                sx={{
+                  width: { md: "45%", xs: "99%" },
+                  p: "14px 15px",
+                  alignSelf: "flex-start",
+                }}
+              >
+                {values.gallery.second ? "Cargado ✔" : "Subir imagen"}
+                <Input
+                  type="file"
+                  id="gallery-second"
+                  onChange={handleGalleryImageChange}
+                  name="gallery.second"
+                  sx={{
+                    letterSpacing: "inherit",
+                    height: "1.4375em",
+                    padding: " 16px 14px",
+                    p: 2.5,
+                    display: "none",
+                  }}
+                  variant="outlined"
+                  onBlur={handleBlur}
+                  error={
+                    errors.gallery?.second && touched.gallery?.second
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    errors.gallery?.second && touched.gallery?.second
+                      ? errors.gallery?.second
+                      : ""
+                  }
+                />
+              </Button>
+              {imagePpalSecond && (
+                <Button
+                  onClick={() => handleGalleryImageUpload("second")}
+                  type="button"
+                  variant="outlined"
+                  color="success"
+                  sx={{ width: { md: "45%", xs: "99%" } }}
+                >
+                  Confirm ✔
+                </Button>
+              )}
+              {errors.gallery?.second && (
+                <FormHelperText error>
+                  {errors.gallery?.second && touched.gallery?.second
+                    ? errors.gallery?.second
+                    : ""}
+                </FormHelperText>
+              )}
+              {values.gallery.second && (
+                <Image
+                  cloudName="dgur5apfu"
+                  publicId={values.gallery.second}
+                  style={{
+                    width: "20%",
+                    height: "100%",
+                    objectFit: "cover",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
+
+              {/* INPUT PARA TERCERA IMAGEN DE GALLERY */}
+              <p>Third Image</p>
+              <Button
+                component="label"
+                variant="outlined"
+                sx={{
+                  width: { md: "45%", xs: "99%" },
+                  p: "14px 15px",
+                  alignSelf: "flex-start",
+                }}
+              >
+                {values.gallery.third ? "Cargado ✔" : "Subir imagen"}
+                <Input
+                  type="file"
+                  id="gallery-third"
+                  onChange={handleGalleryImageChange}
+                  name="gallery.third"
+                  sx={{
+                    letterSpacing: "inherit",
+                    height: "1.4375em",
+                    padding: " 16px 14px",
+                    p: 2.5,
+                    display: "none",
+                  }}
+                  variant="outlined"
+                  onBlur={handleBlur}
+                  error={
+                    errors.gallery?.third && touched.gallery?.third
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    errors.gallery?.third && touched.gallery?.third
+                      ? errors.gallery?.third
+                      : ""
+                  }
+                />
+              </Button>
+              {imagePpalThird && (
+                <Button
+                  onClick={() => handleGalleryImageUpload("third")}
+                  type="button"
+                  variant="outlined"
+                  color="success"
+                  sx={{ width: { md: "45%", xs: "99%" } }}
+                >
+                  Confirm ✔
+                </Button>
+              )}
+              {errors.gallery?.third && (
+                <FormHelperText error>
+                  {errors.gallery?.third && touched.gallery?.third
+                    ? errors.gallery?.third
+                    : ""}
+                </FormHelperText>
+              )}
+              {values.gallery.third && (
+                <Image
+                  cloudName="dgur5apfu"
+                  publicId={values.gallery.third}
+                  style={{
+                    width: "20%",
+                    height: "100%",
+                    objectFit: "cover",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
+            </Box>
 
             {/* BUTTONS */}
             <Box
