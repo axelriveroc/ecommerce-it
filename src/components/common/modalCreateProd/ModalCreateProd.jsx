@@ -24,7 +24,7 @@ import { Image } from "cloudinary-react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../firebase/firebaseConfig";
 
-const ModalCreateProd = ({ open, handleClose }) => {
+const ModalCreateProd = ({ open, handleClose, setChangesProducts }) => {
   const style = {
     position: "absolute",
     top: "50%",
@@ -235,7 +235,7 @@ const ModalCreateProd = ({ open, handleClose }) => {
           addDoc(productsCollection, productForDB);
 
           setValues(initialValues);
-           //setChangesProducts(true);
+           setChangesProducts(true);
 
           Swal.fire(
             "Creado!",

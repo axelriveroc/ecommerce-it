@@ -156,6 +156,8 @@ const Dashboard = ({
 										<IconButton onClick={() => deleteByID(p)} color="error">
 											<DeleteForeverIcon />
 										</IconButton>
+
+										
 									</Box>
 								</TableCell>
 							</TableRow>
@@ -163,6 +165,7 @@ const Dashboard = ({
 					</TableBody>
 				</Table>
 			</TableContainer>
+	
 			<Box
 				sx={{
 					width: "95%",
@@ -188,7 +191,11 @@ const Dashboard = ({
 			)}
 
 			{openCreate && (
-				<ModalCreateProd open={openCreate} handleClose={handleCloseCreate} />
+				<ModalCreateProd
+					open={openCreate}
+					handleClose={handleCloseCreate}
+					setChangesProducts={setChangesProducts}
+				/>
 			)}
 		</Box>
 	);

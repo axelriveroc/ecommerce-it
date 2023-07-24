@@ -9,8 +9,7 @@
 
 "-------------------------  PRIMERO HACEMOS ESTO 👇 -----------------------------"
 
-"Cuando elimino un producto agregar la funcionalidad de eliminar de cloudinary"
-"cuando creo un producto nuevo, usar un useEffect y pasarle como parametro un estado bandera para captar los cambios en products (en eliminar lo tiene)"
+"Cuando elimino un producto agregar la funcionalidad de eliminar de cloudinary" "AVERIGUAR SI SE PUEDE CON REACT"
 
 "Agregar las validaciones al formulario edit"
 
