@@ -21,6 +21,8 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import axios from "axios";
 import { Image } from "cloudinary-react";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../../firebase/firebaseConfig";
 
 const ModalCreateProd = ({ open, handleClose }) => {
   const style = {
@@ -111,6 +113,7 @@ const ModalCreateProd = ({ open, handleClose }) => {
       const formData = new FormData();
       formData.append("file", imagePpal);
       formData.append("upload_preset", "r8lr9ctz");
+      formData.append("folder", "audiophile-products");
 
       //envia la info a cloudinary
       const response = await axios.post(
@@ -118,9 +121,12 @@ const ModalCreateProd = ({ open, handleClose }) => {
         formData
       );
 
-      //Aca lo que habria que hacer en realidad es setear el estado de formik de photoUrl
-      //values.photoUrl = response.data.secure_url;
-      setFieldValue("image", response.data.secure_url);
+      console.log(response);
+      //setimageData();
+      setFieldValue("image", {
+        url: response.data.secure_url,
+        public_id: response.data.public_id,
+      });
     } catch (error) {
       console.error("Error uploading image: ", error);
     }
@@ -157,10 +163,39 @@ const ModalCreateProd = ({ open, handleClose }) => {
       );
 
       // Actualiza el estado de Formik con la URL de la imagen subida a Cloudinary
-      setFieldValue(`gallery.${fieldName}`, response.data.secure_url);
+      setFieldValue(`gallery.${fieldName}`, {
+        url: response.data.secure_url,
+        public_id: response.data.public_id,
+      });
     } catch (error) {
       console.error("Error uploading image: ", error);
     }
+  };
+
+
+
+
+
+
+
+
+
+  const initialValues = {
+    name: "",
+    subname: "",
+    price: "",
+    stock: "",
+    category: "",
+    image: "",
+    description: "",
+    features: "",
+    new: false,
+    gallery: {
+      first: "",
+      second: "",
+      third: "",
+    },
+    includes: [{ item: "", quantity: 1 }],
   };
 
   const {
@@ -172,28 +207,17 @@ const ModalCreateProd = ({ open, handleClose }) => {
     errors,
     setFieldError,
     touched,
+    setValues,
   } = useFormik({
-    initialValues: {
-      // agrego los valores iniciales de mi formulario con las prop del prod que me llega x props.
-      name: "",
-      subname: "",
-      price: "",
-      stock: "",
-      category: "",
-      image: "",
-      description: "",
-      features: "",
-      new: false,
-      gallery: { first: null, second: null, third: null },
-      includes: [{ item: "", quantity: 1 }],
-    },
+    initialValues,
     onSubmit: (dataForm) => {
       console.log(dataForm);
       // los dataForm son los valores que se envian en el formulario
-      /* let obj = {
-				...dataForm,
-				price: +dataForm.price,
-			}; */
+      let productForDB = {
+        ...dataForm,
+        price: +dataForm.price,
+        stock: +dataForm.stock,
+      };
 
       handleClose();
       Swal.fire({
@@ -206,12 +230,12 @@ const ModalCreateProd = ({ open, handleClose }) => {
         confirmButtonText: "Si, Crearlo!",
       }).then((result) => {
         if (result.isConfirmed) {
-          /* OJO 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 */
-          /**
-           * MANIPULAR LA IMAGEN PARA GUARDARLA EN LA NUBE PRIMERO ANTES DE MANDARLA A LA DB
-           */
+          console.log("producto creado: ", productForDB); // obj seria acá
+          const productsCollection = collection(db, "products");
+          addDoc(productsCollection, productForDB);
 
-          console.log("producto creado: ", dataForm); // obj seria acá
+          setValues(initialValues);
+           //setChangesProducts(true);
 
           Swal.fire(
             "Creado!",
@@ -246,22 +270,15 @@ const ModalCreateProd = ({ open, handleClose }) => {
       features: Yup.string().required("El campo 'Features' es obligatorio."),
       new: Yup.boolean(),
       gallery: Yup.object().shape({
-        first: Yup.mixed()
-          .required("Debe cargar una imagen para 'First Image'.")
-          /* .test("is-valid-image", "Tipo de archivo no válido.", (value) => {
-            if (!value) return true;
-            return [
-              "image/jpeg",
-              "image/png",
-              "image/gif",
-              "image/svg+xml",
-            ].includes(value.type);
-          }) */,
-        second: Yup.mixed()
-          .required("Debe cargar una imagen para 'Second Image'."),
-        third: Yup.mixed()
-          .required("Debe cargar una imagen para 'Third Image'.")
-          ,
+        first: Yup.mixed().required(
+          "Debe cargar una imagen para 'First Image'."
+        ),
+        second: Yup.mixed().required(
+          "Debe cargar una imagen para 'Second Image'."
+        ),
+        third: Yup.mixed().required(
+          "Debe cargar una imagen para 'Third Image'."
+        ),
       }),
       includes: Yup.array()
         .of(
@@ -622,7 +639,7 @@ const ModalCreateProd = ({ open, handleClose }) => {
             {values.image && (
               <Image
                 cloudName="dgur5apfu"
-                publicId={values.image}
+                publicId={values.image.url}
                 style={{
                   width: "20%",
                   height: "100%",
@@ -696,7 +713,7 @@ const ModalCreateProd = ({ open, handleClose }) => {
               {values.gallery.first && (
                 <Image
                   cloudName="dgur5apfu"
-                  publicId={values.gallery.first}
+                  publicId={values.gallery.first.url}
                   style={{
                     width: "20%",
                     height: "100%",
@@ -765,7 +782,7 @@ const ModalCreateProd = ({ open, handleClose }) => {
               {values.gallery.second && (
                 <Image
                   cloudName="dgur5apfu"
-                  publicId={values.gallery.second}
+                  publicId={values.gallery.second.url}
                   style={{
                     width: "20%",
                     height: "100%",
@@ -834,7 +851,7 @@ const ModalCreateProd = ({ open, handleClose }) => {
               {values.gallery.third && (
                 <Image
                   cloudName="dgur5apfu"
-                  publicId={values.gallery.third}
+                  publicId={values.gallery.third.url}
                   style={{
                     width: "20%",
                     height: "100%",

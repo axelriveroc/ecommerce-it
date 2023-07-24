@@ -1,16 +1,18 @@
 import {
-	Box,
-	Button,
-	Checkbox,
-	FormControl,
-	FormControlLabel,
-	IconButton,
-	InputLabel,
-	MenuItem,
-	Modal,
-	Select,
-	TextField,
-	Typography,
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  IconButton,
+  Input,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { db } from "../../../firebase/firebaseConfig";
@@ -24,505 +26,613 @@ import axios from "axios";
 import { Image } from "cloudinary-react";
 
 const ModalDashboard = ({
-	open,
-	data,
-	handleClose,
-	disabled,
-	setChangesProducts,
+  open,
+  data,
+  handleClose,
+  disabled,
+  setChangesProducts,
 }) => {
-	const style = {
-		position: "absolute",
-		top: "50%",
-		left: "50%",
-		transform: "translate(-50%, -50%)",
-		width: { xs: 320, sm: 400 },
-		bgcolor: "background.paper",
-		border: "2px solid #000",
-		boxShadow: 24,
-		p: 4,
-		backgroundImage: `url(${data.image})`,
-		backgroundSize: "cover",
-		backgroundPosition: "center",
-		maxHeight: "95vh",
-		overflowY: "auto",
-	};
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: { xs: 320, sm: 400 },
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    backgroundImage: `url(${data.image.url})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    maxHeight: "95vh",
+    overflowY: "auto",
+  };
 
-	const { handleChange, handleSubmit, values } = useFormik({
-		initialValues: {
-			// agrego los valores iniciales de mi formulario con las prop del prod que me llega x props.
-			name: data.name,
-			subname: data.subname,
-			price: data.price,
-			stock: data.stock,
-			category: data.category,
-			image: data.image,
-			description: data.description,
-			features: data.features,
-			new: data.new,
-			includes: data.includes,
-			gallery: data.gallery,
-		},
-		onSubmit: (dataForm) => {
-			// los dataForm son los valores que se envian en el formulario
-			let obj = {
-				...dataForm,
-				price: +dataForm.price,
-			};
+  // Manipular la imagen ppal con Cloudinary:
 
-			handleClose();
-			Swal.fire({
-				title: "Editar este produto ?",
-				text: "Una vez editado se actualiza con esta nueva informacion",
-				icon: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#3085d6",
-				cancelButtonColor: "#d33",
-				confirmButtonText: "Si, modificarlo!",
-			}).then((result) => {
-				if (result.isConfirmed) {
-					/* OJO 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 */
-					/**
-					 * MANIPULAR LA IMAGEN PARA GUARDARLA EN LA NUBE PRIMERO ANTES DE MANDARLA A LA DB
-					 */
+  const allowedFileTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/svg+xml",
+  ];
 
-					let refDoc = doc(db, "products", data.id); // accedo al id del prod xq se lo pase como props
-					updateDoc(refDoc, obj); // UPDATEDOC = PATCH --> le paso el product de mi DB y luego las prop que modifico
-					setChangesProducts(true);
+  const [imagePpal, setImagePpal] = useState(data.image);
+  const [changeImgPpal, setChangeImgPpal] = useState(false);
+  const [imagePpalFirst, setImagePpalFirst] = useState(data.gallery.first);
+  const [imagePpalSecond, setImagePpalSecond] = useState(data.gallery.second);
+  const [imagePpalThird, setImagePpalThird] = useState(data.gallery.third);
 
-					Swal.fire(
-						"Editado!",
-						"Su producto ha sido editado con éxito",
-						"success"
-					);
-				}
-			});
-		},
-	});
+  const handleImageChange = (e) => {
+    if (!allowedFileTypes.includes(e.target.files[0].type)) {
+      setFieldError(
+        "image",
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
+      );
+      setImagePpal("");
+      console.error(
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
+      );
+      return;
+    } else {
+      setImagePpal(e.target.files[0]); //setFieldValue --> no lo puedo setear xq todavia no es la url de la nube
+      setChangeImgPpal(true);
+      setFieldError("image", "");
+    }
+  };
 
-	// Manipular la imagen ppal con Cloudinary:
-	const [image, setImage] = useState("");
-	const [imageUrl, setImageUrl] = useState("");
+  const handleGalleryImageChange = (event) => {
+    const file = event.target.files[0]; // Obtener el archivo seleccionado por el usuario
+    const fieldName = event.target.name; // Nombre del campo (ejemplo: "gallery.first", "gallery.second", etc.)
 
-	console.log(image)
-	console.log(imageUrl)
+    if (!allowedFileTypes.includes(file.type)) {
+      setFieldError(
+        fieldName,
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
+      );
+      if (fieldName === "gallery.first") {
+        setImagePpalFirst("");
+      } else if (fieldName === "gallery.second") {
+        setImagePpalSecond("");
+      } else {
+        setImagePpalThird("");
+      }
+      console.error(
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
+      );
+      return;
+    } else {
+      if (fieldName === "gallery.first") {
+        setImagePpalFirst(file);
+      } else if (fieldName === "gallery.second") {
+        setImagePpalSecond(file);
+      } else {
+        setImagePpalThird(file);
+      }
+      //setFieldValue(fieldName, file); // Actualizar el estado de Formik con la imagen seleccionada
+      setFieldError(fieldName, "");
+    }
+  };
 
+  const handleImageUpload = async () => {
+    try {
+      if (!imagePpal) return;
 
-	const handleImageChange = (e) => {
-		setImage(e.target.files[0]);
-	};
+      setFieldError("image", "");
+      // formatea la informacion que va a enviar a cloudinary con el objeto formData
+      const formData = new FormData();
+      formData.append("file", imagePpal);
+      formData.append("upload_preset", "r8lr9ctz");
+      formData.append("folder", "audiophile-products");
 
-	const handleImageUpload = async () => {
-		try {
-			if (!image) return;
+      //envia la info a cloudinary
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
+        formData
+      );
 
-			// formatea la informacion que va a enviar a cloudinary con el objeto formData
-			const formData = new FormData();
-			formData.append("file", image);
-			formData.append("upload_preset", "r8lr9ctz"); 
+      console.log(response);
+      //setimageData();
+      setFieldValue("image", {
+        url: response.data.secure_url,
+        public_id: response.data.public_id,
+      });
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  };
 
-			//envia la info a cloudinary
-			const response = await axios.post(
-				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload", 
-				formData
-			);
+  const handleGalleryImageUpload = async (fieldName) => {
+    try {
+      // Obtener la imagen seleccionada del estado de Formik
+      if (fieldName === "first") {
+        if (!imagePpalFirst) return;
+      } else if (fieldName === "second") {
+        if (!imagePpalFirst) return;
+      } else {
+        if (!imagePpalFirst) return;
+      }
 
-			//setea el estado de mi imagen con la rta de cloudinary
-			setImageUrl(response.data.secure_url);
-		} catch (error) {
-			console.error("Error uploading image: ", error);
-		}
-	};
+      setFieldError(`gallery.${fieldName}`, "");
 
+      // formatea la información que va a enviar a Cloudinary con el objeto formData
+      const formData = new FormData();
+      if (fieldName === "first") {
+        formData.append("file", imagePpalFirst);
+      } else if (fieldName === "second") {
+        formData.append("file", imagePpalSecond);
+      } else {
+        formData.append("file", imagePpalThird);
+      }
+      formData.append("upload_preset", "r8lr9ctz");
 
+      // envía la información a Cloudinary
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
+        formData
+      );
 
+      // Actualiza el estado de Formik con la URL de la imagen subida a Cloudinary
+      setFieldValue(`gallery.${fieldName}`, {
+        url: response.data.secure_url,
+        public_id: response.data.public_id,
+      });
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  };
 
-	const [imagePreviewGalleryF, setImagePreviewGalleryF] = useState(
-		data.gallery.first
-	);
-	const [imagePreviewGalleryS, setImagePreviewGalleryS] = useState(
-		data.gallery.second
-	);
-	const [imagePreviewGalleryT, setImagePreviewGalleryT] = useState(
-		data.gallery.third
-	);
-	const handleImageChangeTemp = (fieldName, file) => {
-		if (fieldName == "gallery.first") {
-			setImagePreviewGalleryF(URL.createObjectURL(file));
-		}
-		if (fieldName == "gallery.second") {
-			setImagePreviewGalleryS(URL.createObjectURL(file));
-		}
-		if (fieldName == "gallery.third") {
-			setImagePreviewGalleryT(URL.createObjectURL(file));
-		}
-		//setFieldValue(fieldName, file);
-		values.fieldName = file;
-	};
+  const {
+    handleChange,
+    handleSubmit,
+    values,
+    setFieldError,
+    setFieldValue,
+    handleBlur,
+    errors,
+    touched,
+  } = useFormik({
+    initialValues: {
+      // agrego los valores iniciales de mi formulario con las prop del prod que me llega x props.
+      name: data.name,
+      subname: data.subname,
+      price: data.price,
+      stock: data.stock,
+      category: data.category,
+      image: data.image,
+      description: data.description,
+      features: data.features,
+      new: data.new,
+      includes: data.includes,
+      gallery: data.gallery,
+    },
+    onSubmit: (dataForm) => {
+      // los dataForm son los valores que se envian en el formulario
+      let obj = {
+        ...dataForm,
+        price: +dataForm.price,
+        stock: +dataForm.stock,
+      };
 
-	console.log(values);
+      console.log(obj);
 
-	return (
-		<div>
-			<Modal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<Box sx={style}>
-					<form onSubmit={handleSubmit} className="formulario">
-						<Box
-							sx={{
-								display: "flex",
-								justifyContent: "space-between",
-								alignItems: "center",
-							}}
-						>
-							<Typography
-								variant="h5"
-								sx={{ textAlign: "center", fontWeight: "bold" }}
-							>
-								{disabled ? "VER PRODUCTO" : "EDITAR PRODUCTO"}
-							</Typography>
-							<IconButton onClick={handleClose} color="primary">
-								<CancelIcon />
-							</IconButton>
-						</Box>
-						<TextField
-							name="name"
-							label="Name"
-							defaultValue={data.name}
-							disabled={disabled}
-							onChange={handleChange}
-							sx={{
-								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-								backgroundColor: "rgba(255, 255, 255, 0.8)",
-							}}
-						/>
-						<TextField
-							name="subname"
-							label="subname"
-							defaultValue={data.subname}
-							disabled={disabled}
-							onChange={handleChange}
-							sx={{
-								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-								backgroundColor: "rgba(255, 255, 255, 0.8)",
-							}}
-						/>
-						<TextField
-							name="price"
-							label="Price"
-							defaultValue={!disabled ? data.price : `$${data.price}`}
-							disabled={disabled}
-							onChange={handleChange}
-							sx={{
-								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-								backgroundColor: "rgba(255, 255, 255, 0.8)",
-							}}
-						/>
-						<TextField
-							name="stock"
-							label="Stock"
-							defaultValue={data.stock}
-							disabled={disabled}
-							onChange={handleChange}
-							sx={{
-								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-								backgroundColor: "rgba(255, 255, 255, 0.8)",
-							}}
-						/>
-						<p>Includes: </p>
-						{data.includes.map((item, index) => (
-							<Box key={index} sx={{ display: "flex" }}>
-								<TextField
-									name={`includes[${index}].item`}
-									label="Item included"
-									defaultValue={item.item}
-									//value={values.item}
-									disabled={disabled}
-									onChange={handleChange}
-									sx={{
-										boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-										backgroundColor: "rgba(255, 255, 255, 0.8)",
-										width: "75%",
-									}}
-								/>
+      handleClose();
+      Swal.fire({
+        title: "Editar este produto ?",
+        text: "Una vez editado se actualiza con esta nueva informacion",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, modificarlo!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          /* OJO 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 */
 
-								<TextField
-									type="number"
-									name={`includes[${index}].quantity`}
-									label="Quantity"
-									defaultValue={item.quantity}
-									//value={values.quantity}
-									disabled={disabled}
-									onChange={handleChange}
-									sx={{
-										boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-										backgroundColor: "rgba(255, 255, 255, 0.8)",
-										width: "25%",
-									}}
-								/>
-							</Box>
-						))}
+          // let refDoc = doc(db, "products", data.id); // accedo al id del prod xq se lo pase como props
+          //updateDoc(refDoc, obj); // UPDATEDOC = PATCH --> le paso el product de mi DB y luego las prop que modifico
+          setChangesProducts(true);
 
-						{/*  TEXTAREA DESCRIPTION */}
+          Swal.fire(
+            "Editado!",
+            "Su producto ha sido editado con éxito",
+            "success"
+          );
+        }
+      });
+    },
+  });
 
-						<textarea
-							className="textArea"
-							defaultValue={`DESCRIPCION: ${data.description}`}
-							disabled={disabled}
-							name="description"
-							onChange={handleChange}
-						/>
+  console.log(values);
 
-						{/* TEXTAREA FEATURES */}
-						<TextareaAutosize
-							placeholder="Features"
-							className="textArea"
-							defaultValue={`FEATURES: ${data.features}`}
-							disabled={disabled}
-							style={{ overflow: "auto", height: "auto" }}
-							name="features"
-							onChange={handleChange}
-						/>
+  return (
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <form onSubmit={handleSubmit} className="formulario">
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{ textAlign: "center", fontWeight: "bold" }}
+              >
+                {disabled ? "VER PRODUCTO" : "EDITAR PRODUCTO"}
+              </Typography>
+              <IconButton onClick={handleClose} color="primary">
+                <CancelIcon />
+              </IconButton>
+            </Box>
+            <TextField
+              name="name"
+              label="Name"
+              defaultValue={data.name}
+              disabled={disabled}
+              onChange={handleChange}
+              sx={{
+                boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+              }}
+            />
+            <TextField
+              name="subname"
+              label="subname"
+              defaultValue={data.subname}
+              disabled={disabled}
+              onChange={handleChange}
+              sx={{
+                boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+              }}
+            />
+            <TextField
+              name="price"
+              label="Price"
+              defaultValue={!disabled ? data.price : `$${data.price}`}
+              disabled={disabled}
+              onChange={handleChange}
+              sx={{
+                boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+              }}
+            />
+            <TextField
+              name="stock"
+              label="Stock"
+              defaultValue={data.stock}
+              disabled={disabled}
+              onChange={handleChange}
+              sx={{
+                boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+              }}
+            />
+            <p>Includes: </p>
+            {data.includes.map((item, index) => (
+              <Box key={index} sx={{ display: "flex" }}>
+                <TextField
+                  name={`includes[${index}].item`}
+                  label="Item included"
+                  defaultValue={item.item}
+                  //value={values.item}
+                  disabled={disabled}
+                  onChange={handleChange}
+                  sx={{
+                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                    backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    width: "75%",
+                  }}
+                />
 
-						<FormControlLabel
-							sx={{
-								minWidth: 120,
-								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-								backgroundColor: "rgba(255, 255, 255, 0.8)",
-								ml: 0,
-								mr: 0,
-								p: 0.5,
-							}}
-							control={<Checkbox defaultChecked={data.new ? true : false} />}
-							label="New product"
-							name="new"
-							disabled={disabled}
-							onChange={handleChange}
-						/>
+                <TextField
+                  type="number"
+                  name={`includes[${index}].quantity`}
+                  label="Quantity"
+                  defaultValue={item.quantity}
+                  //value={values.quantity}
+                  disabled={disabled}
+                  onChange={handleChange}
+                  sx={{
+                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                    backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    width: "25%",
+                  }}
+                />
+              </Box>
+            ))}
 
-						{/* SELECT */}
+            {/*  TEXTAREA DESCRIPTION */}
 
-						<Box
-							sx={{
-								minWidth: 120,
-								boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-								backgroundColor: "rgba(255, 255, 255, 0.8)",
-							}}
-						>
-							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">Category</InputLabel>
-								<Select
-									name="category"
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									label="Age"
-									value={disabled ? data.category : values.category}
-									onChange={handleChange}
-									sx={{
-										boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-										backgroundColor: "transparent",
-									}}
-								>
-									<MenuItem
-										value="headphones"
-										sx={{
-											boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-											backgroundColor: "rgba(255, 255, 255, 0.8)",
-										}}
-									>
-										Headphones
-									</MenuItem>
-									<MenuItem
-										value="speakers"
-										sx={{
-											boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-											backgroundColor: "rgba(255, 255, 255, 0.8)",
-										}}
-									>
-										Speakers
-									</MenuItem>
-									<MenuItem
-										value="earphones"
-										sx={{
-											boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-											backgroundColor: "rgba(255, 255, 255, 0.8)",
-										}}
-									>
-										Earphones
-									</MenuItem>
-								</Select>
-							</FormControl>
-						</Box>
+            <textarea
+              className="textArea"
+              defaultValue={`DESCRIPCION: ${data.description}`}
+              disabled={disabled}
+              name="description"
+              onChange={handleChange}
+            />
 
-						{/* IMAGEN */}
-						<p>Main Photo</p>
-						<div>
-						<input type="file" onChange={handleImageChange} />
-						<button onClick={handleImageUpload} type="button">Upload Image</button>
-						{imageUrl && (
-							<Image cloudName="dgur5apfu" publicId={imageUrl} />
-						)}
+            {/* TEXTAREA FEATURES */}
+            <TextareaAutosize
+              placeholder="Features"
+              className="textArea"
+              defaultValue={`FEATURES: ${data.features}`}
+              disabled={disabled}
+              style={{ overflow: "auto", height: "auto" }}
+              name="features"
+              onChange={handleChange}
+            />
 
+            <FormControlLabel
+              sx={{
+                minWidth: 120,
+                boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                ml: 0,
+                mr: 0,
+                p: 0.5,
+              }}
+              control={<Checkbox defaultChecked={data.new ? true : false} />}
+              label="New product"
+              name="new"
+              disabled={disabled}
+              onChange={handleChange}
+            />
 
-						{/* 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚔 */}
-					</div>
-						{/* <Box
-							sx={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center",
-								gap: 1,
-							}}
-						>
-							<img
-								src={imagePreview}
-								width={100}
-								height={100}
-								className="fotoProduct"
-							/>{" "}
-						
-							<input
-								type="file"
-								id="file-input"
-								accept="image/*"
-								name="image"
-								
-								onChange={handleImageChange}
-								style={{ display: "none" }}
-							/>
-							{!disabled && (
-								<label htmlFor="file-input">
-									<Button variant="outlined" component="span">
-										nueva foto
-									</Button>
-									<Typography variant="body2" component="span">
-										{values.image ? "" : "Ningún archivo seleccionado"}
-									</Typography>
-								</label>
-							)}
-						</Box> */}
+            {/* SELECT */}
 
-						{/*  GALLERY */}
-						<p>Gallery</p>
-						<Box
-							sx={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center",
-								gap: 1,
-							}}
-						>
-							<Box sx={{ display: "flex", flexDirection: "column" }}>
-								<img
-									//src={values.gallery.first}
-									src={imagePreviewGalleryF}
-									width="100%"
-									height={70}
-									className="fotoProduct-gallery"
-								/>
-								<input
-									type="file"
-									name="gallery.first"
-									//onChange={handleChange}
-									onChange={(e) =>
-										handleImageChangeTemp("gallery.first", e.target.files[0])
-									}
-									id="file-input-first"
-									accept="image/*"
-									style={{ display: "none" }}
-								/>
-								{!disabled && (
-									<label htmlFor="file-input-first">
-										<Button variant="outlined" component="span">
-											+
-										</Button>
-										<Typography variant="body2" component="span">
-											{values.image ? "" : "Ningún archivo seleccionado"}
-										</Typography>
-									</label>
-								)}
-							</Box>
+            <Box
+              sx={{
+                minWidth: 120,
+                boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+              }}
+            >
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <Select
+                  name="category"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Age"
+                  value={disabled ? data.category : values.category}
+                  onChange={handleChange}
+                  sx={{
+                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <MenuItem
+                    value="headphones"
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    Headphones
+                  </MenuItem>
+                  <MenuItem
+                    value="speakers"
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    Speakers
+                  </MenuItem>
+                  <MenuItem
+                    value="earphones"
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                    }}
+                  >
+                    Earphones
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
 
-							<Box sx={{ display: "flex", flexDirection: "column" }}>
-								<img
-									//src={values.gallery.second}
-									src={imagePreviewGalleryS}
-									width="100%"
-									height={70}
-									className="fotoProduct-gallery"
-								/>
-								<input
-									type="file"
-									name="gallery.second"
-									//onChange={handleChange}
-									onChange={(e) =>
-										handleImageChangeTemp("gallery.second", e.target.files[0])
-									}
-									id="file-input-second"
-									accept="image/*"
-									style={{ display: "none" }}
-								/>
-								{!disabled && (
-									<label htmlFor="file-input-second">
-										<Button variant="outlined" component="span">
-											+
-										</Button>
-										<Typography variant="body2" component="span">
-											{values.image ? "" : "Ningún archivo seleccionado"}
-										</Typography>
-									</label>
-								)}
-							</Box>
-							<Box sx={{ display: "flex", flexDirection: "column" }}>
-								<img
-									//src={values.gallery.third}
-									src={imagePreviewGalleryT}
-									width="100%"
-									height={70}
-									className="fotoProduct-gallery"
-								/>
-								<input
-									type="file"
-									name="gallery.third"
-									//onChange={handleChange}
-									onChange={(e) => handleImageChangeTemp("gallery.third", e.target.files[0])}
-									id="file-input-third"
-									accept="image/*"
-									style={{ display: "none" }}
-								/>
-								{!disabled && (
-									<label htmlFor="file-input-third">
-										<Button variant="outlined" component="span">
-											+
-										</Button>
-										<Typography variant="body2" component="span">
-											{values.image ? "" : "Ningún archivo seleccionado"}
-										</Typography>
-									</label>
-								)}
-							</Box>
-						</Box>
+            {/* IMAGEN */}
+            <p>Main Photo</p>
+            <div>
+              {!disabled && (
+                <Button
+                  component="label"
+                  variant="outlined"
+                  sx={{
+                    width: { md: "45%", xs: "99%" },
+                    p: "14px 15px",
+                    alignSelf: "flex-start",
+                  }}
+                  disabled={disabled}
+                >
+                  Editar imagen
+                  <Input
+                    type="file"
+                    id="image"
+                    onChange={handleImageChange}
+                    name="image"
+                    sx={{
+                      letterSpacing: "inherit",
+                      height: "1.4375em",
+                      padding: " 16px 14px",
+                      p: 2.5,
+                      display: "none",
+                    }}
+                    variant="outlined"
+                    onBlur={handleBlur}
+                    error={errors.image && touched.image ? true : false}
+                    helperText={
+                      errors.image && touched.image ? errors.image : ""
+                    }
+                    disabled={disabled}
+                  />
+                </Button>
+              )}
 
-						{/* BUTTONS */}
-						<Box
-							sx={{ display: "flex", gap: 0.5, justifyContent: "space-evenly" }}
-						>
-							{!disabled && (
-								<>
-									<Button type="submit" variant="contained" fullWidth>
-										Enviar
-									</Button>
-								</>
-							)}
-						</Box>
-					</form>
-				</Box>
-			</Modal>
-		</div>
-	);
+              {changeImgPpal && !disabled && imagePpal && (
+                <Button
+                  onClick={handleImageUpload}
+                  type="button"
+                  variant="contained"
+                  sx={{ width: { md: "45%", xs: "99%" } }}
+                >
+                  Confirm Image
+                </Button>
+              )}
+
+              {errors.image && (
+                <FormHelperText error>
+                  {errors.image && touched.image ? errors.image : ""}
+                </FormHelperText>
+              )}
+
+              {values.image && (
+                <Image
+                  cloudName="dgur5apfu"
+                  publicId={values.image.url}
+                  style={{
+                    width: "20%",
+                    height: "100%",
+                    objectFit: "cover",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
+            </div>
+
+            {/* 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚔 */}
+
+            {/*  GALLERY */}
+            <p>Gallery</p>
+            {/* <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 1,
+              }}
+            >
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <img
+                  //src={values.gallery.first}
+                  src={imagePreviewGalleryF}
+                  width="100%"
+                  height={70}
+                  className="fotoProduct-gallery"
+                />
+                <input
+                  type="file"
+                  name="gallery.first"
+                  //onChange={handleChange}
+                  onChange={(e) =>
+                    handleImageChangeTemp("gallery.first", e.target.files[0])
+                  }
+                  id="file-input-first"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                />
+                {!disabled && (
+                  <label htmlFor="file-input-first">
+                    <Button variant="outlined" component="span">
+                      +
+                    </Button>
+                    <Typography variant="body2" component="span">
+                      {values.image ? "" : "Ningún archivo seleccionado"}
+                    </Typography>
+                  </label>
+                )}
+              </Box>
+
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <img
+                  //src={values.gallery.second}
+                  src={imagePreviewGalleryS}
+                  width="100%"
+                  height={70}
+                  className="fotoProduct-gallery"
+                />
+                <input
+                  type="file"
+                  name="gallery.second"
+                  //onChange={handleChange}
+                  onChange={(e) =>
+                    handleImageChangeTemp("gallery.second", e.target.files[0])
+                  }
+                  id="file-input-second"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                />
+                {!disabled && (
+                  <label htmlFor="file-input-second">
+                    <Button variant="outlined" component="span">
+                      +
+                    </Button>
+                    <Typography variant="body2" component="span">
+                      {values.image ? "" : "Ningún archivo seleccionado"}
+                    </Typography>
+                  </label>
+                )}
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <img
+                  //src={values.gallery.third}
+                  src={imagePreviewGalleryT}
+                  width="100%"
+                  height={70}
+                  className="fotoProduct-gallery"
+                />
+                <input
+                  type="file"
+                  name="gallery.third"
+                  //onChange={handleChange}
+                  onChange={(e) =>
+                    handleImageChangeTemp("gallery.third", e.target.files[0])
+                  }
+                  id="file-input-third"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                />
+                {!disabled && (
+                  <label htmlFor="file-input-third">
+                    <Button variant="outlined" component="span">
+                      +
+                    </Button>
+                    <Typography variant="body2" component="span">
+                      {values.image ? "" : "Ningún archivo seleccionado"}
+                    </Typography>
+                  </label>
+                )}
+              </Box>
+            </Box> */}
+
+            {/* BUTTONS */}
+            <Box
+              sx={{ display: "flex", gap: 0.5, justifyContent: "space-evenly" }}
+            >
+              {!disabled && (
+                <>
+                  <Button type="submit" variant="contained" fullWidth>
+                    Enviar
+                  </Button>
+                </>
+              )}
+            </Box>
+          </form>
+        </Box>
+      </Modal>
+    </div>
+  );
 };
 
 export default ModalDashboard;

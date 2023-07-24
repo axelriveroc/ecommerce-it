@@ -45,13 +45,13 @@ const GaleryOneProduct = ({ product }) => {
           <div style={styles.column}>
             <CardMedia
               component="img"
-              src={product.gallery.first}
+              src={product.gallery.first.url}
               alt="Imagen 1"
               sx={styles.image}
             />
             <CardMedia
               component="img"
-              src={product.gallery.second}
+              src={product.gallery.second.url}
               alt="Imagen 2"
               sx={styles.image}
             />
@@ -63,7 +63,7 @@ const GaleryOneProduct = ({ product }) => {
         <Card sx={styles.root}>
           <CardMedia
             component="img"
-            src={product.gallery.third}
+            src={product.gallery.third.url}
             alt="Imagen 3"
             sx={styles.image}
           />

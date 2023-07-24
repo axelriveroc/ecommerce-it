@@ -23,7 +23,7 @@ const CardProductsByCategory = ({ product, index }) => {
         boxShadow: "none",
       }}
     >
-      <img src={product.image} alt="" className="img_product" />
+      <img src={product.image.url} alt="" className="img_product" />
       <CardContent
         sx={{
           height: "70%",

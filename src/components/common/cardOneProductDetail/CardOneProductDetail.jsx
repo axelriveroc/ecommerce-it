@@ -51,10 +51,11 @@ const styles = {
 };
 
 const CardOneProductDetail = ({ product, onAdd, quantityInCart }) => {
+  
   return (
     <Card sx={styles.card}>
 
-      <img src={product.image} alt="" className="image_cardOne" />
+      <img src={product?.image?.url} alt="" className="image_cardOne" />
 
       <CardContent sx={styles.cardContent}>
         <Typography sx={styles.newProduct}>
