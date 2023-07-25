@@ -61,7 +61,7 @@ const SummaryPay = ({ cart, total }) => {
               }}
             >
               <img
-                src={item.image}
+                src={item.image.url}
                 width={65}
                 height={65}
                 style={{ borderRadius: "8px" }}

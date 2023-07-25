@@ -93,7 +93,7 @@ const ModalPay = ({ handleClose, open, cart, total }) => {
 											gap: 1,
 										}}
 									>
-										<img src={cart[0].image} width={60} height={60} />
+										<img src={cart[0].image.url} width={60} height={60} />
 										<Box sx={{ display: "flex", flexDirection: "column" }}>
 											<h4>{cart[0].subname}</h4>
 											<Typography variant="body2" sx={{opacity:0.5}}>${cart[0].price}</Typography>

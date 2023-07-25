@@ -63,7 +63,7 @@ const OneProductInCart = ({ item, dispatch }) => {
       </IconButton>
 
       <img
-        src={item.image}
+        src={item.image.url}
         width={70}
         height={70}
         style={{ borderRadius: "8px" }}
