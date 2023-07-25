@@ -172,14 +172,6 @@ const ModalCreateProd = ({ open, handleClose, setChangesProducts }) => {
     }
   };
 
-
-
-
-
-
-
-
-
   const initialValues = {
     name: "",
     subname: "",

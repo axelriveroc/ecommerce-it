@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Checkbox, FormControlLabel } from "@mui/material";
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { db } from "../../../../firebase/firebaseConfig";
 import { doc, updateDoc } from "firebase/firestore";
@@ -51,9 +51,10 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
   console.log(users);
 
   return (
-    <Box sx={{ background: "rgba(255, 255, 255, 0.12)" }}>
-      UsersDashboard
-      <TableContainer component={Paper} sx={{ width: "80%", m: "0 auto" }}>
+    <Box sx={{ background: " #5e5e5e", display:"flex", flexDirection:"column", justifyContent:"space-around", gap:2 }}>
+      <Typography variant="h3" sx={{ color: "#f0f0f0", textAlign:"center" }}>Users Dashboard</Typography>
+
+      <TableContainer component={Paper} sx={{ width: "80%", m: "0 auto", mb:7}}>
         <Table aria-label="customized table">
           <TableHead>
             <TableRow>
