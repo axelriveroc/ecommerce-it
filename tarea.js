@@ -9,12 +9,6 @@
 
 "-------------------------  PRIMERO HACEMOS ESTO 👇 -----------------------------"
 
-"Cuando elimino un producto agregar la funcionalidad de eliminar de cloudinary" "AVERIGUAR SI SE PUEDE CON REACT"
+"Cuando elimino un producto agregar la funcionalidad de eliminar de cloudinary" 
 
 "Agregar las validaciones al formulario edit"
-
-"Manipular la imagen cuando edito (luego en crear) el producto para subirla a la nube 1ero antes de mandarla a la DB"
-
-" HACER LOGICA DE IMAGENES EN CREAR Y EDITAR PRODUCTS "
-
-// para manejarnos con cloudinary debemos hacer que cada imagen sea un objeto con dos propiedades url y publicid

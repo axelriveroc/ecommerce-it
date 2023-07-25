@@ -3,7 +3,6 @@ import Dashboard from "./Dashboard";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase/firebaseConfig";
 import Swal from "sweetalert2";
-import axios from "axios";
 //import { Cloudinary } from 'cloudinary-core';
 
 
@@ -62,20 +61,10 @@ const DashboardContainer = () => {
 			/* Read more about isConfirmed, isDenied below */
 			if (result.isConfirmed) {
 				//Eliminar la imagen de ccloudinary
-				try {
-					// Utiliza la API de Cloudinary para eliminar la imagen.
-					const cloudinaryName = import.meta.env.VITE_CLOUD_NAME;
-					//await axios.delete(`https://api.cloudinary.com/v1_1/${cloudinaryName}/image/destroy/${product.image.public_id}`);
-					//wait destroy(cloudinary, [product.image.public_id]);
-					await axios.delete(`https://api.cloudinary.com/v1_1/${cloudinaryName}/image/destroy/${product.image.public_id}`);
-					console.log('Imagen eliminada con éxito.');
-				} catch (error) {
-					console.error("Error al eliminar la imagen:", error);
-				}
 				// Eliminar el producto de firestore DB
-				/* let refDoc = doc(db, "products", product.id);
+				let refDoc = doc(db, "products", product.id);
 				deleteDoc(refDoc);
-				setChangesProducts(true); */
+				setChangesProducts(true);
 				Swal.fire("Eliminado!", "", "success");
 			} else if (result.isDenied) {
 				Swal.fire("Queda todo como esta", "", "info");
