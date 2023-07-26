@@ -1,11 +1,14 @@
-import { Link } from "react-router-dom"
+import { Typography } from "@mui/material"
+import { useSelector } from "react-redux"
+
 
 const DashboardIndex = () => {
+  const {user} = useSelector(store => store.authSlice)
+  
   return (
     <div>
-        <p>Dashboard Index</p>
-        <Link to={"/dashboard-products"}>Products Dashboard</Link>
-        <Link to={"/dashboard-users"}>Users Dashboard</Link>
+      <Typography variant="body1" color={"white"}>Dashboard Index </Typography>        
+      <Typography variant="body1" color={"white"}>Bienvenido {user.displayName} </Typography>        
 
     </div>
   )

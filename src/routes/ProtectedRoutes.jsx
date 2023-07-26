@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Loading from "../components/pages/loading/Loading";
-import NavBarContainer from "../components/layout/navbar/NavBarContainer";
+import DrawerDashboard from "../components/pages/dashboard/drawerDashboard/DrawerDashboard";
 
 const ProtectedRoutes = () => {
   const { accessToken, isLogged, user } = useSelector(
@@ -27,8 +27,7 @@ const ProtectedRoutes = () => {
     <>
       {isLogged && accessToken && user.rol === "admin" ? (
         <>
-        <NavBarContainer />
-        <Outlet />
+        <DrawerDashboard />
         </>
       ) : (
         <Navigate to="/login" />

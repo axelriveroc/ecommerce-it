@@ -51,10 +51,10 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
   console.log(users);
 
   return (
-    <Box sx={{ background: " #5e5e5e", display:"flex", flexDirection:"column", justifyContent:"space-around", gap:2 }}>
+    <Box sx={{ background: "rgb(25,25,25)", display:"flex", flexDirection:"column", justifyContent:"space-around", gap:2 }}>
       <Typography variant="h3" sx={{ color: "#f0f0f0", textAlign:"center" }}>Users Dashboard</Typography>
 
-      <TableContainer component={Paper} sx={{ width: "80%", m: "0 auto", mb:7}}>
+      <TableContainer component={Paper} sx={{ width: "100%", m: "0 auto", mb:7}}>
         <Table aria-label="customized table">
           <TableHead>
             <TableRow>
