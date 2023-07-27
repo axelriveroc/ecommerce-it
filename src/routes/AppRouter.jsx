@@ -5,6 +5,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import DashboardContainer from "../components/pages/dashboard/productsDashboard/DashboardContainer";
 import UsersDashboardContainer from "../components/pages/dashboard/usersDashboard/UsersDashboardContainer";
 import DashboardIndex from "../components/pages/dashboard/dashboardIndex/DashboardIndex";
+import DashboardTest from "../components/pages/dashboard/dashbaordTest/DashboardTest";
 
 const AppRouter = () => {
   return (
@@ -19,6 +20,7 @@ const AppRouter = () => {
           <Route path="/dashboard" element={<DashboardIndex />} />
           <Route path="/dashboard-products" element={<DashboardContainer />} />
           <Route path="/dashboard-users" element={<UsersDashboardContainer />} />
+          <Route path="/dashboard-test" element={<DashboardTest />} />
       </Route>
       
       <Route path="*" element={<h1>Not Found</h1>} />
