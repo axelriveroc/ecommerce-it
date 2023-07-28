@@ -44,6 +44,7 @@ const CheckoutContainer = () => {
     initialValues,
     onSubmit: (data) => {
       console.log("se envió el formulario", data);
+      
       handleOpen()
       setValues(initialValues);
       resetForm();
