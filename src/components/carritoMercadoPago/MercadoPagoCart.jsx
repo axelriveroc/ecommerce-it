@@ -10,7 +10,8 @@ const MercadoPagoCart = () => {
 		//mapear el carrito para devolver uno nuevo con la info que necesitemos
 		try {
 			const response = await axios.post(
-				"http://localhost:8080/create_preference",
+				//"http://localhost:8080/create_preference",
+                "https://backend-mp-audiophile.vercel.app/create_preference",
 				[
 					{
 						title: "zapatilla nike",
@@ -42,7 +43,7 @@ const MercadoPagoCart = () => {
 
 	return (
 		<div>
-			<button onClick={handleBuy} type="button">
+			<button onClick={handleBuy} type="button"> {/* Esto deberia ir en la fx onsubmit */}
 				Comprar
 			</button>
 			{preferenceId && <Wallet initialization={{ preferenceId }} />}
