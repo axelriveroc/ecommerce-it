@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import "./SummaryPayStyle.css"
 import MercadoPagoCart from "../../../carritoMercadoPago/MercadoPagoCart";
 
@@ -19,7 +19,8 @@ const styles = {
 	},
 };
 
-const SummaryPay = ({ cart, total }) => {
+const SummaryPay = ({ cart, total, preferenceId
+  }) => {
 	console.log(cart);
 
 	return (
@@ -115,10 +116,7 @@ const SummaryPay = ({ cart, total }) => {
           </span>
         </Box>
       </Box>
-      <Button variant="contained" type="submit">
-        Continuea & pay
-      </Button>
-      <MercadoPagoCart />
+      <MercadoPagoCart cart={cart} preferenceId={preferenceId}/>
     </Box>
   );
 };

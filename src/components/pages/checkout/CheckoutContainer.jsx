@@ -1,13 +1,17 @@
+import axios from "axios";
 import Checkout from "./Checkout";
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
+import { initMercadoPago } from "@mercadopago/sdk-react";
+import { useSelector } from "react-redux";
 
 const CheckoutContainer = () => {
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const {cart} = useSelector(store => store.cartSlice)
 
 
   const initialValues = {
@@ -44,10 +48,12 @@ const CheckoutContainer = () => {
     initialValues,
     onSubmit: (data) => {
       console.log("se envió el formulario", data);
+      handleBuy()
+
       
-      handleOpen()
-      setValues(initialValues);
-      resetForm();
+      //handleOpen()
+      /* setValues(initialValues);
+      resetForm(); */
     },
     validateOnChange: false,
     validateOnBlur: true,
@@ -71,6 +77,52 @@ const CheckoutContainer = () => {
     }),
   });
 
+
+
+  // MERCADOPAGO LOGICA
+
+	const [preferenceId, setPreferenceId] = useState(null);
+	initMercadoPago(import.meta.env.VITE_PUBLIC_KEY);
+
+	const createPreference = async () => {
+		//mapear el carrito para devolver uno nuevo con la info que necesitemos
+		let newCartMP = cart.map((prod) => {
+			return {
+				title: prod.name,
+				unit_price: prod.price,
+				quantity: prod.quantity,
+			};
+		});
+
+		console.log(newCartMP);
+		try {
+			const response = await axios.post(
+				//"http://localhost:8080/create_preference",
+				"https://backend-mp-audiophile.vercel.app/create_preference",
+				newCartMP,
+				
+			); // como 2do parametro van los objetos del producto
+			// pero debe llevar title, unit_price y quantity si o si.
+	/* 		const descripcionFactura = await axios.post("https://backend-mp-audiophile.vercel.app/checkout/preference", {
+				"statement_descriptor": "Audiophile - popito"
+			})
+				console.log("respuesta descripcion factura: ", descripcionFactura) */
+			const { id } = response.data;
+			return id;
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleBuy = async () => {
+		const id = await createPreference();
+		if (id) {
+			setPreferenceId(id); //guardo en el estado el id de la rta del backend
+		}
+	};
+
+
+
   return (
     <Checkout
       handleSubmit={handleSubmit}
@@ -82,6 +134,10 @@ const CheckoutContainer = () => {
       handleClose={handleClose}
       open={open}
       handleOpen={handleOpen}
+
+      preferenceId={preferenceId}
+      cart={cart}
+      handleBuy={handleBuy}
     />
   );
 };
