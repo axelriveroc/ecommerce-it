@@ -28,6 +28,7 @@ const Checkout = ({
 	handleOpen,
 	preferenceId,
 	cart,
+	setPreferenceId
 }) => {
 	return (
 		<Box sx={{ backgroundColor: "#F1F1F1" }}>
@@ -89,7 +90,7 @@ const Checkout = ({
 					/>
 				</Box>
 
-				<SummaryPayContainer preferenceId={preferenceId} cart={cart} />
+				<SummaryPayContainer preferenceId={preferenceId} cart={cart} setPreferenceId={setPreferenceId} />
 			</Box>
 
 			<button onClick={handleOpen}>abrir modal </button>

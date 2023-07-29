@@ -51,26 +51,31 @@ const CheckoutContainer = () => {
   } = useFormik({
     initialValues,
     onSubmit: async(data) => {
-      console.log("se envió el formulario", data);
-      handleBuy()
+      //console.log("se envió el formulario", data);
+      await handleBuy();
+
+      console.log("PREFRENCE ID: ",preferenceId)
 
      //let idVenta = await getPaymentId(preferenceId);
 
      let ventaParaDB = {
       ...data,
-      //idVenta: idVenta, 
+      idVenta: preferenceId, 
       productosCommprados:newCartMP, 
       cliente: user
 
       
      }
+//Se esta creando y todavia no pago
+// deberia encontrar la forma de obtener que se realizo el pago para luego enviar el formulario
 
-      const productsCollection = collection(db, "ventas");
-      await addDoc(productsCollection, ventaParaDB);
+   /*    const productsCollection = collection(db, "ventas");
+      await addDoc(productsCollection, ventaParaDB); */
+      console.log("VENTA: " , ventaParaDB)
 
       
       //handleOpen()
-      setValues(initialValues);
+      //setValues(initialValues);
       
     },
     validateOnChange: false,
@@ -112,6 +117,7 @@ const CheckoutContainer = () => {
       title: prod.name,
       unit_price: prod.price,
       quantity: prod.quantity,
+      currency_id: "ARS"
     };
   });
 	const createPreference = async () => {
@@ -161,6 +167,7 @@ const CheckoutContainer = () => {
       preferenceId={preferenceId}
       cart={cart}
       handleBuy={handleBuy}
+      setPreferenceId={setPreferenceId}
     />
   );
 };

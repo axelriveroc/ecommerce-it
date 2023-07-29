@@ -1,5 +1,5 @@
 import { Wallet } from "@mercadopago/sdk-react";
-import { Button } from "@mui/material";
+
 
 const MercadoPagoCart = ({preferenceId}) => {
 
@@ -22,11 +22,7 @@ const MercadoPagoCart = ({preferenceId}) => {
 	};
 	return (
 		<div>
-			<Button variant="contained" type="submit" fullWidth>
-				{" "}
-				{/* Esto deberia ir en la fx onsubmit */}
-				Comprar
-			</Button >
+			
 			{preferenceId && (
 				<Wallet
 					customization={customization}
