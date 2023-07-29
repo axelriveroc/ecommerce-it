@@ -22,7 +22,7 @@ const MercadoPagoCart = ({preferenceId}) => {
 	};
 	return (
 		<div>
-			<Button variant="contained" type="submit">
+			<Button variant="contained" type="submit" fullWidth>
 				{" "}
 				{/* Esto deberia ir en la fx onsubmit */}
 				Comprar

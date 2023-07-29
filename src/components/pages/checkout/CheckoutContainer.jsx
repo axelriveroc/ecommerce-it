@@ -5,6 +5,9 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { initMercadoPago } from "@mercadopago/sdk-react";
 import { useSelector } from "react-redux";
+//import { MercadoPago } from "@mercadopago/sdk-react";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../../firebase/firebaseConfig";
 
 const CheckoutContainer = () => {
 
@@ -12,6 +15,7 @@ const CheckoutContainer = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const {cart} = useSelector(store => store.cartSlice)
+    const {user} = useSelector(store => store.authSlice)
 
 
   const initialValues = {
@@ -46,9 +50,23 @@ const CheckoutContainer = () => {
     values,
   } = useFormik({
     initialValues,
-    onSubmit: (data) => {
+    onSubmit: async(data) => {
       console.log("se envió el formulario", data);
       handleBuy()
+
+     //let idVenta = await getPaymentId(preferenceId);
+
+     let ventaParaDB = {
+      ...data,
+      //idVenta: idVenta, 
+      productosCommprados:newCartMP, 
+      cliente: user
+
+      
+     }
+
+      const productsCollection = collection(db, "ventas");
+      await addDoc(productsCollection, ventaParaDB);
 
       
       //handleOpen()
@@ -84,15 +102,20 @@ const CheckoutContainer = () => {
 	const [preferenceId, setPreferenceId] = useState(null);
 	initMercadoPago(import.meta.env.VITE_PUBLIC_KEY);
 
+/*   async function getPaymentId(paymentId) {
+    const response = await MercadoPago.payments.getPayment(paymentId);
+    return response.body.id;
+  } */
+
+  let newCartMP = cart.map((prod) => {
+    return {
+      title: prod.name,
+      unit_price: prod.price,
+      quantity: prod.quantity,
+    };
+  });
 	const createPreference = async () => {
 		//mapear el carrito para devolver uno nuevo con la info que necesitemos
-		let newCartMP = cart.map((prod) => {
-			return {
-				title: prod.name,
-				unit_price: prod.price,
-				quantity: prod.quantity,
-			};
-		});
 
 		console.log(newCartMP);
 		try {
