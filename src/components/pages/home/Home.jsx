@@ -51,7 +51,6 @@ const Home = () => {
 						alignItems: { xs: "center", md: "flex-start" },
 					}}
 				>
-					<MercadoPagoCart />
 					
 					<Typography
 						sx={{

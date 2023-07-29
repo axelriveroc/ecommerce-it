@@ -52,8 +52,8 @@ const CheckoutContainer = () => {
 
       
       //handleOpen()
-      /* setValues(initialValues);
-      resetForm(); */
+      setValues(initialValues);
+      
     },
     validateOnChange: false,
     validateOnBlur: true,
