@@ -11,8 +11,8 @@ const MPTest = () => {
     try {
       const response = await axios.post(
         //"http://localhost:8000/create_preference",
-        //"https://backend-mp-audiophile.vercel.app/create_preference",
-        "https://test2-mp-audiophile.vercel.app/create_preference",
+        "https://backend-mp-audiophile.vercel.app/create_preference",
+        //"https://test2-mp-audiophile.vercel.app/create_preference",
         [
           {
             title: "zapatilla nike",

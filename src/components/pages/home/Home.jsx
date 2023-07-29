@@ -13,7 +13,6 @@ import "./HomeStyle.css";
 import { Link } from "react-router-dom";
 import ScrollToTopButton from "../../common/scrollToTop/ScrollToTop";
 import MercadoPagoCart from "../../carritoMercadoPago/MercadoPagoCart";
-import MPTest from "../../carritoMercadoPago/MPTest";
 
 const Home = () => {
 	return (
@@ -53,7 +52,7 @@ const Home = () => {
 					}}
 				>
 					<MercadoPagoCart />
-					<MPTest />
+					
 					<Typography
 						sx={{
 							color: "#FFF",
