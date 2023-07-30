@@ -12,7 +12,6 @@ import CardTriple from "../../common/cardTriple/CardTriple";
 import "./HomeStyle.css";
 import { Link } from "react-router-dom";
 import ScrollToTopButton from "../../common/scrollToTop/ScrollToTop";
-import MercadoPagoCart from "../../carritoMercadoPago/MercadoPagoCart";
 
 const Home = () => {
 	return (

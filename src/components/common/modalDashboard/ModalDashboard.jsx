@@ -1,18 +1,18 @@
 import {
-	Box,
-	Button,
-	Checkbox,
-	FormControl,
-	FormControlLabel,
-	FormHelperText,
-	IconButton,
-	Input,
-	InputLabel,
-	MenuItem,
-	Modal,
-	Select,
-	TextField,
-	Typography,
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  IconButton,
+  Input,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -25,174 +25,172 @@ import { useState } from "react";
 import axios from "axios";
 import { Image } from "cloudinary-react";
 
-
 const ModalDashboard = ({
-	open,
-	data,
-	handleClose,
-	disabled,
-	setChangesProducts,
+  open,
+  data,
+  handleClose,
+  disabled,
+  setChangesProducts,
 }) => {
-	const style = {
-		position: "absolute",
-		top: "50%",
-		left: "50%",
-		transform: "translate(-50%, -50%)",
-		width: { xs: 320, sm: 400 },
-		bgcolor: "#d3d3d3fa",
-		border: "2px solid #000",
-		boxShadow: 24,
-		p: 4,
-		/* backgroundImage: `url(${data.image.url})`, */
-		backgroundSize: "cover",
-		backgroundPosition: "center",
-		maxHeight: "95vh",
-		overflowY: "auto",
-	};
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: { xs: 320, sm: 400 },
+    bgcolor: "#d3d3d3fa",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    /* backgroundImage: `url(${data.image.url})`, */
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    maxHeight: "95vh",
+    overflowY: "auto",
+  };
 
-	// Manipular la imagen ppal con Cloudinary:
+  // Manipular la imagen ppal con Cloudinary:
 
-	const allowedFileTypes = [
-		"image/jpeg",
-		"image/png",
-		"image/gif",
-		"image/svg+xml",
-	];
+  const allowedFileTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/svg+xml",
+  ];
 
-	const [imagePpal, setImagePpal] = useState(data.image);
-	const [changeImgPpal, setChangeImgPpal] = useState(false);
-	const [changeImgPpalFirst, setChangeImgPpalFirst] = useState(false);
-	const [changeImgPpalSecond, setChangeImgPpalSecond] = useState(false);
-	const [changeImgPpalThird, setChangeImgPpalThird] = useState(false);
-	const [imagePpalFirst, setImagePpalFirst] = useState(data.gallery.first);
-	const [imagePpalSecond, setImagePpalSecond] = useState(data.gallery.second);
-	const [imagePpalThird, setImagePpalThird] = useState(data.gallery.third);
+  const [imagePpal, setImagePpal] = useState(data.image);
+  const [changeImgPpal, setChangeImgPpal] = useState(false);
+  const [changeImgPpalFirst, setChangeImgPpalFirst] = useState(false);
+  const [changeImgPpalSecond, setChangeImgPpalSecond] = useState(false);
+  const [changeImgPpalThird, setChangeImgPpalThird] = useState(false);
+  const [imagePpalFirst, setImagePpalFirst] = useState(data.gallery.first);
+  const [imagePpalSecond, setImagePpalSecond] = useState(data.gallery.second);
+  const [imagePpalThird, setImagePpalThird] = useState(data.gallery.third);
 
-	const handleImageChange = (e) => {
-		if (!allowedFileTypes.includes(e.target.files[0].type)) {
-			setFieldError(
-				"image",
-				"Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
-			);
-			setImagePpal("");
-			console.error(
-				"Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
-			);
-			return;
-		} else {
-			setImagePpal(e.target.files[0]); //setFieldValue --> no lo puedo setear xq todavia no es la url de la nube
-			setChangeImgPpal(true);
-			setFieldError("image", "");
-		}
-	};
+  const handleImageChange = (e) => {
+    if (!allowedFileTypes.includes(e.target.files[0].type)) {
+      setFieldError(
+        "image",
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
+      );
+      setImagePpal("");
+      console.error(
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
+      );
+      return;
+    } else {
+      setImagePpal(e.target.files[0]); //setFieldValue --> no lo puedo setear xq todavia no es la url de la nube
+      setChangeImgPpal(true);
+      setFieldError("image", "");
+    }
+  };
 
-	const handleGalleryImageChange = (event) => {
-		const file = event.target.files[0]; // Obtener el archivo seleccionado por el usuario
-		const fieldName = event.target.name; // Nombre del campo (ejemplo: "gallery.first", "gallery.second", etc.)
+  const handleGalleryImageChange = (event) => {
+    const file = event.target.files[0]; // Obtener el archivo seleccionado por el usuario
+    const fieldName = event.target.name; // Nombre del campo (ejemplo: "gallery.first", "gallery.second", etc.)
 
-		if (!allowedFileTypes.includes(file.type)) {
-			setFieldError(
-				fieldName,
-				"Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
-			);
-			if (fieldName === "gallery.first") {
-				setImagePpalFirst("");
-			} else if (fieldName === "gallery.second") {
-				setImagePpalSecond("");
-			} else {
-				setImagePpalThird("");
-			}
-			console.error(
-				"Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
-			);
-			return;
-		} else {
-			if (fieldName === "gallery.first") {
-				setImagePpalFirst(file);
-				setChangeImgPpalFirst(true);
-			} else if (fieldName === "gallery.second") {
-				setImagePpalSecond(file);
-				setChangeImgPpalSecond(true);
-			} else {
-				setImagePpalThird(file);
-				setChangeImgPpalThird(true);
-			}
-			//setFieldValue(fieldName, file); // Actualizar el estado de Formik con la imagen seleccionada
-			setFieldError(fieldName, "");
-		}
-	};
+    if (!allowedFileTypes.includes(file.type)) {
+      setFieldError(
+        fieldName,
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, jpeg, png, gif y svg."
+      );
+      if (fieldName === "gallery.first") {
+        setImagePpalFirst("");
+      } else if (fieldName === "gallery.second") {
+        setImagePpalSecond("");
+      } else {
+        setImagePpalThird("");
+      }
+      console.error(
+        "Tipo de archivo no válido. Solo se permiten imágenes jpg, png, gif y svg."
+      );
+      return;
+    } else {
+      if (fieldName === "gallery.first") {
+        setImagePpalFirst(file);
+        setChangeImgPpalFirst(true);
+      } else if (fieldName === "gallery.second") {
+        setImagePpalSecond(file);
+        setChangeImgPpalSecond(true);
+      } else {
+        setImagePpalThird(file);
+        setChangeImgPpalThird(true);
+      }
+      //setFieldValue(fieldName, file); // Actualizar el estado de Formik con la imagen seleccionada
+      setFieldError(fieldName, "");
+    }
+  };
 
-	const handleImageUpload = async () => {
-		try {
-			if (!imagePpal) return;
+  const handleImageUpload = async () => {
+    try {
+      if (!imagePpal) return;
 
-			setFieldError("image", "");
-			// formatea la informacion que va a enviar a cloudinary con el objeto formData
-			const formData = new FormData();
-			formData.append("file", imagePpal);
-			formData.append("upload_preset", "r8lr9ctz");
-			formData.append("folder", "audiophile-products");
+      setFieldError("image", "");
+      // formatea la informacion que va a enviar a cloudinary con el objeto formData
+      const formData = new FormData();
+      formData.append("file", imagePpal);
+      formData.append("upload_preset", "r8lr9ctz");
+      formData.append("folder", "audiophile-products");
 
-			//envia la info a cloudinary
-			const response = await axios.post(
-				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
-				formData
-			);
+      //envia la info a cloudinary
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
+        formData
+      );
 
-			console.log("respuesta cuando cargo mi img a cloudinary: ",response);
-			//setimageData();
-			setFieldValue("image", {
-				url: response.data.secure_url,
-				public_id: response.data.public_id,
-			});
-		} catch (error) {
-			console.error("Error uploading image: ", error);
-		}
-	};
+      console.log("respuesta cuando cargo mi img a cloudinary: ", response);
+      //setimageData();
+      setFieldValue("image", {
+        url: response.data.secure_url,
+        public_id: response.data.public_id,
+      });
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  };
 
-	const handleGalleryImageUpload = async (fieldName) => {
-		try {
-			// Obtener la imagen seleccionada del estado de Formik
-			if (fieldName === "first") {
-				if (!imagePpalFirst) return;
-			} else if (fieldName === "second") {
-				if (!imagePpalFirst) return;
-			} else {
-				if (!imagePpalFirst) return;
-			}
+  const handleGalleryImageUpload = async (fieldName) => {
+    try {
+      // Obtener la imagen seleccionada del estado de Formik
+      if (fieldName === "first") {
+        if (!imagePpalFirst) return;
+      } else if (fieldName === "second") {
+        if (!imagePpalFirst) return;
+      } else {
+        if (!imagePpalFirst) return;
+      }
 
-			setFieldError(`gallery.${fieldName}`, "");
+      setFieldError(`gallery.${fieldName}`, "");
 
-			// formatea la información que va a enviar a Cloudinary con el objeto formData
-			const formData = new FormData();
-			if (fieldName === "first") {
-				formData.append("file", imagePpalFirst);
-			} else if (fieldName === "second") {
-				formData.append("file", imagePpalSecond);
-			} else {
-				formData.append("file", imagePpalThird);
-			}
-			formData.append("upload_preset", "r8lr9ctz");
-			formData.append("folder", "audiophile-products");
+      // formatea la información que va a enviar a Cloudinary con el objeto formData
+      const formData = new FormData();
+      if (fieldName === "first") {
+        formData.append("file", imagePpalFirst);
+      } else if (fieldName === "second") {
+        formData.append("file", imagePpalSecond);
+      } else {
+        formData.append("file", imagePpalThird);
+      }
+      formData.append("upload_preset", "r8lr9ctz");
+      formData.append("folder", "audiophile-products");
 
+      // envía la información a Cloudinary
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
+        formData
+      );
 
-			// envía la información a Cloudinary
-			const response = await axios.post(
-				"https://api.cloudinary.com/v1_1/dgur5apfu/image/upload",
-				formData
-			);
+      // Actualiza el estado de Formik con la URL de la imagen subida a Cloudinary
+      setFieldValue(`gallery.${fieldName}`, {
+        url: response.data.secure_url,
+        public_id: response.data.public_id,
+      });
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  };
 
-			// Actualiza el estado de Formik con la URL de la imagen subida a Cloudinary
-			setFieldValue(`gallery.${fieldName}`, {
-				url: response.data.secure_url,
-				public_id: response.data.public_id,
-			});
-		} catch (error) {
-			console.error("Error uploading image: ", error);
-		}
-	};
-
-	const {
+  const {
     handleChange,
     handleSubmit,
     values,
@@ -304,16 +302,33 @@ const ModalDashboard = ({
     validateOnBlur: true,
   });
 
-	// Obtener el último objeto "includes" agregado
-	const lastIncludeIndex = values.includes.length - 1;
-	const lastInclude = values.includes[lastIncludeIndex];
+  // Obtener el último objeto "includes" agregado
+  const lastIncludeIndex = values.includes.length - 1;
+  const lastInclude = values.includes[lastIncludeIndex];
 
-	// Verificar si el último objeto "includes" tiene valores válidos
-	const isLastIncludeValid = lastInclude.item !== "";
+  // Verificar si el último objeto "includes" tiene valores válidos
+  const isLastIncludeValid = lastInclude?.item !== "";
 
-	console.log(values);
 
-	return (
+  /* const handleRemoveInclude = (index) => {
+    setFieldValue("includes", (prevIncludes) => {
+      const updatedIncludes = [...prevIncludes];
+      updatedIncludes.splice(index, 1);
+      return updatedIncludes;
+    });
+  }; */
+
+  const handleRemoveInclude = (i)=>{
+    console.log("Hiciste click en el elemento de indice: " , i)
+    const newArr = values.includes.filter((_ , index ) => index !== i  )
+     setFieldValue("includes", newArr);
+  }
+
+
+
+  console.log(values);
+
+  return (
     <div>
       <Modal
         open={open}
@@ -340,6 +355,7 @@ const ModalDashboard = ({
                 <CancelIcon />
               </IconButton>
             </Box>
+            <Typography variant="subtitle1"> ID: {data.id}</Typography>
             <TextField
               name="name"
               label="Name"
@@ -414,73 +430,84 @@ const ModalDashboard = ({
                   ])
                 }
                 sx={{ width: "50%" }}
+                disabled={disabled}
               >
                 +
               </Button>
             )}
-            {values.includes.map((item, index) => (
-              <Box key={index} >
+            {values?.includes?.map((item, index) => (
+              <Box key={index}>
                 <Box sx={{ display: "flex" }}>
+                  <TextField
+                    name={`includes[${index}].item`}
+                    label="Item included"
+                    defaultValue={item.item}
+                    //value={values.item}
+                    disabled={disabled}
+                    onChange={handleChange}
+                    value={item.item}
+                    onBlur={handleBlur}
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      width: "75%",
+                    }}
+                    error={
+                      errors.includes &&
+                      touched.includes &&
+                      touched.includes[index]?.item &&
+                      errors.includes[index]?.item
+                        ? true
+                        : false
+                    }
+                    helperText={
+                      errors.includes &&
+                      touched.includes &&
+                      touched.includes[index]?.item &&
+                      errors.includes[index]?.item
+                        ? errors.includes[index]?.item
+                        : ""
+                    }
+                  />
 
-               
-                <TextField
-                  name={`includes[${index}].item`}
-                  label="Item included"
-                  defaultValue={item.item}
-                  //value={values.item}
-                  disabled={disabled}
-                  onChange={handleChange}
-                  value={item.item}
-                  onBlur={handleBlur}
-                  sx={{
-                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-                    backgroundColor: "rgba(255, 255, 255, 0.8)",
-                    width: "75%",
-                  }}
-                  error={
-                    errors.includes &&
-                    touched.includes &&
-                    touched.includes[index]?.item &&
-                    errors.includes[index]?.item
-                      ? true
-                      : false
-                  }
-                  helpertext={
-                    errors.includes &&
+                  <TextField
+                    type="number"
+                    name={`includes[${index}].quantity`}
+                    label="Quantity"
+                    defaultValue={item.quantity}
+                    value={item.quantity}
+                    disabled={disabled}
+                    onChange={handleChange}
+                    sx={{
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      width: "25%",
+                    }}
+                    inputProps={{
+                      min: 1, // Establecer el valor mínimo como 1
+                    }}
+                  />
+                  {/* Botón para eliminar el elemento "includes" */}
+                  {!disabled && (
+                    <Button
+                      variant="outlined"
+                      onClick={() => handleRemoveInclude(index)}
+                      sx={{ minWidth: "8%", ml: .5, p:1 }}
+                    >
+                      -
+                    </Button>
+                  )}
+                </Box>
+                {
+                  <FormHelperText error>
+                    {errors.includes &&
                     touched.includes &&
                     touched.includes[index]?.item &&
                     errors.includes[index]?.item
                       ? errors.includes[index]?.item
-                      : ""
-                  }
-                />
-
-                <TextField
-                  type="number"
-                  name={`includes[${index}].quantity`}
-                  label="Quantity"
-                  defaultValue={item.quantity}
-                  value={item.quantity}
-                  disabled={disabled}
-                  onChange={handleChange}
-                  sx={{
-                    boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-                    backgroundColor: "rgba(255, 255, 255, 0.8)",
-                    width: "25%",
-                  }}
-                  inputProps={{
-                    min: 1, // Establecer el valor mínimo como 1
-                  }}
-                /> 
-                </Box>
-             {   <FormHelperText error>
-                  {errors.includes &&
-                  touched.includes &&
-                  touched.includes[index]?.item &&
-                  errors.includes[index]?.item
-                    ? errors.includes[index]?.item
-                    : ""}
-                </FormHelperText>}
+                      : ""}
+                  </FormHelperText>
+                }
               </Box>
             ))}
 

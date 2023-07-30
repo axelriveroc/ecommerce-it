@@ -20,7 +20,7 @@ import SpeakerIcon from "@mui/icons-material/Speaker";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import HomeIcon from "@mui/icons-material/Home";
 import DashboardIcon from '@mui/icons-material/Dashboard';
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const DrawerDashboard = (props) => {
 	const { window } = props;

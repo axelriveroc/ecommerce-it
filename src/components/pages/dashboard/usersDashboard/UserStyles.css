@@ -1,0 +1,7 @@
+.td_users {
+  padding: 0.5rem;
+}
+
+.styled-table-row:hover {
+  background-color: #d4f1c5;
+}

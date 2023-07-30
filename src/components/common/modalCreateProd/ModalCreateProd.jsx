@@ -209,6 +209,9 @@ const ModalCreateProd = ({ open, handleClose, setChangesProducts }) => {
         ...dataForm,
         price: +dataForm.price,
         stock: +dataForm.stock,
+        image:{
+          url: dataForm.image
+        }
       };
 
       handleClose();

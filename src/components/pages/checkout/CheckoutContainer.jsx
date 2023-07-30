@@ -105,7 +105,7 @@ const CheckoutContainer = () => {
   // MERCADOPAGO LOGICA
 
 	const [preferenceId, setPreferenceId] = useState(null);
-	initMercadoPago(import.meta.env.VITE_PUBLIC_KEY);
+	initMercadoPago(import.meta.env.VITE_PUBLIC_KEY, {locale:"es-AR"});
 
 /*   async function getPaymentId(paymentId) {
     const response = await MercadoPago.payments.getPayment(paymentId);
