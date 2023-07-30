@@ -116,7 +116,11 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
         Users Dashboard
       </Typography>
 
-      <InputBaseC searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <InputBaseC
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        text={"usuarios"}
+      />
       <TableContainer
         component={Paper}
         sx={{ width: "100%", m: "0 auto", mb: 7 }}
@@ -156,7 +160,11 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
                       )}
                     </IconButton>
                   </TableCell>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell
+                    component="th"
+                    scope="row"
+                    sx={{ fontWeight: "bold" }}
+                  >
                     {displayName}
                   </StyledTableCell>
                   <StyledTableCell
@@ -164,11 +172,16 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
                     className="td_users"
                     sx={{
                       display: { sm: "none", md: "table-cell", xs: "none" },
+                      fontWeight: "bold",
                     }}
                   >
                     {id}
                   </StyledTableCell>
-                  <StyledTableCell align="right" className="td_users">
+                  <StyledTableCell
+                    align="right"
+                    className="td_users"
+                    sx={{ fontWeight: "bold" }}
+                  >
                     {email}
                   </StyledTableCell>
                   <StyledTableCell align="right" className="td_users">

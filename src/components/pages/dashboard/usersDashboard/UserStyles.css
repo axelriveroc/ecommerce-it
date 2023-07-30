@@ -5,3 +5,7 @@
 .styled-table-row:hover {
   background-color: #d4f1c5;
 }
+
+p , h1, h2, h3, h4, h5, h6, th, td{
+  font-weight: bold;
+}
