@@ -41,19 +41,20 @@ const DashboardContainer = () => {
   }, [changesProducts]);
 
   const viewByID = (product) => {
-	handleCloseOptions()
+    console.log("el producto que llega a la funcion viewByID es: ", product);
+    handleCloseOptions();
     setOpen(true);
     setDisabled(true);
     setData(product);
   };
   const editByID = (product) => {
-	handleCloseOptions()
+    handleCloseOptions();
     setOpen(true);
     setDisabled(false);
     setData(product);
   };
   const deleteByID = (product) => {
-	handleCloseOptions()
+    handleCloseOptions();
     Swal.fire({
       title: `Seguro quieres editar este producto: ${product.name}? `,
       showDenyButton: true,
@@ -87,13 +88,21 @@ const DashboardContainer = () => {
     );
   });
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const openOptions = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  //const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEls, setAnchorEls] = useState({});
+  const openOptions = Boolean(anchorEls);
+  const handleClick = (event, p) => {
+    //setAnchorEl(event.currentTarget);
+    console.log(event.currentTarget);
+    console.log(p);
+    setAnchorEls((prevAnchorEls) => ({
+      ...prevAnchorEls,
+      [p.id]: event.currentTarget,
+    }));
   };
   const handleCloseOptions = () => {
-    setAnchorEl(null);
+    //setAnchorEl(null);
+    setAnchorEls({});
   };
 
   const props = {
@@ -112,11 +121,12 @@ const DashboardContainer = () => {
     filteredProducts,
     setSearchTerm,
     searchTerm,
-	openOptions,
-	setAnchorEl,
-	anchorEl,
-	handleClick,
-	handleCloseOptions
+    openOptions,
+  
+    handleClick,
+    handleCloseOptions,
+    anchorEls,
+    setAnchorEls
   };
 
   return <Dashboard {...props} />;

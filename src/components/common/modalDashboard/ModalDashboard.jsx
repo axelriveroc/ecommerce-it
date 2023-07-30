@@ -319,7 +319,7 @@ const ModalDashboard = ({
   }; */
 
   const handleRemoveInclude = (i)=>{
-    console.log("Hiciste click en el elemento de indice: " , i)
+   
     const newArr = values.includes.filter((_ , index ) => index !== i  )
      setFieldValue("includes", newArr);
   }

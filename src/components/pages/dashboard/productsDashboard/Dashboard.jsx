@@ -36,14 +36,24 @@ const Dashboard = ({
   filteredProducts,
   setSearchTerm,
   searchTerm,
-  anchorEl,
   openOptions,
-  handleClick, 
-  handleCloseOptions
+  handleClick,
+  handleCloseOptions,
+  anchorEls,
 }) => {
   const ITEM_HEIGHT = 48;
 
+  const handleViewClick = (product) => {
+    viewByID(product);
+  };
 
+  const handleEditClick = (product) => {
+    editByID(product);
+  };
+
+  const handleDeleteClick = (product) => {
+    deleteByID(product);
+  };
 
   return (
     <Box
@@ -164,7 +174,8 @@ const Dashboard = ({
                     sx={{
                       display: { md: "flex", sm: "flex", xs: "none" },
                       flexDirection: { md: "row", sm: "column", xs: "column" },
-                      justifyContent: "flex-end", alignItems:"center"
+                      justifyContent: "flex-end",
+                      alignItems: "center",
                     }}
                   >
                     <IconButton onClick={() => viewByID(p)} color="info">
@@ -177,6 +188,7 @@ const Dashboard = ({
                       <DeleteForeverIcon />
                     </IconButton>
                   </Box>
+
                   <Box
                     sx={{
                       display: { md: "none", sm: "none", xs: "flex" },
@@ -186,24 +198,33 @@ const Dashboard = ({
                   >
                     <IconButton
                       aria-label="more"
-                      id="long-button"
-                      aria-controls={open ? "long-menu" : undefined}
-                      aria-expanded={open ? "true" : undefined}
+                      //id="long-button"
+                      id={`long-button-${p.id}`}
+                      //aria-controls={openOptions ? "long-menu" : undefined}
+                      //aria-expanded={openOptions ? "true" : undefined}
+                      aria-controls={
+                        openOptions ? `long-menu-${p.id}` : undefined
+                      } // Usa el id del producto para identificar cada menú
+                      aria-expanded={openOptions ? "true" : undefined}
                       aria-haspopup="true"
-                      onClick={handleClick}
+                      onClick={(e) => handleClick(e, p)}
                       sx={{ color: "primary.second" }}
                     >
                       <MoreVertIcon />
                     </IconButton>
 
                     <Menu
-                      id="long-menu"
+                      /*   id="long-menu"
                       MenuListProps={{
                         "aria-labelledby": "long-button",
+                      }} */
+                      id={`long-menu-${p.id}`} // Usa el id del producto para identificar cada menú
+                      MenuListProps={{
+                        "aria-labelledby": `long-button-${p.id}`, // Usa el id del producto para identificar cada botón
                       }}
-                      anchorEl={anchorEl}
-                      open={openOptions}
-                      onClose={handleCloseOptions}
+                      //anchorEl={anchorEl}
+                      /*open={openOptions}
+                      onClose={handleCloseOptions} */
                       PaperProps={{
                         style: {
                           maxHeight: ITEM_HEIGHT * 4.5,
@@ -211,24 +232,37 @@ const Dashboard = ({
                           backgroundColor: "rgb(25,25,25)",
                         },
                       }}
+                      anchorEl={anchorEls[p.id]} // Usa el id del producto para obtener el estado anchorEl correspondiente
+                      open={Boolean(anchorEls[p.id])} // Verifica si el menú debe estar abierto para este producto
+                      onClose={() => handleCloseOptions(p.id)} // Usa el id del producto para identificar cada menú que se va a cerrar
                     >
                       <MenuItem>
-                        <IconButton onClick={() => viewByID(p)} color="info" sx={{gap:1}} >
-                          <VisibilityIcon /> <small> ver </small>
+                        <IconButton
+                          onClick={() => handleViewClick(p)}
+                          color="info"
+                          sx={{ gap: 1 }}
+                        >
+                          <VisibilityIcon /> <small> ver  </small>
                         </IconButton>
                       </MenuItem>
                       <MenuItem>
-                        <IconButton onClick={() => editByID(p)} color="success" sx={{gap:1}}>
+                        <IconButton
+                          onClick={() => handleEditClick(p)}
+                          color="success"
+                          sx={{ gap: 1 }}
+                        >
                           <EditIcon /> <small> editar </small>
                         </IconButton>
                       </MenuItem>
                       <MenuItem>
-                        <IconButton onClick={() => deleteByID(p)} color="error" sx={{gap:1}}>
+                        <IconButton
+                          onClick={() => handleDeleteClick(p)}
+                          color="error"
+                          sx={{ gap: 1 }}
+                        >
                           <DeleteForeverIcon /> <small> eliminar </small>
                         </IconButton>
                       </MenuItem>
-
-                      {/* 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨 */}
                     </Menu>
                   </Box>
                 </TableCell>
