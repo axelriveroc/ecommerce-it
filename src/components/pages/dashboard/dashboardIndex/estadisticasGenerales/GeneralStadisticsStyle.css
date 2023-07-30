@@ -1,0 +1,86 @@
+/* Estilos para el contenedor principal del dashboard */
+.dashboardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: rgb(25, 25, 25);
+}
+
+/* Estilos para las tarjetas */
+.cardContainer {
+  width: 45%;
+  padding: 1rem;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  color: #333; /* Color de texto principal */
+}
+
+/* Estilos para los títulos de las tarjetas */
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para el contenido de las tarjetas */
+.cardContent {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Estilos para los íconos de las tarjetas (puedes usar FontAwesome u otra librería de íconos) */
+.cardIcon {
+  font-size: 2rem;
+  color: #d87d4a; /* Color del ícono (puedes ajustarlo según tus preferencias) */
+  margin-right: 0.5rem;
+}
+
+/* Estilos para las tarjetas que representan información importante */
+.importantCard {
+  background-color: #fff; /* Fondo blanco para resaltar tarjetas importantes */
+  color: #333; /* Color de texto principal para tarjetas importantes */
+  border: 2px solid #d87d4a; /* Borde resaltado para tarjetas importantes */
+}
+
+/* Estilos para el encabezado del dashboard */
+.dashboardHeader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff; /* Color de texto para el encabezado */
+  margin-bottom: 1.5rem;
+}
+.spanloco {
+  color: #d87d4a;
+}
+
+/* Estilos para el mensaje de bienvenida */
+.welcomeMessage {
+  font-size: 1.2rem;
+  color: #f1f1f1; /* Color de texto para el mensaje de bienvenida */
+  margin-bottom: 1rem;
+}
+
+/* Estilos para el footer del dashboard */
+.dashboardFooter {
+  font-size: 0.8rem;
+  color: #ccc; /* Color de texto para el footer */
+  margin-top: 2rem;
+}
+
+/* Estilos para enlaces */
+a {
+  color: #007bff; /* Color del enlace (puedes ajustarlo según tus preferencias) */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline; /* Subrayar enlaces al pasar el ratón por encima */
+}
+
+@media (max-width: 900px) {
+  .cardContainer {
+    width: 90%;
+  }
+}
