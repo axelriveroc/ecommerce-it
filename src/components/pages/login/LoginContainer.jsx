@@ -18,8 +18,9 @@ const LoginContainer = () => {
   const navigate = useNavigate();
   const [mailChangePassword, setMailChangePassword] = useState(false);
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((store) => store.authSlice);
+  const { isLoading, user, accessToken } = useSelector((store) => store.authSlice);
   //const toastDispatch = (message, type) => showMessage(message, type);
+
 
   const [showPassword, setShowPassoword] = useState(false);
 
@@ -94,6 +95,12 @@ const LoginContainer = () => {
       console.log(error);
     }
   };
+
+  if( user && accessToken ){
+    console.log("user del if: " , user)
+    return navigate("/")
+  }
+
 
   return (
     <Login

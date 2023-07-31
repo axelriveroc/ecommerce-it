@@ -9,7 +9,7 @@ import {
 	Divider,
 	IconButton,
 	Avatar,
-  Typography,
+	Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
@@ -69,23 +69,29 @@ export default function DrawerMUI({ isLogged, accessToken, logOut, user }) {
 			)}
 
 			{isLogged && accessToken && (
-				<List >
-					<ListItem disablePadding sx={{pl:1, display:"flex", gap:1}}>
+				<List>
+					<ListItem disablePadding sx={{ pl: 1, display: "flex", gap: 1 }}>
 						<Avatar src={user?.photoUrl} />
-            <Typography sx={{color:"white"}}> {user?.displayName} </Typography>
+						<Typography sx={{ color: "white" }}>
+							{" "}
+							{user?.displayName}{" "}
+						</Typography>
 					</ListItem>
 
-					<ListItem disablePadding>
-						<Link to="/dashboard" style={{ textDecoration: "none" }}>
-							<ListItemButton>
-								<ListItemText
-									primary="Dashboard"
-									sx={{ color: "primary.main" }}
-									primaryTypographyProps={{ style: { fontWeight: "bold" } }}
-								/>
-							</ListItemButton>
-						</Link>
-					</ListItem>
+					{user.rol === "admin" && (
+						<ListItem disablePadding>
+							<Link to="/dashboard" style={{ textDecoration: "none" }}>
+								<ListItemButton>
+									<ListItemText
+										primary="Dashboard"
+										sx={{ color: "primary.main" }}
+										primaryTypographyProps={{ style: { fontWeight: "bold" } }}
+									/>
+								</ListItemButton>
+							</Link>
+						</ListItem>
+					)}
+
 					<ListItem disablePadding>
 						<ListItemButton onClick={logOut}>
 							<ListItemText
