@@ -33,6 +33,7 @@ const Register = ({
   values,
   setFieldValue,
   setFieldError,
+  touched
 }) => {
   const allowedFileTypes = [
     "image/jpeg",
@@ -180,6 +181,7 @@ const Register = ({
               type="file"
               id="photoUrl"
               onChange={handleImageChange}
+              onBlur={handleBlur}
               name="photoUrl"
               sx={{
                 letterSpacing: "inherit",
@@ -204,7 +206,7 @@ const Register = ({
               Confirm Image
             </Button>
           )}
-          {errors.photoUrl && (
+          {errors.photoUrl && touched?.photoUrl && (
             <FormHelperText error>{errors.photoUrl}</FormHelperText>
           )}
         </Box>

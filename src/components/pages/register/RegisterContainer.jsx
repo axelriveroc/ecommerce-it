@@ -105,6 +105,8 @@ const RegisterContainer = () => {
     }),
   });
 
+  console.log(touched)
+
   return (
     <Register
       showPassword={showPassword}
@@ -121,6 +123,7 @@ const RegisterContainer = () => {
       setFieldValue={setFieldValue}
       setFieldError={setFieldError}
       setFieldTouched={setFieldTouched}
+      touched={touched}
     />
   );
 };
