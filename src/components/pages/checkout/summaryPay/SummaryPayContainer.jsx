@@ -1,7 +1,13 @@
 import { useSelector } from "react-redux";
 import SummaryPay from "./SummaryPay";
 
-const SummaryPayContainer = ({ preferenceId, cart, handleBuy, setPreferenceId }) => {
+const SummaryPayContainer = ({
+	preferenceId,
+	cart,
+	handleBuy,
+	setPagando,
+	pagando, orderId
+}) => {
 	const { total } = useSelector((store) => store.cartSlice);
 	return (
 		<SummaryPay
@@ -9,7 +15,9 @@ const SummaryPayContainer = ({ preferenceId, cart, handleBuy, setPreferenceId })
 			total={total}
 			preferenceId={preferenceId}
 			handleBuy={handleBuy}
-      setPreferenceId={setPreferenceId}
+			setPagando={setPagando}
+			orderId={orderId}
+      pagando={pagando}
 		/>
 	);
 };

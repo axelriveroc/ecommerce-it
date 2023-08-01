@@ -1,8 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import SummaryPayContainer from "./summaryPay/SummaryPayContainer";
-import BillingDetails from "./billingDetails/BillingDetails";
+/* import BillingDetails from "./billingDetails/BillingDetails";
 import ShippingInfo from "./shippingIngo/ShippingInfo";
-import PaymentsDetails from "./paymentsDetails/PaymentsDetails";
+import PaymentsDetails from "./paymentsDetails/PaymentsDetails"; */
 import { Link } from "react-router-dom";
 
 const styles = {
@@ -18,17 +18,21 @@ const styles = {
 
 const Checkout = ({
 	handleSubmit,
-	handleChange,
-	handleBlur,
+	/*handleChange,
+	 handleBlur,
 	errors,
 	shouldShowError,
 	values,
 	handleClose,
-	open,
+	open, */
 	handleOpen,
 	preferenceId,
 	cart,
-	setPreferenceId
+	setPagando,
+	pagando,
+	orderId,
+	handleChangeLocal,
+	handleBuy,
 }) => {
 	return (
 		<Box sx={{ backgroundColor: "#F1F1F1" }}>
@@ -47,7 +51,7 @@ const Checkout = ({
 				</Typography>
 			</Link>
 			<Box component="form" sx={styles.box} onSubmit={handleSubmit}>
-				<Box
+				{/* <Box
 					sx={{
 						p: 2,
 						display: "flex",
@@ -88,10 +92,70 @@ const Checkout = ({
 						handleClose={handleClose}
 						open={open}
 					/>
-				</Box>
-
-				<SummaryPayContainer preferenceId={preferenceId} cart={cart} setPreferenceId={setPreferenceId} />
+				</Box> */}
 			</Box>
+			{!pagando && !orderId && (
+				<div>
+					<Grid
+						container
+						rowSpacing={2}
+						columnSpacing={2}
+						alignItems="center"
+						justifyContent={"center"}
+					>
+						<Grid item xs={10} md={5}>
+							<TextField
+								name="name"
+								label="Nombre completo"
+								fullWidth
+								onChange={handleChangeLocal}
+							/>
+						</Grid>
+
+						<Grid item xs={10} md={5}>
+							<TextField
+								name="adress"
+								label="Direccion"
+								fullWidth
+								onChange={handleChangeLocal}
+							/>
+						</Grid>
+						<Grid item xs={10} md={5}>
+							<TextField
+								name="cp"
+								label="Codigo postal"
+								fullWidth
+								onChange={handleChangeLocal}
+							/>
+						</Grid>
+						<Grid item xs={10} md={5}>
+							<TextField
+								name="phone"
+								label="Telefono"
+								fullWidth
+								onChange={handleChangeLocal}
+							/>
+						</Grid>
+						<Grid item xs={10} md={5}></Grid>
+						<Grid item xs={10}>
+							<Button
+								variant="contained"
+								onClick={handleBuy}
+								sx={{ marginTop: "20xp" }}
+							>
+								Seleccione metodo de pago
+							</Button>
+						</Grid>
+					</Grid>
+				</div>
+			)}
+			<SummaryPayContainer
+				orderId={orderId}
+				pagando={pagando}
+				setPagando={setPagando}
+				preferenceId={preferenceId}
+				cart={cart}
+			/>
 
 			<button onClick={handleOpen}>abrir modal </button>
 		</Box>

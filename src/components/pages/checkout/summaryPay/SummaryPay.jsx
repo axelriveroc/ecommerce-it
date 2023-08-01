@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import "./SummaryPayStyle.css";
 import MercadoPagoCart from "../../../carritoMercadoPago/MercadoPagoCart";
 
@@ -19,8 +19,7 @@ const styles = {
 	},
 };
 
-const SummaryPay = ({ cart, total, preferenceId, setPreferenceId }) => {
-	console.log(cart);
+const SummaryPay = ({ cart, total, preferenceId, setPagando, }) => {
 
 	return (
 		<Box
@@ -116,17 +115,16 @@ const SummaryPay = ({ cart, total, preferenceId, setPreferenceId }) => {
 					</span>
 				</Box>
 			</Box>
-			<Button
+			{/* <Button
 				variant="contained"
 				type="button"
 				fullWidth
 				onClick={() => setPreferenceId(true)}
 			>
-				{" "}
-				{/* Esto deberia ir en la fx onsubmit */}
+				
 				Comprar
-			</Button>
-			<MercadoPagoCart cart={cart} preferenceId={preferenceId} />{" "}
+			</Button> */}
+			<MercadoPagoCart cart={cart} preferenceId={preferenceId} setPagando={setPagando} />{" "}
 			{/* boton mercado pago */}
 		</Box>
 	);

@@ -1,7 +1,7 @@
 import { Wallet } from "@mercadopago/sdk-react";
 
 
-const MercadoPagoCart = ({preferenceId}) => {
+const MercadoPagoCart = ({preferenceId, setPagando}) => {
 
 	const customization = {
 		texts: {
@@ -27,7 +27,7 @@ const MercadoPagoCart = ({preferenceId}) => {
 				<Wallet
 					customization={customization}
 					initialization={{ preferenceId, redirectMode: "modal" }}
-					onReady={() => { console.log("callback de wallet: onReady")}}
+					onReady={() => { setPagando(true) }}
 					onError={() => { console.log("callback de wallet: onError")}}
 					onSubmit={() => { console.log("callback de wallet: onSubmit")}}
 				/>
