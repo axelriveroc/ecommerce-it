@@ -201,8 +201,8 @@ const CheckoutContainer = () => {
 		);
 		try {
 			const response = await axios.post(
-				"http://localhost:8080/create_preference",
-				//"https://backend-mp-audiophile.vercel.app/create_preference",
+				//"http://localhost:8080/create_preference",
+				"https://backend-mp-audiophile.vercel.app/create_preference",
 				{ items: newCartMP, shipment_cost: shipmentCost }
 			); // como 2do parametro van los objetos del producto
 			// pero debe llevar title, unit_price y quantity si o si.
