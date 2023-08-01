@@ -4,6 +4,7 @@ import SummaryPayContainer from "./summaryPay/SummaryPayContainer";
 import ShippingInfo from "./shippingIngo/ShippingInfo";
 import PaymentsDetails from "./paymentsDetails/PaymentsDetails"; */
 import { Link } from "react-router-dom";
+import SuccessMP from "../mercadoPago/SuccessMP";
 
 const styles = {
 	box: {
@@ -33,7 +34,12 @@ const Checkout = ({
 	orderId,
 	handleChangeLocal,
 	handleBuy,
+	paramValue
+	
 }) => {
+
+	
+
 	return (
 		<Box sx={{ backgroundColor: "#F1F1F1" }}>
 			<Link to="/" style={{ textDecoration: "none" }}>
@@ -49,6 +55,7 @@ const Checkout = ({
 					{" "}
 					Go Back
 				</Typography>
+				{orderId && <SuccessMP orderId={orderId} paramValue={paramValue} />}
 			</Link>
 			<Box component="form" sx={styles.box} onSubmit={handleSubmit}>
 				{/* <Box

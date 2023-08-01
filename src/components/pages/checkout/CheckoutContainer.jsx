@@ -229,7 +229,7 @@ const CheckoutContainer = () => {
 			preferenceId={preferenceId}
 			cart={cart}
 			handleBuy={handleBuy}
-	
+      paramValue={paramValue}
 			setPagando={setPagando}
 			orderId={orderId}
 			pagando={pagando}
