@@ -24,7 +24,7 @@ const CheckoutContainer = () => {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 	const { cart, total } = useSelector((store) => store.cartSlice);
-	//const { user } = useSelector((store) => store.authSlice);
+	const { user } = useSelector((store) => store.authSlice);
   const dispatch = useDispatch();
 
 	/* const initialValues = {
@@ -111,7 +111,7 @@ const CheckoutContainer = () => {
 	//Los valores del form como no voy a usar el onSubmit, los guardo en un estado local:
 	const [userData, setUserData] = useState({
 		name: "",
-		email: "",
+		phone: "",
 		adress: "",
 		cp: "",
 	});
@@ -179,7 +179,10 @@ const CheckoutContainer = () => {
 		//preparo lo que voy a guardar en localStorage
 		let order = {
 			name: userData.name,
-			email: userData.email,
+			adress: userData.adress,
+			phone: userData.phone,
+			codigoPostal: userData.cp,
+			email: user.email,
 			items: cart,
 			total,
 		};
