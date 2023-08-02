@@ -92,7 +92,7 @@ const Home = () => {
 					</Typography>
 					<Button variant="contained" sx={{ width: "50%" }}>
 						<Link
-							to="/productDetail/VE9G9DQy9MSSDH9Sk0be"
+							to="/"
 							style={{ textDecoration: "none", color: "white" }}
 						>
 							SEE PRODUCT
