@@ -1,12 +1,12 @@
-import { Box, Button, Divider, Modal, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const style = {
-	position: "absolute",
+	/* position: "absolute",
 	top: {sm:"45%", xs:"50%"},
 	right: {sm:"0%", xs:"-10%"},
-	transform: {sm:"translate(-25%, -50%)", xs:"translate( -25%, -50%)"},
+	transform: {sm:"translate(-25%, -50%)", xs:"translate( -25%, -50%)"}, */
 	width: {sm:500, xs:250},
 	bgcolor: "background.paper",
 	p: 3,
@@ -20,15 +20,15 @@ const style = {
   height:{sm:"70vh", xs:"90%"}
 
 };
-const ModalPay = ({ handleClose, open, cart, total }) => {
+const ModalPay = ({ cart, total }) => {
 	return (
 		<div>
-			<Modal
+			{/* <Modal
 				open={open}
 				onClose={handleClose}
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
-			>
+			> */}
 				<Box sx={style}>
 					<CheckCircleIcon color="primary" fontSize="large" />
 					<Typography
@@ -157,12 +157,12 @@ const ModalPay = ({ handleClose, open, cart, total }) => {
 					)}
 
 					<Link to="/">
-						<Button variant="contained" onClick={handleClose} fullWidth>
+						<Button variant="contained" /* onClick={handleClose} */ fullWidth>
 							Back To Home
 						</Button>
 					</Link>
 				</Box>
-			</Modal>
+			{/* </Modal> */}
 		</div>
 	);
 };
