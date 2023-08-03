@@ -12,8 +12,10 @@ import CardTriple from "../../common/cardTriple/CardTriple";
 import "./HomeStyle.css";
 import { Link } from "react-router-dom";
 import ScrollToTopButton from "../../common/scrollToTop/ScrollToTop";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+	const {clearCart} = useSelector((store)=> store.cart)
 	return (
 		<div>
 			<ScrollToTopButton />
@@ -38,6 +40,7 @@ const Home = () => {
 					borderRadius: "0px",
 				}}
 			>
+				<Button onClick={()=> clearCart()} >Limpiar localstorage</Button>
 				<CardContent
 					sx={{
 						width: { md: "50%", xs: "90%", sm: "50%" },
