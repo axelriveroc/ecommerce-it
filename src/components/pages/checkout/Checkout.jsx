@@ -27,7 +27,6 @@ const Checkout = ({
 	values,
 	handleClose,
 	open, */
-  handleOpen,
   preferenceId,
   cart,
   setPagando,
@@ -185,7 +184,6 @@ const Checkout = ({
         />
       </Box>
 
-      <button onClick={handleOpen}>abrir modal </button>
     </Box>
   );
 };

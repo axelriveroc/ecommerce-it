@@ -60,7 +60,7 @@ const CardUnique = ({ product }) => {
       <Box sx={stylesBox}>
         <Typography sx={stylesTitle}>{product.title}</Typography>
         <Button style={stylesButton}>
-          <Link to={`/productDetail/${product.id}`} style={{display:"flex", alignItems:"center", gap:"8px", textDecoration:"none"}}>
+          <Link /* to={`/productDetail/${product.id}`} */ style={{display:"flex", alignItems:"center", gap:"8px", textDecoration:"none"}}>
           <Typography sx={stylesShop}>SHOP</Typography>
           <img src={flecha} alt="" style={{ width: "5px", height: "10px" }} />
           </Link>

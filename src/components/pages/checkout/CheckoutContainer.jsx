@@ -228,9 +228,6 @@ const CheckoutContainer = () => {
     }
   };
 
-  console.log("pagando: " , pagando)
-  console.log("esperaBotonMP: ", esperaBotonMP);
-  //console.log("orderId: ", orderId)
 
   return (
     <Checkout

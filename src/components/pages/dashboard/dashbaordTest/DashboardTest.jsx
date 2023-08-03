@@ -2,6 +2,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../../../../firebase/firebaseConfig";
 import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
+import {v4} from "uuid"
 
 const DashboardTest = () => {
   const [image, setImage] = useState("");
@@ -60,7 +61,7 @@ const DashboardTest = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (image) {
-      const refArchivo = ref(storage, `products/${image.name}`);
+      const refArchivo = ref(storage, `products/${v4()}-${image.name}`);
       const archivoSubido = await uploadBytes(refArchivo, image);
       console.log("Archivo subido: ", archivoSubido);
       const imageUrl = await getDownloadURL(refArchivo);
