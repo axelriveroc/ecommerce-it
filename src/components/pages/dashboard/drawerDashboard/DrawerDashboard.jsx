@@ -19,7 +19,8 @@ import { Link, Outlet } from "react-router-dom";
 import SpeakerIcon from "@mui/icons-material/Speaker";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import HomeIcon from "@mui/icons-material/Home";
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import AddCardIcon from "@mui/icons-material/AddCard";
 const drawerWidth = 200;
 
 const DrawerDashboard = (props) => {
@@ -31,7 +32,7 @@ const DrawerDashboard = (props) => {
 	};
 
 	const drawer = (
-		<div style={{backgroundColor:"#5e5e5e", minHeight:"100%"}}>
+		<div style={{ backgroundColor: "#5e5e5e", minHeight: "100%" }}>
 			<Toolbar />
 			<Divider />
 			<List>
@@ -46,17 +47,23 @@ const DrawerDashboard = (props) => {
 					</Link>
 				</ListItem>
 				<ListItem disablePadding>
-					<Link to="/dashboard" style={{ textDecoration: "none", color: "inherit" }}>
+					<Link
+						to="/dashboard"
+						style={{ textDecoration: "none", color: "inherit" }}
+					>
 						<ListItemButton>
 							<ListItemIcon>
-							<DashboardIcon />
+								<DashboardIcon />
 							</ListItemIcon>
 							<ListItemText primary={"Dashboard"} />
 						</ListItemButton>
 					</Link>
 				</ListItem>
 				<ListItem disablePadding>
-					<Link to="/dashboard-products" style={{ textDecoration: "none", color: "inherit" }}>
+					<Link
+						to="/dashboard-products"
+						style={{ textDecoration: "none", color: "inherit" }}
+					>
 						<ListItemButton>
 							<ListItemIcon>
 								<SpeakerIcon />
@@ -66,12 +73,28 @@ const DrawerDashboard = (props) => {
 					</Link>
 				</ListItem>
 				<ListItem disablePadding>
-					<Link to="/dashboard-users" style={{ textDecoration: "none", color: "inherit" }}>
+					<Link
+						to="/dashboard-users"
+						style={{ textDecoration: "none", color: "inherit" }}
+					>
 						<ListItemButton>
 							<ListItemIcon>
 								<PeopleAltIcon />
 							</ListItemIcon>
 							<ListItemText primary={"Users"} />
+						</ListItemButton>
+					</Link>
+				</ListItem>
+				<ListItem disablePadding>
+					<Link
+						to="/dashboard-ventas"
+						style={{ textDecoration: "none", color: "inherit" }}
+					>
+						<ListItemButton>
+							<ListItemIcon>
+								<AddCardIcon />
+							</ListItemIcon>
+							<ListItemText primary={"Ventas"} />
 						</ListItemButton>
 					</Link>
 				</ListItem>
@@ -82,7 +105,7 @@ const DrawerDashboard = (props) => {
 	const container =
 		window !== undefined ? () => window().document.body : undefined;
 	return (
-		<Box sx={{ display: "flex", backgroundColor:"rgb(25,25,25)" }}>
+		<Box sx={{ display: "flex", backgroundColor: "rgb(25,25,25)" }}>
 			<CssBaseline />
 
 			<AppBar
@@ -90,7 +113,7 @@ const DrawerDashboard = (props) => {
 				sx={{
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
 					ml: { sm: `${drawerWidth}px` },
-					backgroundColor:"rgb(25,25,25)"
+					backgroundColor: "rgb(25,25,25)",
 				}}
 			>
 				<Toolbar>
@@ -103,14 +126,18 @@ const DrawerDashboard = (props) => {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap component="div"color="primary">
-						DASHBOARD 
+					<Typography variant="h6" noWrap component="div" color="primary">
+						DASHBOARD
 					</Typography>
 				</Toolbar>
 			</AppBar>
 			<Box
 				component="nav"
-				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } , background:"#5e5e5e"}}
+				sx={{
+					width: { sm: drawerWidth },
+					flexShrink: { sm: 0 },
+					background: "#5e5e5e",
+				}}
 				aria-label="mailbox folders"
 			>
 				{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -140,7 +167,7 @@ const DrawerDashboard = (props) => {
 							boxSizing: "border-box",
 							width: drawerWidth,
 						},
-						background:"#5e5e5e",
+						background: "#5e5e5e",
 					}}
 					open
 				>
@@ -153,9 +180,9 @@ const DrawerDashboard = (props) => {
 					flexGrow: 1,
 					p: 3,
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
-					minHeight:"100vh",
+					minHeight: "100vh",
 					mt: 9,
-					backgroundColor:"rgb(25,25,25)"
+					backgroundColor: "rgb(25,25,25)",
 				}}
 			>
 				<Outlet />

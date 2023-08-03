@@ -18,6 +18,8 @@ import { db } from "../../../firebase/firebaseConfig";
 import { clearCart } from "../../../store/cartSlice";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import Swal from 'sweetalert2'
+
 
 const CheckoutContainer = () => {
   const [open, setOpen] = useState(false);
@@ -177,6 +179,10 @@ const CheckoutContainer = () => {
   const handleBuy = async () => {
     //el loading aparece cuando hago click en handleBuy y si los campos estan completos
     //desaparece cuando aparece el boton de MP para pagar
+    console.log(user)
+    if(user){
+
+   
 
     //preparo localstorage con info y creo la preferencia para MP.
     let order = {
@@ -203,6 +209,17 @@ const CheckoutContainer = () => {
       }
     } else {
       return setErrorsForm(true);
+    } 
+  
+  }else{
+      console.log("El usuario no esta loggeado ")
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Debes iniciar sesion para poder comprar',
+       /*  footer: '<Link to="/login">Why do I have this issue?</Link>' */
+      })
+      
     }
   };
 
