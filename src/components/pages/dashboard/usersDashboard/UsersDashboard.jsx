@@ -31,7 +31,7 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
 			p: { xs: 0.5, sm: 2 },
 		},
 		[`&.${tableCellClasses.body}`]: {
-			fontSize: 14,
+			fontSize: {xs:12, sm:14},
 			p: { xs: 0.5, sm: 2 },
 		},
 	}));
@@ -133,12 +133,12 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
 					<TableHead>
 						<TableRow>
 							<StyledTableCell
-								sx={{ display: { sm: "table-cell", md: "none" }, }}
+								sx={{ display: { sm: "table-cell", md: "none" } }}
 							></StyledTableCell>
 							<StyledTableCell>Name</StyledTableCell>
 							<StyledTableCell
 								align="right"
-								sx={{ display: { sm: "none", md: "table-cell", xs: "none" } , }}
+								sx={{ display: { sm: "none", md: "table-cell", xs: "none" } }}
 							>
 								ID
 							</StyledTableCell>
@@ -150,7 +150,12 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
 						{filteredUsers.map(({ id, displayName, email, rol }) => (
 							<>
 								<StyledTableRow key={id} className="styled-table-row">
-									<TableCell sx={{ display: { sm: "table-cell", md: "none" }, p:{xs:0, sm:2} }}>
+									<TableCell
+										sx={{
+											display: { sm: "table-cell", md: "none" },
+											p: { xs: 0, sm: 2 },
+										}}
+									>
 										<IconButton
 											aria-label="expand row"
 											size="small"
@@ -168,7 +173,12 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
 									<StyledTableCell
 										component="th"
 										scope="row"
-										sx={{ fontWeight: "bold", p: { xs: 0.1, sm: 2 }, color:"primary.main" }}
+										sx={{
+											fontWeight: "bold",
+											p: { xs: 0.1, sm: 2 },
+											color: "primary.main",
+                      fontSize: { xs: "12px", sm: "14px" },
+										}}
 									>
 										{displayName}
 									</StyledTableCell>
@@ -179,6 +189,7 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
 											display: { sm: "none", md: "table-cell", xs: "none" },
 											fontWeight: "bold",
 											p: { xs: 0.1, sm: 2 },
+											
 										}}
 									>
 										{id}
@@ -186,20 +197,28 @@ const UsersDashboard = ({ users, setUsers, setChangesUsers }) => {
 									<StyledTableCell
 										align="right"
 										className="td_users"
-										sx={{ fontWeight: "bold", p: { xs: 0.1, sm: 2 } }}
+										sx={{
+											fontWeight: "bold",
+											p: { xs: 0.1, sm: 2 },
+											fontSize: { xs: "12px", sm: "14px" },
+										}}
 									>
 										{email}
 									</StyledTableCell>
 
-									<StyledTableCell align="right" className="td_users" sx={{ p: { xs: 0.1, sm: 2 }}}>
+									<StyledTableCell
+										align="right"
+										className="td_users"
+										sx={{ p: { xs: 1.5, sm: 2 } }}
+									>
 										<FormControlLabel
 											sx={{
-												boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-												backgroundColor: "rgba(255, 255, 255, 0.8)",
+												boxShadow: "none",
 												ml: 0,
 												mr: 1,
-
+												p: { xs: 0.1, sm: 2 },
 												pr: 0.7,
+												fontSize: { xs: "12px", sm: "14px" },
 											}}
 											control={
 												<Checkbox checked={rol === "admin" ? true : false} />
