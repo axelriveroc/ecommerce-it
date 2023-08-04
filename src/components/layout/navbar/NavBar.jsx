@@ -72,7 +72,7 @@ const NavBar = ({
 						<List sx={{ display: "flex", gap: 2, pl: 1 }}>
 							{menu.map(({ id, path, title }) => {
 								return (
-									<ListItem component={Link} to={path} key={id} sx={{ p: 0 }}>
+									<ListItem component={Link} to={path} key={id} sx={{ p: 0, textDecoration:"none", color:"transparent" }}>
 										<ListItemText
 											primary={title.toUpperCase()}
 											sx={{
