@@ -114,7 +114,7 @@ const NavBar = ({
 							{/* Modal */}
 							{!isLogged && !accessToken && (
 								<>
-									<ListItem component={Link} to="/login" sx={{ p: 1 }}>
+									<ListItem component={Link} to="/login" sx={{ p: 1, textDecoration:"none", color:"transparent" }}>
 										<ListItemText
 											primary="Login"
 											sx={{
@@ -131,7 +131,7 @@ const NavBar = ({
 										flexItem
 										sx={{ borderColor: "primary.main" }}
 									/>
-									<ListItem component={Link} to="/signup" sx={{ p: 1 }}>
+									<ListItem component={Link} to="/signup" sx={{ p: 1, textDecoration:"none", color:"transparent" }}>
 										<ListItemText
 											primary="Signup"
 											sx={{

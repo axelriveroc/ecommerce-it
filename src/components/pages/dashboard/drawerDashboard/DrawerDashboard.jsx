@@ -105,7 +105,7 @@ const DrawerDashboard = (props) => {
 	const container =
 		window !== undefined ? () => window().document.body : undefined;
 	return (
-		<Box sx={{ display: "flex", backgroundColor: "rgb(25,25,25)" }}>
+		<Box sx={{ display: "flex", backgroundColor: "rgb(25,25,25)", }}>
 			<CssBaseline />
 
 			<AppBar
@@ -178,8 +178,8 @@ const DrawerDashboard = (props) => {
 				component="main"
 				sx={{
 					flexGrow: 1,
-					p: 3,
-					width: { sm: `calc(100% - ${drawerWidth}px)` },
+					p: {md:3, xs:.5},
+					width: { sm: `calc(100% - ${drawerWidth}px)`, xs:"100%" },
 					minHeight: "100vh",
 					mt: 9,
 					backgroundColor: "rgb(25,25,25)",
