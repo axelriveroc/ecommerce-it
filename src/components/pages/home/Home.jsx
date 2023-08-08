@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import ScrollToTopButton from "../../common/scrollToTop/ScrollToTop";
 
 const Home = () => {
+	//const {clearCart} = useSelector((store)=> store.cart)
 	return (
     <div>
       <ScrollToTopButton />

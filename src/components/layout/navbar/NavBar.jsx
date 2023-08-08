@@ -72,7 +72,7 @@ const NavBar = ({
 						<List sx={{ display: "flex", gap: 2, pl: 1 }}>
 							{menu.map(({ id, path, title }) => {
 								return (
-									<ListItem component={Link} to={path} key={id} sx={{ p: 0 }}>
+									<ListItem component={Link} to={path} key={id} sx={{ p: 0, textDecoration:"none", color:"transparent" }}>
 										<ListItemText
 											primary={title.toUpperCase()}
 											sx={{
@@ -114,7 +114,7 @@ const NavBar = ({
 							{/* Modal */}
 							{!isLogged && !accessToken && (
 								<>
-									<ListItem component={Link} to="/login" sx={{ p: 1 }}>
+									<ListItem component={Link} to="/login" sx={{ p: 1, textDecoration:"none", color:"transparent" }}>
 										<ListItemText
 											primary="Login"
 											sx={{
@@ -131,7 +131,7 @@ const NavBar = ({
 										flexItem
 										sx={{ borderColor: "primary.main" }}
 									/>
-									<ListItem component={Link} to="/signup" sx={{ p: 1 }}>
+									<ListItem component={Link} to="/signup" sx={{ p: 1, textDecoration:"none", color:"transparent" }}>
 										<ListItemText
 											primary="Signup"
 											sx={{
