@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <div>
       <ScrollToTopButton />
-      <iframe
+      {/*    <iframe
         src="https://widget.getcody.ai/2e591416-0fd9-4e7e-8241-73691f9eae6b"
         style={{ border: "0px" }}
         name="codyai"
@@ -29,7 +29,7 @@ const Home = () => {
         height="800px"
         width="100%"
         allowFullScreen
-      ></iframe>
+      ></iframe> */}
 
       <Card
         sx={{
