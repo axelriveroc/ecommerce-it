@@ -14,13 +14,13 @@ import { Link } from "react-router-dom";
 import ScrollToTopButton from "../../common/scrollToTop/ScrollToTop";
 
 const Home = () => {
-	//const {clearCart} = useSelector((store)=> store.cart)
-	return (
+  //const {clearCart} = useSelector((store)=> store.cart)
+  return (
     <div>
       <ScrollToTopButton />
       <iframe
         src="https://widget.getcody.ai/2e591416-0fd9-4e7e-8241-73691f9eae6b"
-        style="border:0px;"
+        style={{ border: "0px" }}
         name="codyai"
         scrolling="no"
         frameBorder="1"
@@ -28,7 +28,7 @@ const Home = () => {
         marginWidth="0"
         height="800px"
         width="100%"
-        allowfullscreen
+        allowFullScreen
       ></iframe>
 
       <Card
