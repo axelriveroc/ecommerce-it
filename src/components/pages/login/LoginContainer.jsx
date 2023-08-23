@@ -18,9 +18,10 @@ const LoginContainer = () => {
   const navigate = useNavigate();
   const [mailChangePassword, setMailChangePassword] = useState(false);
   const dispatch = useDispatch();
-  const { isLoading, user, accessToken } = useSelector((store) => store.authSlice);
+  const { isLoading, user, accessToken } = useSelector(
+    (store) => store.authSlice
+  );
   //const toastDispatch = (message, type) => showMessage(message, type);
-
 
   const [showPassword, setShowPassoword] = useState(false);
 
@@ -40,8 +41,6 @@ const LoginContainer = () => {
     );
   };
 
- 
-
   const {
     handleChange,
     handleBlur,
@@ -57,12 +56,17 @@ const LoginContainer = () => {
     initialValues,
 
     onSubmit: (data, { setErrors }) => {
-     
-      dispatch(loggin({ data, setErrors }));
-    
+      dispatch(loggin({ data, setErrors }))
+        .then((res) => {
+          console.log(res);
+          if (res.type === "login/rejected") {
+            return;
+          }
+          setValues(initialValues);
+          navigate("/");
+        })
+        .catch((err) => console.log(err));
 
-      setValues(initialValues);
-      navigate("/");
       //window.location.href = "/";
     },
     validateOnChange: false,
@@ -96,11 +100,10 @@ const LoginContainer = () => {
     }
   };
 
-  if( user && accessToken ){
-    console.log("user del if: " , user)
-    return navigate("/")
+  if (user && accessToken) {
+    console.log("user del if: ", user);
+    return navigate("/");
   }
-
 
   return (
     <Login
