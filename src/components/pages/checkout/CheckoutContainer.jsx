@@ -18,8 +18,7 @@ import { db } from "../../../firebase/firebaseConfig";
 import { clearCart } from "../../../store/cartSlice";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import Swal from 'sweetalert2'
-
+import Swal from "sweetalert2";
 
 const CheckoutContainer = () => {
   const [open, setOpen] = useState(false);
@@ -156,6 +155,7 @@ const CheckoutContainer = () => {
           setOrderId(res.id); //setea e Id de la order de compra
         }
       );
+
       order.items.forEach((elemento) => {
         updateDoc(doc(db, "products", elemento.id), {
           stock: elemento.stock - elemento.quantity,
@@ -174,52 +174,46 @@ const CheckoutContainer = () => {
     getDoc(refDoc).then((res) => setShipmentCost(res.data().cost));
   }, []);
 
-
   //Cuando hago click en el boton de elegir medio de pago
   const handleBuy = async () => {
     //el loading aparece cuando hago click en handleBuy y si los campos estan completos
     //desaparece cuando aparece el boton de MP para pagar
-    console.log(user)
-    if(user){
+    console.log(user);
+    if (user) {
+      //preparo localstorage con info y creo la preferencia para MP.
+      let order = {
+        name: userData.name,
+        adress: userData.adress,
+        phone: userData.phone,
+        codigoPostal: userData.cp,
+        email: user.email,
+        items: cart,
+        total,
+      };
 
-   
+      //validar los inputs
+      //preparo lo que voy a guardar en localStorage
+      if (userData.name && userData.adress && userData.phone && userData.cp) {
+        setEsperaBotonMP(true);
+        setErrorsForm(false);
 
-    //preparo localstorage con info y creo la preferencia para MP.
-    let order = {
-      name: userData.name,
-      adress: userData.adress,
-      phone: userData.phone,
-      codigoPostal: userData.cp,
-      email: user.email,
-      items: cart,
-      total,
-    };
+        localStorage.setItem("order", JSON.stringify(order));
 
-    //validar los inputs
-    //preparo lo que voy a guardar en localStorage
-    if (userData.name && userData.adress && userData.phone && userData.cp) {
-      setEsperaBotonMP(true);
-      setErrorsForm(false);
-
-      localStorage.setItem("order", JSON.stringify(order));
-
-      const id = await createPreference();
-      if (id) {
-        setPreferenceId(id); //guardo en el estado el id de la rta del backend
+        const id = await createPreference();
+        if (id) {
+          setPreferenceId(id); //guardo en el estado el id de la rta del backend
+        }
+      } else {
+        return setErrorsForm(true);
       }
     } else {
-      return setErrorsForm(true);
-    } 
-  
-  }else{
-      console.log("El usuario no esta loggeado ")
+      console.log("El usuario no esta loggeado ");
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Debes iniciar sesion para poder comprar',
-       /*  footer: '<Link to="/login">Why do I have this issue?</Link>' */
-      })
-      
+        icon: "error",
+        title: "Oops...",
+        text: "Debes iniciar sesion para poder comprar",
+        /*  footer: '<Link to="/login">Why do I have this issue?</Link>' */
+      });
     }
   };
 
@@ -244,7 +238,6 @@ const CheckoutContainer = () => {
       console.log(error);
     }
   };
-
 
   return (
     <Checkout
